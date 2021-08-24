@@ -10,10 +10,6 @@ use solana_program::{
 	pubkey::Pubkey,
 };
 
-pub struct test {
-	pub publicKey: Pubkey,
-}
-
 pub struct Processor;
 impl Processor {
 	pub fn init_farm(program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
