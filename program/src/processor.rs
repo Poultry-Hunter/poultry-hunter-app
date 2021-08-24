@@ -12,7 +12,7 @@ use solana_program::{
 
 pub struct Processor;
 impl Processor {
-	pub fn init_farm(program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
+	pub fn init_farm(_program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let farm_account = next_account_info(accounts_iter)?;
 		let farm_data = Farm::try_from_slice(&input)?;
@@ -24,13 +24,13 @@ impl Processor {
 		Ok(())
 	}
 	pub fn init_distributer(
-		program_id: &Pubkey,
+		_program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let distributer_account = next_account_info(accounts_iter)?;
-		let mut distributer_data = Distributor::try_from_slice(&input)?;
+		let distributer_data = Distributor::try_from_slice(&input)?;
 
 		msg!("distributer_data from front-end {:?}", distributer_data);
 
@@ -39,13 +39,13 @@ impl Processor {
 		Ok(())
 	}
 	pub fn init_seller(
-		program_id: &Pubkey,
+		_program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let seller_account = next_account_info(accounts_iter)?;
-		let mut seller_data = Seller::try_from_slice(&input)?;
+		let seller_data = Seller::try_from_slice(&input)?;
 
 		msg!("Seller Data from front-end {:?}", seller_data);
 
@@ -54,7 +54,7 @@ impl Processor {
 		Ok(())
 	}
 	pub fn init_healthofficer(
-		program_id: &Pubkey,
+		_program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
@@ -65,7 +65,7 @@ impl Processor {
 		Ok(())
 	}
 	pub fn generate_new_batch(
-		program_id: &Pubkey,
+		_program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
@@ -76,26 +76,26 @@ impl Processor {
 		Ok(())
 	}
 	pub fn update_batch_distributor(
-		program_id: &Pubkey,
+		_program_id: &Pubkey,
 		accounts: &[AccountInfo],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
-		let distributor_account = next_account_info(accounts_iter)?;
+		let _distributor_account = next_account_info(accounts_iter)?;
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
 		batch_data.distributor_pubkey = String::from("distributor pubkey");
 		Ok(())
 	}
-	pub fn update_batch_seller(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+	pub fn update_batch_seller(_program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
-		let seller_account = next_account_info(accounts_iter)?;
+		let _seller_account = next_account_info(accounts_iter)?;
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
 		batch_data.seller_pubkey = String::from("seller pubkey");
 		Ok(())
 	}
 	pub fn mark_affected_chain(
-		program_id: &Pubkey,
+		_program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
