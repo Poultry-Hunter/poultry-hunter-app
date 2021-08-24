@@ -32,11 +32,17 @@ pub struct HealthOfficer {
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Batch {
-	batch_id: u32,
-	farm_pubkey: String,
-	distributor_pubkey: String,
-	seller_pubkey: String,
-	generated_at: String,
-	sold_at: String,
-	infected: u8,
+    pub batch_id: u32,
+    pub farm_pubkey: String,
+    pub distributor_pubkey: String,
+    pub seller_pubkey: String,
+    pub affected: u8,
+    pub generated_at: String,
+    pub sold_at: String ,
+}
+
+#[derive(BorshSerialize, BorshDeserialize, Debug)]
+pub enum Affected {
+    Affected,
+    Unaffected,
 }

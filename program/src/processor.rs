@@ -1,5 +1,5 @@
 use crate::instruction::PoultryFarmInstructions;
-use crate::state::{Batch, Distributor, Farm, HealthOfficer, Seller};
+use crate::state::{Affected, Batch, Distributor, Farm, HealthOfficer, Seller};
 use borsh::{BorshDeserialize, BorshSerialize};
 
 use solana_program::{
@@ -64,31 +64,81 @@ impl Processor {
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let health_officer_account = next_account_info(accounts_iter)?;
-		let mut health_officer_data = HealthOfficer::try_from_slice(&input)?;
-
-		msg!(
-			"HealthOfficer Data from front-end {:?}",
-			health_officer_data
-		);
-
+		let health_officer_data = HealthOfficer::try_from_slice(&input)?;
+		health_officer_data.serialize(&mut &mut health_officer_account.data.borrow_mut()[..])?;
 		Ok(())
 	}
 	pub fn generate_new_batch(
 		program_id: &Pubkey,
 		accounts: &[AccountInfo],
-		batch_id: u8,
+		input: &[u8],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
-		msg!("Batch id Data from front-end {:?}", batch_id);
+		let new_batch = Batch::try_from_slice(&input)?;
+		new_batch.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 		Ok(())
 	}
-	pub fn mark_affected_chain(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+	pub fn update_batch_distributor(
+		program_id: &Pubkey,
+		accounts: &[AccountInfo],
+	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
-		// let seller_account = next_account_info(accounts_iter)?;
-		// let distributer_account = next_account_info(accounts_iter)?;
-		// let farm_account = next_account_info(accounts_iter)?;
+		let distributor_account = next_account_info(accounts_iter)?;
+		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
+		batch_data.distributor_pubkey = String::from("distributor pubkey");
+		Ok(())
+	}
+	pub fn update_batch_seller(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+		let accounts_iter = &mut accounts.iter();
+		let batch_account = next_account_info(accounts_iter)?;
+		let seller_account = next_account_info(accounts_iter)?;
+		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
+		batch_data.seller_pubkey = String::from("seller pubkey");
+		Ok(())
+	}
+	pub fn mark_affected_chain(
+		program_id: &Pubkey,
+		accounts: &[AccountInfo],
+		input: &[u8],
+	) -> ProgramResult {
+		let instruction = Affected::try_from_slice(input)?;
+		let accounts_iter = &mut accounts.iter();
+
+		let batch_account = next_account_info(accounts_iter)?;
+		let farm_account = next_account_info(accounts_iter)?;
+		let distributor_account = next_account_info(accounts_iter)?;
+		let seller_account = next_account_info(accounts_iter)?;
+
+		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
+		let mut farm_data = Batch::try_from_slice(&farm_account.data.borrow())?;
+		let mut distributor_data = Batch::try_from_slice(&distributor_account.data.borrow())?;
+		let mut seller_data = Batch::try_from_slice(&seller_account.data.borrow())?;
+
+		match instruction {
+			Affected::Affected => {
+				batch_data.affected = 1;
+				batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
+				farm_data.affected = 1;
+				farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
+				distributor_data.affected = 1;
+				distributor_data.serialize(&mut &mut distributor_account.data.borrow_mut()[..])?;
+				seller_data.affected = 1;
+				seller_data.serialize(&mut &mut seller_account.data.borrow_mut()[..])?;
+			}
+			Affected::Unaffected => {
+				batch_data.affected = 0;
+				batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
+				farm_data.affected = 0;
+				farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
+				distributor_data.affected = 0;
+				distributor_data.serialize(&mut &mut distributor_account.data.borrow_mut()[..])?;
+				seller_data.affected = 0;
+				seller_data.serialize(&mut &mut seller_account.data.borrow_mut()[..])?;
+			}
+		}
+
 		Ok(())
 	}
 	pub fn process_instruction(
@@ -116,14 +166,19 @@ impl Processor {
 				msg!("Initialising health peoffessionals data");
 				Processor::init_healthofficer(program_id, accounts, &input)?;
 			}
-			PoultryFarmInstructions::GenerateBatch { batch_id } => {
+			PoultryFarmInstructions::GenerateBatch { input } => {
 				msg!("generating new batch");
-
-				Processor::generate_new_batch(program_id, accounts, batch_id)?;
+				Processor::generate_new_batch(program_id, accounts, &input)?;
 			}
-			PoultryFarmInstructions::SetAffectedChain => {
+			PoultryFarmInstructions::UpdateBatchDistributor => {
+				Processor::update_batch_distributor(program_id, accounts)?;
+			}
+			PoultryFarmInstructions::UpdateBatchSeller => {
+				Processor::update_batch_seller(program_id, accounts)?;
+			}
+			PoultryFarmInstructions::SetAffectedChain { input } => {
 				msg!("Setting batch as affected");
-				Processor::mark_affected_chain(program_id, accounts)?;
+				Processor::mark_affected_chain(program_id, accounts, &input)?;
 			}
 		}
 		Ok(())
