@@ -4,34 +4,39 @@ use borsh::{BorshDeserialize, BorshSerialize};
 pub struct Farm {
 	farm_name: String,
 	owner_name: String,
-	contact_number: u8,
-
+	contact_number: String,
+	farm_address: String,
+	infected: u8,
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Distributor {
 	name: String,
+	contact_address: String,
+	contact_number: String,
+	infected: u8,
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Seller {
-    shop_name: String,
-    owner_name: String,
-    shop_address: String,
-    owner_contact: String,
+	shop_name: String,
+	owner_name: String,
+	shop_address: String,
+	owner_contact: String,
+	infected: u8,
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct HealthOfficer {
-    name: String,
-    office_id: String,
-    office_address: String,
-    officer_contact: String,
+	name: String,
+	office_id: String,
+	office_address: String,
+	officer_contact: String,
 }
-
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Batch {
-    batch_id: u32,
-    farm_pubkey: String,
-    distributor_pubkey: String,
-    seller_pubkey: String,
-    generated_at: String,
-    sold_at: String,
+	batch_id: u32,
+	farm_pubkey: String,
+	distributor_pubkey: String,
+	seller_pubkey: String,
+	generated_at: String,
+	sold_at: String,
+	infected: u8,
 }

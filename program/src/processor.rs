@@ -4,20 +4,27 @@ use borsh::{BorshDeserialize, BorshSerialize};
 
 use solana_program::{
 	account_info::{next_account_info, AccountInfo},
-	entrypoint,
 	entrypoint::ProgramResult,
 	msg,
 	program_error::ProgramError,
 	pubkey::Pubkey,
 };
 
+pub struct test {
+	pub publicKey: Pubkey,
+}
+
 pub struct Processor;
 impl Processor {
 	pub fn init_farm(program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let farm_account = next_account_info(accounts_iter)?;
-		let mut farm_data = Farm::try_from_slice(&input);
+		let farm_data = Farm::try_from_slice(&input)?;
+
 		msg!("farm data from front-end {:?}", farm_data);
+
+		farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
+
 		Ok(())
 	}
 	pub fn init_distributer(
@@ -28,7 +35,11 @@ impl Processor {
 		let accounts_iter = &mut accounts.iter();
 		let distributer_account = next_account_info(accounts_iter)?;
 		let mut distributer_data = Distributor::try_from_slice(&input)?;
+
 		msg!("distributer_data from front-end {:?}", distributer_data);
+
+		distributer_data.serialize(&mut &mut distributer_account.data.borrow_mut()[..])?;
+		
 		Ok(())
 	}
 	pub fn init_seller(
@@ -39,7 +50,11 @@ impl Processor {
 		let accounts_iter = &mut accounts.iter();
 		let seller_account = next_account_info(accounts_iter)?;
 		let mut seller_data = Seller::try_from_slice(&input)?;
+
 		msg!("Seller Data from front-end {:?}", seller_data);
+
+		seller_data.serialize(&mut &mut seller_account.data.borrow_mut()[..])?;
+
 		Ok(())
 	}
 	pub fn init_healthofficer(
@@ -50,10 +65,12 @@ impl Processor {
 		let accounts_iter = &mut accounts.iter();
 		let health_officer_account = next_account_info(accounts_iter)?;
 		let mut health_officer_data = HealthOfficer::try_from_slice(&input)?;
+
 		msg!(
 			"HealthOfficer Data from front-end {:?}",
 			health_officer_data
 		);
+
 		Ok(())
 	}
 	pub fn generate_new_batch(

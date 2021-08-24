@@ -13,5 +13,6 @@ pub fn process_instruction(
 	instruction_data: &[u8],
 ) -> ProgramResult {
 	Processor::process_instruction(program_id, accounts, instruction_data);
+
 	Ok(())
 }
