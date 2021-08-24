@@ -4,12 +4,10 @@ use borsh::{BorshDeserialize, BorshSerialize};
 pub struct Farm {
     name: String,
 }
-
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Distributor {
     name: String,
 }
-
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Seller {
     shop_name: String,
@@ -17,7 +15,6 @@ pub struct Seller {
     shop_address: String,
     owner_contact: String,
 }
-
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct HealthOfficer {
     name: String,
