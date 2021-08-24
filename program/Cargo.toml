@@ -9,6 +9,8 @@ publish = false
 no-entrypoint = []
 
 [dependencies]
+borsh = "0.9.1"
+borsh-derive = "0.9.1"
 solana-program = "1.6.12"
 solana-validator = { version = "1.6.12", optional = true }
 
