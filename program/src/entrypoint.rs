@@ -12,14 +12,6 @@ pub fn process_instruction(
 	accounts: &[AccountInfo],
 	instruction_data: &[u8],
 ) -> ProgramResult {
-	Processor::process(program_id, accounts, instruction_data);
-
-	msg!(
-		"process_instruction: {}: {} accounts, data={:?}",
-		program_id,
-		accounts.len(),
-		instruction_data
-	);
-
+	Processor::process_instruction(program_id, accounts, instruction_data);
 	Ok(())
 }
