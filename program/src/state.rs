@@ -5,7 +5,7 @@ pub struct Farm {
 	farm_name: String,
 	owner_name: String,
 	contact_number: u8,
-	
+
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Distributor {
@@ -13,11 +13,25 @@ pub struct Distributor {
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Seller {
-	name: String,
+    shop_name: String,
+    owner_name: String,
+    shop_address: String,
+    owner_contact: String,
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
-pub struct HealthProffessional {
-	name: String,
+pub struct HealthOfficer {
+    name: String,
+    office_id: String,
+    office_address: String,
+    officer_contact: String,
 }
+
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
-pub struct Batch {}
+pub struct Batch {
+    batch_id: u32,
+    farm_pubkey: String,
+    distributor_pubkey: String,
+    seller_pubkey: String,
+    generated_at: String,
+    sold_at: String,
+}

@@ -1,5 +1,5 @@
 use crate::instruction::PoultryFarmInstructions;
-use crate::state::{Batch, Distributor, Farm, HealthProffessional, Seller};
+use crate::state::{Batch, Distributor, Farm, HealthOfficer, Seller};
 use borsh::{BorshDeserialize, BorshSerialize};
 
 use solana_program::{
@@ -13,14 +13,14 @@ use solana_program::{
 
 pub struct Processor;
 impl Processor {
-	pub fn initfarm(program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
+	pub fn init_farm(program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let farm_account = next_account_info(accounts_iter)?;
 		let mut farm_data = Farm::try_from_slice(&input);
 		msg!("farm data from front-end {:?}", farm_data);
 		Ok(())
 	}
-	pub fn initdistributer(
+	pub fn init_distributer(
 		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
@@ -31,7 +31,7 @@ impl Processor {
 		msg!("distributer_data from front-end {:?}", distributer_data);
 		Ok(())
 	}
-	pub fn initseller(
+	pub fn init_seller(
 		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
@@ -42,21 +42,21 @@ impl Processor {
 		msg!("Seller Data from front-end {:?}", seller_data);
 		Ok(())
 	}
-	pub fn inithealthproffessional(
+	pub fn init_healthofficer(
 		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
-		let healthprof_account = next_account_info(accounts_iter)?;
-		let mut healthprof_data = HealthProffessional::try_from_slice(&input)?;
+		let health_officer_account = next_account_info(accounts_iter)?;
+		let mut health_officer_data = HealthOfficer::try_from_slice(&input)?;
 		msg!(
-			"health proffessional Data from front-end {:?}",
-			healthprof_data
+			"HealthOfficer Data from front-end {:?}",
+			health_officer_data
 		);
 		Ok(())
 	}
-	pub fn generatenewbatch(
+	pub fn generate_new_batch(
 		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		batch_id: u8,
@@ -66,7 +66,7 @@ impl Processor {
 		msg!("Batch id Data from front-end {:?}", batch_id);
 		Ok(())
 	}
-	pub fn setaffectedchain(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+	pub fn mark_affected_chain(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
 		// let seller_account = next_account_info(accounts_iter)?;
@@ -84,29 +84,29 @@ impl Processor {
 		match instructions {
 			PoultryFarmInstructions::InitialiseFarm { input } => {
 				msg!("Initialising farm data");
-				Processor::initfarm(program_id, accounts, &input)?;
+				Processor::init_farm(program_id, accounts, &input)?;
 			}
 			PoultryFarmInstructions::InitialiseDistributer { input } => {
 				msg!("Initialising dsitributor data");
-				Processor::initdistributer(program_id, accounts, &input)?;
+				Processor::init_distributer(program_id, accounts, &input)?;
 			}
 			PoultryFarmInstructions::InitialiseSeller { input } => {
 				msg!("Initialising seller data");
 
-				Processor::initseller(program_id, accounts, &input)?;
+				Processor::init_seller(program_id, accounts, &input)?;
 			}
 			PoultryFarmInstructions::InitialiseHeathProfessional { input } => {
 				msg!("Initialising health peoffessionals data");
-				Processor::inithealthproffessional(program_id, accounts, &input)?;
+				Processor::init_healthofficer(program_id, accounts, &input)?;
 			}
-			PoultryFarmInstructions::GanerateBatch { batch_id } => {
+			PoultryFarmInstructions::GenerateBatch { batch_id } => {
 				msg!("generating new batch");
 
-				Processor::generatenewbatch(program_id, accounts, batch_id)?;
+				Processor::generate_new_batch(program_id, accounts, batch_id)?;
 			}
 			PoultryFarmInstructions::SetAffectedChain => {
 				msg!("Setting batch as affected");
-				Processor::setaffectedchain(program_id, accounts)?;
+				Processor::mark_affected_chain(program_id, accounts)?;
 			}
 		}
 		Ok(())

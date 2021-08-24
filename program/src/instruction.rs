@@ -6,6 +6,6 @@ pub enum PoultryFarmInstructions {
 	InitialiseDistributer { input: Vec<u8> },
 	InitialiseSeller { input: Vec<u8> },
 	InitialiseHeathProfessional { input: Vec<u8> },
-	GanerateBatch { batch_id: u8 },
+	GenerateBatch { batch_id: u8 },
 	SetAffectedChain,
 }
