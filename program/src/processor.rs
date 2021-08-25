@@ -1,5 +1,7 @@
 use crate::instruction::PoultryFarmInstructions;
-use crate::state::{write_data, Affected, Batch, Distributor, Farm, HealthOfficer, Seller};
+use crate::state::{
+	write_data, AffectedStatus, Batch, BatchInput, Distributor, Farm, HealthOfficer, Seller,
+};
 use borsh::{BorshDeserialize, BorshSerialize};
 
 use solana_program::{
@@ -93,12 +95,20 @@ impl Processor {
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
+		let batch_input = BatchInput::try_from_slice(input)?;
 		if batch_account.owner != program_id {
 			msg!("batch account does not have the correct program id");
 			return Err(ProgramError::IncorrectProgramId);
 		}
+		let new_batch = Batch {
+			batch_id: batch_input.batch_id,
+			farm_pubkey: Pubkey::default(),
+			distributor_pubkey: Pubkey::default(),
+			seller_pubkey: Pubkey::default(),
+			infected: 0,
+			generated_at: batch_input.timpestamp,
+		};
 
-		let new_batch = Batch::try_from_slice(&input)?;
 		new_batch.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 		Ok(())
 	}
@@ -108,17 +118,19 @@ impl Processor {
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
-		let _distributor_account = next_account_info(accounts_iter)?;
+		let distributor_account = next_account_info(accounts_iter)?;
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
-		batch_data.distributor_pubkey = String::from("distributor pubkey");
+		batch_data.distributor_pubkey = *distributor_account.key;
+		batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 		Ok(())
 	}
 	pub fn update_batch_seller(_program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
-		let _seller_account = next_account_info(accounts_iter)?;
+		let seller_account = next_account_info(accounts_iter)?;
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
-		batch_data.seller_pubkey = String::from("seller pubkey");
+		batch_data.distributor_pubkey = *seller_account.key;
+		batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 		Ok(())
 	}
 	pub fn mark_affected_chain(
@@ -126,7 +138,7 @@ impl Processor {
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
-		let instruction = Affected::try_from_slice(input)?;
+		let instruction = AffectedStatus::try_from_slice(input)?;
 		let accounts_iter = &mut accounts.iter();
 
 		let batch_account = next_account_info(accounts_iter)?;
@@ -144,29 +156,29 @@ impl Processor {
 		}
 
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
-		let mut farm_data = Batch::try_from_slice(&farm_account.data.borrow())?;
-		let mut distributor_data = Batch::try_from_slice(&distributor_account.data.borrow())?;
-		let mut seller_data = Batch::try_from_slice(&seller_account.data.borrow())?;
+		let mut farm_data = Farm::try_from_slice(&farm_account.data.borrow())?;
+		let mut distributor_data = Distributor::try_from_slice(&distributor_account.data.borrow())?;
+		let mut seller_data = Seller::try_from_slice(&seller_account.data.borrow())?;
 
 		match instruction {
-			Affected::Affected => {
-				batch_data.affected = 1;
+			AffectedStatus::SetAffected => {
+				batch_data.infected = 1;
 				batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
-				farm_data.affected = 1;
+				farm_data.infected = 1;
 				farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
-				distributor_data.affected = 1;
+				distributor_data.infected = 1;
 				distributor_data.serialize(&mut &mut distributor_account.data.borrow_mut()[..])?;
-				seller_data.affected = 1;
+				seller_data.infected = 1;
 				seller_data.serialize(&mut &mut seller_account.data.borrow_mut()[..])?;
 			}
-			Affected::Unaffected => {
-				batch_data.affected = 0;
+			AffectedStatus::SetUnaffected => {
+				batch_data.infected = 0;
 				batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
-				farm_data.affected = 0;
+				farm_data.infected = 0;
 				farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
-				distributor_data.affected = 0;
+				distributor_data.infected = 0;
 				distributor_data.serialize(&mut &mut distributor_account.data.borrow_mut()[..])?;
-				seller_data.affected = 0;
+				seller_data.infected = 0;
 				seller_data.serialize(&mut &mut seller_account.data.borrow_mut()[..])?;
 			}
 		}
@@ -176,13 +188,20 @@ impl Processor {
 		let accounts_iter = &mut accounts.iter();
 
 		let batch_account = next_account_info(accounts_iter)?;
-		let refund_account = next_account_info(accounts_iter)?; //farm owner wallet pubkey
+		let farm_account = next_account_info(accounts_iter)?;
+		let refund_account = next_account_info(accounts_iter)?;
 
-		if batch_account.owner != program_id {
-			msg!("batch account does not have the correct program id");
+		if batch_account.owner != program_id && farm_account.owner != program_id {
+			msg!("accounts does not have the correct program id");
 			return Err(ProgramError::IncorrectProgramId);
 		}
+		let farm_data = Farm::try_from_slice(&farm_account.data.borrow())?;
 
+		if *refund_account.key != farm_data.refund_account {
+			msg!("Invaild refund Account ");
+			//throw error
+		}
+		// Overwrite the data with zeroes
 		write_data(batch_account, &vec![0; batch_account.data_len()], 0);
 
 		// Close the account by transferring the rent sol
@@ -190,7 +209,7 @@ impl Processor {
 		let dest_amount: &mut u64 = &mut refund_account.lamports.borrow_mut();
 		*dest_amount += *source_amount;
 		*source_amount = 0;
-		
+
 		Ok(())
 	}
 	pub fn process_instruction(
