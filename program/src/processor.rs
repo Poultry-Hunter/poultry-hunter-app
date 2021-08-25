@@ -14,7 +14,11 @@ use solana_program::{
 
 pub struct Processor;
 impl Processor {
-	pub fn init_farm(program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
+	pub fn init_farm(
+		program_id: &Pubkey,
+		accounts: &[AccountInfo],
+		input: &[u8],
+	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let farm_account = next_account_info(accounts_iter)?;
 
@@ -85,7 +89,8 @@ impl Processor {
 		}
 
 		let health_officer_data = HealthOfficer::try_from_slice(&input)?;
-		health_officer_data.serialize(&mut &mut health_officer_account.data.borrow_mut()[..])?;
+		health_officer_data
+			.serialize(&mut &mut health_officer_account.data.borrow_mut()[..])?;
 		Ok(())
 	}
 	pub fn generate_new_batch(
@@ -124,7 +129,10 @@ impl Processor {
 		batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 		Ok(())
 	}
-	pub fn update_batch_seller(_program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+	pub fn update_batch_seller(
+		_program_id: &Pubkey,
+		accounts: &[AccountInfo],
+	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
 		let seller_account = next_account_info(accounts_iter)?;
@@ -157,29 +165,42 @@ impl Processor {
 
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
 		let mut farm_data = Farm::try_from_slice(&farm_account.data.borrow())?;
-		let mut distributor_data = Distributor::try_from_slice(&distributor_account.data.borrow())?;
+		let mut distributor_data =
+			Distributor::try_from_slice(&distributor_account.data.borrow())?;
 		let mut seller_data = Seller::try_from_slice(&seller_account.data.borrow())?;
 
 		match instruction {
 			AffectedStatus::SetAffected => {
 				batch_data.infected = 1;
-				batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
+				batch_data
+					.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 				farm_data.infected = 1;
-				farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
+				farm_data
+					.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
 				distributor_data.infected = 1;
-				distributor_data.serialize(&mut &mut distributor_account.data.borrow_mut()[..])?;
+				distributor_data.serialize(
+					&mut &mut distributor_account.data.borrow_mut()[..],
+				)?;
 				seller_data.infected = 1;
-				seller_data.serialize(&mut &mut seller_account.data.borrow_mut()[..])?;
+				seller_data.serialize(
+					&mut &mut seller_account.data.borrow_mut()[..],
+				)?;
 			}
 			AffectedStatus::SetUnaffected => {
 				batch_data.infected = 0;
-				batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
+				batch_data
+					.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 				farm_data.infected = 0;
-				farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
+				farm_data
+					.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
 				distributor_data.infected = 0;
-				distributor_data.serialize(&mut &mut distributor_account.data.borrow_mut()[..])?;
+				distributor_data.serialize(
+					&mut &mut distributor_account.data.borrow_mut()[..],
+				)?;
 				seller_data.infected = 0;
-				seller_data.serialize(&mut &mut seller_account.data.borrow_mut()[..])?;
+				seller_data.serialize(
+					&mut &mut seller_account.data.borrow_mut()[..],
+				)?;
 			}
 		}
 		Ok(())

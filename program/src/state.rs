@@ -8,7 +8,7 @@ pub struct Farm {
 	contact_number: String,
 	farm_address: String,
 	pub refund_account: Pubkey,
-	pub infected: u8,
+	pub infected: u32,
 }
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
@@ -16,7 +16,7 @@ pub struct Distributor {
 	name: String,
 	contact_address: String,
 	contact_number: String,
-	pub infected: u8,
+	pub infected: u32,
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Seller {
@@ -24,7 +24,7 @@ pub struct Seller {
 	owner_name: String,
 	shop_address: String,
 	owner_contact: String,
-	pub infected: u8,
+	pub infected: u32,
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct HealthOfficer {
@@ -39,7 +39,7 @@ pub struct Batch {
 	pub farm_pubkey: Pubkey,
 	pub distributor_pubkey: Pubkey,
 	pub seller_pubkey: Pubkey,
-	pub infected: u8,
+	pub infected: u32,
 	pub generated_at: String,
 }
 
