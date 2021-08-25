@@ -137,7 +137,7 @@ impl Processor {
 		Ok(())
 	}
 	pub fn update_batch_seller(
-		_program_id: &Pubkey,
+		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
