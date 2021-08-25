@@ -1,5 +1,5 @@
 use crate::instruction::PoultryFarmInstructions;
-use crate::state::{Affected, Batch, Distributor, Farm, HealthOfficer, Seller};
+use crate::state::{write_data, Affected, Batch, Distributor, Farm, HealthOfficer, Seller};
 use borsh::{BorshDeserialize, BorshSerialize};
 
 use solana_program::{
@@ -170,7 +170,27 @@ impl Processor {
 				seller_data.serialize(&mut &mut seller_account.data.borrow_mut()[..])?;
 			}
 		}
+		Ok(())
+	}
+	pub fn delete_and_claim(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+		let accounts_iter = &mut accounts.iter();
 
+		let batch_account = next_account_info(accounts_iter)?;
+		let refund_account = next_account_info(accounts_iter)?; //farm owner wallet pubkey
+
+		if batch_account.owner != program_id {
+			msg!("batch account does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
+		write_data(batch_account, &vec![0; batch_account.data_len()], 0);
+
+		// Close the account by transferring the rent sol
+		let source_amount: &mut u64 = &mut batch_account.lamports.borrow_mut();
+		let dest_amount: &mut u64 = &mut refund_account.lamports.borrow_mut();
+		*dest_amount += *source_amount;
+		*source_amount = 0;
+		
 		Ok(())
 	}
 	pub fn process_instruction(
@@ -211,6 +231,9 @@ impl Processor {
 			PoultryFarmInstructions::SetAffectedChain { input } => {
 				msg!("Setting batch as affected");
 				Processor::mark_affected_chain(program_id, accounts, &input)?;
+			}
+			PoultryFarmInstructions::DeleteAndClaim => {
+				Processor::delete_and_claim(program_id, accounts)?
 			}
 		}
 		Ok(())

@@ -1,4 +1,5 @@
 use borsh::{BorshDeserialize, BorshSerialize};
+use solana_program::account_info::AccountInfo;
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Farm {
@@ -32,17 +33,22 @@ pub struct HealthOfficer {
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Batch {
-    pub batch_id: u32,
-    pub farm_pubkey: String,
-    pub distributor_pubkey: String,
-    pub seller_pubkey: String,
-    pub affected: u8,
-    pub generated_at: String,
-    pub sold_at: String ,
+	pub batch_id: u32,
+	pub farm_pubkey: String,
+	pub distributor_pubkey: String,
+	pub seller_pubkey: String,
+	pub affected: u8,
+	pub generated_at: String,
+	pub sold_at: String,
 }
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub enum Affected {
-    Affected,
-    Unaffected,
+	Affected,
+	Unaffected,
+}
+
+pub fn write_data(account: &AccountInfo, input: &[u8], offset: usize) {
+	let mut account_data = account.data.borrow_mut();
+	account_data[offset..offset + input.len()].copy_from_slice(input);
 }

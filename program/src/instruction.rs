@@ -10,4 +10,5 @@ pub enum PoultryFarmInstructions {
 	SetAffectedChain { input: [u8; 1] },
 	UpdateBatchDistributor,
 	UpdateBatchSeller,
+	DeleteAndClaim,
 }
