@@ -40,13 +40,13 @@ pub struct Batch {
 	pub distributor_pubkey: Pubkey,
 	pub seller_pubkey: Pubkey,
 	pub infected: u32,
-	pub generated_at: String,
+	pub generated_at: u64,
 }
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct BatchInput {
 	pub batch_id: u32,
-	pub timpestamp: String,
+	pub timpestamp: u64,
 }
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
