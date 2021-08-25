@@ -100,6 +100,7 @@ impl Processor {
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
+		let farm_account = next_account_info(accounts_iter)?;
 		let batch_input = BatchInput::try_from_slice(input)?;
 		if batch_account.owner != program_id {
 			msg!("batch account does not have the correct program id");
@@ -107,7 +108,7 @@ impl Processor {
 		}
 		let new_batch = Batch {
 			batch_id: batch_input.batch_id,
-			farm_pubkey: Pubkey::default(),
+			farm_pubkey: *farm_account.key,
 			distributor_pubkey: Pubkey::default(),
 			seller_pubkey: Pubkey::default(),
 			infected: 0,
@@ -118,12 +119,18 @@ impl Processor {
 		Ok(())
 	}
 	pub fn update_batch_distributor(
-		_program_id: &Pubkey,
+		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
 		let distributor_account = next_account_info(accounts_iter)?;
+
+		if batch_account.owner != program_id && distributor_account.owner != program_id {
+			msg!("accounts does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
 		batch_data.distributor_pubkey = *distributor_account.key;
 		batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
@@ -136,9 +143,16 @@ impl Processor {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
 		let seller_account = next_account_info(accounts_iter)?;
+
+		if batch_account.owner != program_id && seller_account.owner != program_id {
+			msg!("accounts does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
-		batch_data.distributor_pubkey = *seller_account.key;
+		batch_data.seller_pubkey = *seller_account.key;
 		batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
+
 		Ok(())
 	}
 	pub fn mark_affected_chain(
