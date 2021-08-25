@@ -12,11 +12,16 @@ use solana_program::{
 
 pub struct Processor;
 impl Processor {
-	pub fn init_farm(_program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
+	pub fn init_farm(program_id: &Pubkey, accounts: &[AccountInfo], input: &[u8]) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let farm_account = next_account_info(accounts_iter)?;
-		let farm_data = Farm::try_from_slice(&input)?;
 
+		if farm_account.owner != program_id {
+			msg!("Farm account does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
+		let farm_data = Farm::try_from_slice(&input)?;
 		msg!("farm data from front-end {:?}", farm_data);
 
 		farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
@@ -24,27 +29,38 @@ impl Processor {
 		Ok(())
 	}
 	pub fn init_distributer(
-		_program_id: &Pubkey,
+		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let distributer_account = next_account_info(accounts_iter)?;
+
+		if distributer_account.owner != program_id {
+			msg!("Distributor account does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
 		let distributer_data = Distributor::try_from_slice(&input)?;
 
 		msg!("distributer_data from front-end {:?}", distributer_data);
 
 		distributer_data.serialize(&mut &mut distributer_account.data.borrow_mut()[..])?;
-		
 		Ok(())
 	}
 	pub fn init_seller(
-		_program_id: &Pubkey,
+		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let seller_account = next_account_info(accounts_iter)?;
+
+		if seller_account.owner != program_id {
+			msg!("Seller account does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
 		let seller_data = Seller::try_from_slice(&input)?;
 
 		msg!("Seller Data from front-end {:?}", seller_data);
@@ -54,23 +70,34 @@ impl Processor {
 		Ok(())
 	}
 	pub fn init_healthofficer(
-		_program_id: &Pubkey,
+		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let health_officer_account = next_account_info(accounts_iter)?;
+
+		if health_officer_account.owner != program_id {
+			msg!("Health officer account does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
 		let health_officer_data = HealthOfficer::try_from_slice(&input)?;
 		health_officer_data.serialize(&mut &mut health_officer_account.data.borrow_mut()[..])?;
 		Ok(())
 	}
 	pub fn generate_new_batch(
-		_program_id: &Pubkey,
+		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
+		if batch_account.owner != program_id {
+			msg!("batch account does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
 		let new_batch = Batch::try_from_slice(&input)?;
 		new_batch.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 		Ok(())
@@ -95,7 +122,7 @@ impl Processor {
 		Ok(())
 	}
 	pub fn mark_affected_chain(
-		_program_id: &Pubkey,
+		program_id: &Pubkey,
 		accounts: &[AccountInfo],
 		input: &[u8],
 	) -> ProgramResult {
@@ -106,6 +133,15 @@ impl Processor {
 		let farm_account = next_account_info(accounts_iter)?;
 		let distributor_account = next_account_info(accounts_iter)?;
 		let seller_account = next_account_info(accounts_iter)?;
+
+		if batch_account.owner != program_id
+			&& farm_account.owner != program_id
+			&& distributor_account.owner != program_id
+			&& seller_account.owner != program_id
+		{
+			msg!("accounts does not have the correct program id");
+			return Err(ProgramError::IncorrectProgramId);
+		}
 
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
 		let mut farm_data = Batch::try_from_slice(&farm_account.data.borrow())?;
