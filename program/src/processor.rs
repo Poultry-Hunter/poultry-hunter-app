@@ -109,6 +109,7 @@ impl Processor {
 			seller_pubkey: Pubkey::default(),
 			infected: 0,
 			generated_at: batch_input.timpestamp,
+			batch_size: batch_input.batch_size,
 		};
 
 		new_batch.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;

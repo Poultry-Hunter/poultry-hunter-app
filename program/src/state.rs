@@ -40,6 +40,7 @@ pub struct Batch {
 	pub distributor_pubkey: Pubkey,
 	pub seller_pubkey: Pubkey,
 	pub infected: u32,
+	pub batch_size: u32,
 	pub generated_at: u64,
 }
 
@@ -47,6 +48,7 @@ pub struct Batch {
 pub struct BatchInput {
 	pub batch_id: u32,
 	pub timpestamp: u64,
+	pub batch_size: u32,
 }
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
