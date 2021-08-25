@@ -39,7 +39,7 @@ pub struct Batch {
 	pub farm_pubkey: Pubkey,
 	pub distributor_pubkey: Pubkey,
 	pub seller_pubkey: Pubkey,
-	pub infected: u8,
+	pub infected: u32,
 	pub generated_at: String,
 }
 
