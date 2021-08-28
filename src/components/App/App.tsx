@@ -1,13 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
-import ConnectWallet from "../../ConnectWallet";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import {
-  clusterApiUrl,
-} from "@solana/web3.js";
+import { clusterApiUrl } from "@solana/web3.js";
 
-import {
-  WalletDialogProvider,
-} from "@solana/wallet-adapter-material-ui";
+import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
 
 import {
   WalletProvider,
@@ -22,6 +18,7 @@ import {
 } from "@solana/wallet-adapter-wallets";
 
 import "./App.css";
+import Home from "../Home/Home";
 
 export const App = (): JSX.Element => {
   const endpoint = useMemo(() => clusterApiUrl("devnet"), []);
@@ -41,7 +38,11 @@ export const App = (): JSX.Element => {
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletDialogProvider>
-            <ConnectWallet />
+            <Router>
+              <Switch>
+                <Route path="/" exact component={Home} />
+              </Switch>
+            </Router>
           </WalletDialogProvider>
         </WalletProvider>
       </ConnectionProvider>
