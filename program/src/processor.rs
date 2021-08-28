@@ -150,7 +150,7 @@ impl Processor {
 		}
 
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
-		if batch_data.distributor_pubkey != Pubkey::default() {
+		if batch_data.seller_pubkey != Pubkey::default() {
 			return Err(PoultryError::SellerAlreadyAdded.into());
 		}
 		batch_data.seller_pubkey = *seller_account.key;

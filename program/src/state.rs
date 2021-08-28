@@ -13,8 +13,9 @@ pub struct Farm {
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct Distributor {
-	name: String,
-	contact_address: String,
+	distribution_center: String,
+	distributor_name: String,
+	center_address: String,
 	contact_number: String,
 	pub infected: u32,
 }
@@ -23,12 +24,12 @@ pub struct Seller {
 	shop_name: String,
 	owner_name: String,
 	shop_address: String,
-	owner_contact: String,
+	contact_number: String,
 	pub infected: u32,
 }
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct HealthOfficer {
-	name: String,
+	officer_name: String,
 	office_id: String,
 	office_address: String,
 	officer_contact: String,
