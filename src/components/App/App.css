@@ -9,3 +9,11 @@
 body {
   font-family: "Open Sans", sans-serif;
 }
+
+.MuiButton-label {
+  color: white;
+}
+
+.MuiDialogTitle-root h2 {
+  color: white;
+}
