@@ -1,3 +1,4 @@
+use crate::error::PoultryError;
 use crate::instruction::PoultryFarmInstructions;
 use crate::state::{
 	write_data, AffectedStatus, Batch, BatchInput, Distributor, Farm, HealthOfficer, Seller,
@@ -107,9 +108,10 @@ impl Processor {
 			farm_pubkey: *farm_account.key,
 			distributor_pubkey: Pubkey::default(),
 			seller_pubkey: Pubkey::default(),
-			infected: 0,
+			marked_by: Pubkey::default(),
 			generated_at: batch_input.timpestamp,
 			batch_size: batch_input.batch_size,
+			infected: 0,
 		};
 
 		new_batch.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
@@ -122,13 +124,17 @@ impl Processor {
 		let accounts_iter = &mut accounts.iter();
 		let batch_account = next_account_info(accounts_iter)?;
 		let distributor_account = next_account_info(accounts_iter)?;
-
 		if batch_account.owner != program_id && distributor_account.owner != program_id {
 			msg!("accounts does not have the correct program id");
 			return Err(ProgramError::IncorrectProgramId);
 		}
 
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
+
+		if batch_data.distributor_pubkey != Pubkey::default() {
+			return Err(PoultryError::DistributorAlreadyAdded.into());
+		}
+
 		batch_data.distributor_pubkey = *distributor_account.key;
 		batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 		Ok(())
@@ -144,6 +150,9 @@ impl Processor {
 		}
 
 		let mut batch_data = Batch::try_from_slice(&batch_account.data.borrow())?;
+		if batch_data.distributor_pubkey != Pubkey::default() {
+			return Err(PoultryError::SellerAlreadyAdded.into());
+		}
 		batch_data.seller_pubkey = *seller_account.key;
 		batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 
@@ -156,7 +165,7 @@ impl Processor {
 	) -> ProgramResult {
 		let instruction = AffectedStatus::try_from_slice(input)?;
 		let accounts_iter = &mut accounts.iter();
-
+		let health_officer_account = next_account_info(accounts_iter)?;
 		let batch_account = next_account_info(accounts_iter)?;
 		let farm_account = next_account_info(accounts_iter)?;
 		let distributor_account = next_account_info(accounts_iter)?;
@@ -166,6 +175,7 @@ impl Processor {
 			&& farm_account.owner != program_id
 			&& distributor_account.owner != program_id
 			&& seller_account.owner != program_id
+			&& health_officer_account.owner != program_id
 		{
 			msg!("accounts does not have the correct program id");
 			return Err(ProgramError::IncorrectProgramId);
@@ -179,6 +189,7 @@ impl Processor {
 		match instruction {
 			AffectedStatus::SetAffected => {
 				batch_data.infected = 1;
+				batch_data.marked_by = *health_officer_account.key;
 				batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 				farm_data.infected = 1;
 				farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
@@ -189,6 +200,7 @@ impl Processor {
 			}
 			AffectedStatus::SetUnaffected => {
 				batch_data.infected = 0;
+				batch_data.marked_by = Pubkey::default();
 				batch_data.serialize(&mut &mut batch_account.data.borrow_mut()[..])?;
 				farm_data.infected = 0;
 				farm_data.serialize(&mut &mut farm_account.data.borrow_mut()[..])?;
@@ -214,8 +226,7 @@ impl Processor {
 		let farm_data = Farm::try_from_slice(&farm_account.data.borrow())?;
 
 		if *refund_account.key != farm_data.refund_account {
-			msg!("Invaild refund Account ");
-			//throw error
+			return Err(PoultryError::InvalidRefundAccount.into());
 		}
 		// Overwrite the data with zeroes
 		write_data(batch_account, &vec![0; batch_account.data_len()], 0);

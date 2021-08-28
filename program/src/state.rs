@@ -42,6 +42,7 @@ pub struct Batch {
 	pub infected: u32,
 	pub batch_size: u32,
 	pub generated_at: u64,
+	pub marked_by: Pubkey,
 }
 
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
