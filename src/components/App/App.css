@@ -17,3 +17,19 @@ body {
 .MuiDialogTitle-root h2 {
   color: white;
 }
+
+.MuiButton-containedPrimary {
+  background-color: #ff9100 !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: #ff9100 !important;
+}
+
+.MuiDialogTitle-root {
+  background-color: #ff9100 !important;
+}
+
+.MuiSvgIcon-root {
+  fill: white !important;
+}
