@@ -22,7 +22,7 @@ const GettingStarted = () => {
     if (!fromToggle) {
       setMove("unset");
       setMoveButtonContainer("unset");
-      setMoveWrapper("translateY(-277px)");
+      setMoveWrapper("translateY(-287px)");
     } else {
       setMove("translateY(100vh)");
       setMoveButtonContainer("translateY(100px)");
