@@ -21,6 +21,7 @@ import * as borsh from "borsh";
 import { DistributorAccount, SCHEMA } from "../../schema";
 import "./App.css";
 import Home from "../Home/Home";
+import GettingStarted from "../GettingStarted/GettingStarted";
 
 export const App = (): JSX.Element => {
   const endpoint = useMemo(() => clusterApiUrl("devnet"), []);
@@ -55,6 +56,7 @@ export const App = (): JSX.Element => {
             <Router>
               <Switch>
                 <Route path="/" exact component={Home} />
+                <Route path="/getting-started" component={GettingStarted} />
               </Switch>
             </Router>
           </WalletDialogProvider>
