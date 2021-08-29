@@ -33,3 +33,7 @@ body {
 .MuiSvgIcon-root {
   fill: white !important;
 }
+
+.MuiPaper-rounded {
+  border-radius: 10px !important;
+}
