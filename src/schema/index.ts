@@ -1,5 +1,11 @@
 import { PublicKey } from "@solana/web3.js";
 import BufferLayout from "buffer-layout";
+import {
+  DistributorAccountData,
+  FarmAccountData,
+  OfficerAccountData,
+  SellerAccountData,
+} from "../accounts/types";
 export class FarmAccount {
   farm_name: string;
   owner_name: string;
@@ -9,7 +15,7 @@ export class FarmAccount {
   refund_account: Uint8Array;
   infected: Number;
 
-  constructor(args: { farm_name: string, owner_name: string, owner_email: string, contact_number: string, farm_address: string, refund_account: PublicKey, infected: number }) {
+  constructor(args: FarmAccountData) {
     this.farm_name = args.farm_name;
     this.owner_name = args.owner_name;
     this.owner_email = args.owner_email;
@@ -28,7 +34,7 @@ export class DistributorAccount {
   contact_number: string;
   infected: Number;
 
-  constructor(args: { distribution_center: string, distributor_name: string, distributor_email: string, center_address: string, contact_number: string, infected: number }) {
+  constructor(args: DistributorAccountData) {
     this.distribution_center = args.distribution_center;
     this.distributor_name = args.distributor_name;
     this.distributor_email = args.distributor_email;
@@ -45,10 +51,10 @@ export class SellerAccount {
   contact_number: string;
   infected: Number;
 
-  constructor(args: { shop_name: string, owner_name: string, owner_email: string, shop_address: string, contact_number: string, infected: number }) {
+  constructor(args: SellerAccountData) {
     this.shop_name = args.shop_name;
     this.owner_name = args.owner_name;
-    this.owner_email = args.owner_email
+    this.owner_email = args.owner_email;
     this.shop_address = args.shop_address;
     this.contact_number = args.contact_number;
     this.infected = args.infected;
@@ -61,9 +67,7 @@ export class HealthOfficerAccount {
   officer_email: string;
   office_address: string;
   officer_contact: string;
-  constructor(
-    args: { officer_name: string, office_id: string, office_address: string, office_email: string, officer_contact: string }
-  ) {
+  constructor(args: OfficerAccountData) {
     this.officer_name = args.officer_name;
     this.office_id = args.office_id;
     this.officer_email = args.office_email;
@@ -145,4 +149,4 @@ export const BATCH_INPUT_LAYOUT = BufferLayout.struct([
   BufferLayout.u32("batch_id"),
   BufferLayout.nu64("timestamp"),
   BufferLayout.u32("batch_size"),
-])
+]);
