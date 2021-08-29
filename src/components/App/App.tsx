@@ -34,16 +34,17 @@ export const App = (): JSX.Element => {
     ],
     []
   );
-  const data = new DistributorAccount(
-    "rhutik distributor",
-    "rhutik",
-    "moon",
-    "9735552",
-    0
-  );
+  const data = new DistributorAccount({
+    distribution_center: "rhutik distributor",
+    distributor_name: "rhutik",
+    center_address: "moon",
+    contact_number: "9735552",
+    infected: 0,
+  });
+
   const test = borsh.serialize(SCHEMA, data);
   const Buffers = Buffer.from(test);
-  //@ts-ignore
+
   const t = borsh.deserialize(SCHEMA, DistributorAccount, Buffers);
   console.log(t);
   return (
