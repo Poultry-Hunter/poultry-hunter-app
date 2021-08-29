@@ -35,10 +35,11 @@ export const App = (): JSX.Element => {
     []
   );
   const data = new DistributorAccount({
-    distribution_center: "rhutik distributor",
+    distribution_center: "rhutik distribution center",
     distributor_name: "rhutik",
+    distributor_email: "test",
     center_address: "moon",
-    contact_number: "9735552",
+    contact_number: "7382732",
     infected: 0,
   });
 
