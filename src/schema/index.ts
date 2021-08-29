@@ -1,25 +1,24 @@
 import { PublicKey } from "@solana/web3.js";
 import BufferLayout from "buffer-layout";
+import {
+  DistributorAccountData,
+  FarmAccountData,
+  OfficerAccountData,
+  SellerAccountData,
+} from "../accounts/types";
 export class FarmAccount {
   farm_name: string;
   owner_name: string;
+  owner_email: string;
   contact_number: string;
   farm_address: string;
-  refund_account: any;
+  refund_account: Uint8Array;
   infected: Number;
 
-  // constructor(farm_name: string, owner_name: string, contact_number: string, farm_address: string, infected: number, refund_account: PublicKey) {
-  //     this.farm_name = farm_name;
-  //     this.owner_name = owner_name;
-  //     this.contact_number = contact_number;
-  //     this.farm_address = farm_address;
-  //     this.refund_account = refund_account.toBuffer()
-  //     this.infected = infected
-  // }
-
-  constructor(args: any) {
+  constructor(args: FarmAccountData) {
     this.farm_name = args.farm_name;
     this.owner_name = args.owner_name;
+    this.owner_email = args.owner_email;
     this.contact_number = args.contact_number;
     this.farm_address = args.farm_address;
     this.refund_account = args.refund_account.toBuffer();
@@ -30,21 +29,15 @@ export class FarmAccount {
 export class DistributorAccount {
   distribution_center: string;
   distributor_name: string;
+  distributor_email: string;
   center_address: string;
   contact_number: string;
   infected: Number;
 
-  // constructor(distribution_center: string, distributor_name: string, center_address: string, contact_number: string, infected: number) {
-  //     this.distribution_center = distribution_center;
-  //     this.distributor_name = distributor_name;
-  //     this.center_address = center_address;
-  //     this.contact_number = contact_number;
-  //     this.infected = infected
-  // }
-
-  constructor(args: any) {
+  constructor(args: DistributorAccountData) {
     this.distribution_center = args.distribution_center;
     this.distributor_name = args.distributor_name;
+    this.distributor_email = args.distributor_email;
     this.center_address = args.center_address;
     this.contact_number = args.contact_number;
     this.infected = args.infected;
@@ -53,22 +46,16 @@ export class DistributorAccount {
 export class SellerAccount {
   shop_name: string;
   owner_name: string;
+  owner_email: string;
   shop_address: string;
   contact_number: string;
   infected: Number;
 
-  // constructor(shop_name: string, owner_name: string, contact_number: string, farm_address: string, infected: number) {
-  //     this.shop_name = shop_name;
-  //     this.owner_name = owner_name;
-  //     this.shop_address = farm_address;
-  //     this.contact_number = contact_number;
-  //     this.infected = infected
-  // }
-
-  constructor(args: any) {
+  constructor(args: SellerAccountData) {
     this.shop_name = args.shop_name;
     this.owner_name = args.owner_name;
-    this.shop_address = args.farm_address;
+    this.owner_email = args.owner_email;
+    this.shop_address = args.shop_address;
     this.contact_number = args.contact_number;
     this.infected = args.infected;
   }
@@ -77,18 +64,15 @@ export class SellerAccount {
 export class HealthOfficerAccount {
   officer_name: string;
   office_id: string;
+  officer_email: string;
   office_address: string;
   officer_contact: string;
-  constructor(
-    officer_name: string,
-    office_id: string,
-    office_address: string,
-    officer_contact: string
-  ) {
-    this.officer_name = officer_name;
-    this.office_id = office_id;
-    this.office_address = office_address;
-    this.officer_contact = officer_contact;
+  constructor(args: OfficerAccountData) {
+    this.officer_name = args.officer_name;
+    this.office_id = args.office_id;
+    this.officer_email = args.office_email;
+    this.office_address = args.office_address;
+    this.officer_contact = args.officer_contact;
   }
 }
 export const SCHEMA = new Map<any, any>([
@@ -99,6 +83,7 @@ export const SCHEMA = new Map<any, any>([
       fields: [
         ["farm_name", "String"],
         ["owner_name", "String"],
+        ["owner_email", "String"],
         ["contact_number", "String"],
         ["farm_address", "String"],
         ["refund_account", [32]],
@@ -113,6 +98,7 @@ export const SCHEMA = new Map<any, any>([
       fields: [
         ["distribution_center", "String"],
         ["distributor_name", "String"],
+        ["distributor_email", "String"],
         ["center_address", "String"],
         ["contact_number", "String"],
         ["infected", "u32"],
@@ -126,6 +112,7 @@ export const SCHEMA = new Map<any, any>([
       fields: [
         ["shop_name", "String"],
         ["owner_name", "String"],
+        ["owner_email", "String"],
         ["shop_address", "String"],
         ["contact_number", "String"],
         ["infected", "u32"],
@@ -139,6 +126,7 @@ export const SCHEMA = new Map<any, any>([
       fields: [
         ["officer_name", "String"],
         ["office_id", "String"],
+        ["officer_email", "String"],
         ["office_address", "String"],
         ["officer_contact", "String"],
       ],
@@ -155,4 +143,10 @@ export const BATCH_LAYOUT = BufferLayout.struct([
   BufferLayout.nu64("generated_at"),
   BufferLayout.u32("batch_size"),
   BufferLayout.blob(32, "marked_by"),
+]);
+
+export const BATCH_INPUT_LAYOUT = BufferLayout.struct([
+  BufferLayout.u32("batch_id"),
+  BufferLayout.nu64("timestamp"),
+  BufferLayout.u32("batch_size"),
 ]);
