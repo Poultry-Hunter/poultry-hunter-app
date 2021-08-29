@@ -13,16 +13,20 @@ const GettingStarted = () => {
   const submit = () => {};
   const [fromToggle, setFromToggle] = useState(false);
   const [move, setMove] = useState("100vh");
+  const [moveButtonContainer, setMoveButtonContainer] = useState("unset");
+  const [moveWrapper, setMoveWrapper] = useState("translateY(calc(100vh - 297px))");
 
-  const handleFormToggle = (event: any) => {
-    event.preventDefault();
-    const form = document.getElementById("getting-started-form-container");
+  const handleFormToggle = () => {
     setFromToggle(!fromToggle);
 
     if (!fromToggle) {
       setMove("unset");
+      setMoveButtonContainer("unset");
+      setMoveWrapper("translateY(-277px)");
     } else {
       setMove("translateY(100vh)");
+      setMoveButtonContainer("translateY(100px)");
+      setMoveWrapper("translateY(calc(100vh - 297px))");
     }
   };
 
@@ -47,53 +51,58 @@ const GettingStarted = () => {
       ></div> */}
       <div className="GettingStarted container">
         <img src={starman} />
-        <div className="getting-started--button-container">
-          <h2>Manage Your Farm With Us</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Malesuada
-            ut enim sollicitudin in elit quisque sit sed quisque.
-          </p>
-          <button onClick={handleFormToggle}>Getting Started</button>
-        </div>
-        <div
-          className="getting-started-form-container"
-          id="getting-started-form"
-          style={{ transform: move }}
-        >
-          <div className="getting-started-form-container-heading">
-            <h2>Account Details</h2>
-            <img src={close} onClick={handleFormToggle} />
+        <div style={{transform: moveWrapper}} className="animation-wrapper">
+          <div
+            className="getting-started--button-container"
+            // style={{ transform: moveButtonContainer }}
+          >
+            <h2>Manage Your Farm With Us</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Malesuada
+              ut enim sollicitudin in elit quisque sit sed quisque.
+            </p>
+            <button onClick={handleFormToggle}>Getting Started</button>
           </div>
-          <div className="form-wrapper">
-            <form onSubmit={submit} className="getting-started-form">
-              <div className="gs-form-input">
-                <label>
-                  Farm Name <span>*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Anatoli Poultry Farm"
-                  required
-                />
-              </div>
-              <div className="gs-form-input">
-                <label>
-                  Owner Name <span>*</span>{" "}
-                </label>
-                <input type="text" placeholder="Anatoly Yakovenko" required />
-              </div>
-              <div className="gs-form-input">
-                <label>
-                  Contact Number <span>*</span>
-                </label>
-                <input type="number" placeholder="9774835592" required />
-              </div>
-              <div
-                className="getting-started-form-map"
-                id="getting-started-form-map"
-              ></div>
-              <button>Create Account</button>
-            </form>
+          <div
+            className="getting-started-form-container"
+            id="getting-started-form"
+            // style={{ transform: move }}
+          >
+            <div className="getting-started-form-container-heading">
+              <h2>Account Details</h2>
+              <img src={close} onClick={handleFormToggle} />
+            </div>
+            <div className="form-wrapper">
+              <form onSubmit={submit} className="getting-started-form">
+                <div className="gs-form-input">
+                  <label>
+                    Farm Name <span>*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Anatoli Poultry Farm"
+                    required
+                  />
+                </div>
+                <div className="gs-form-input">
+                  <label>
+                    Owner Name <span>*</span>{" "}
+                  </label>
+                  <input type="text" placeholder="Anatoly Yakovenko" required />
+                </div>
+                <div className="gs-form-input">
+                  <label>
+                    Contact Number <span>*</span>
+                  </label>
+                  <input type="number" placeholder="9774835592" required />
+                </div>
+                <div
+                  className="getting-started-form-map"
+                  id="getting-started-form-map"
+                ></div>
+                <button>Create Account</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
