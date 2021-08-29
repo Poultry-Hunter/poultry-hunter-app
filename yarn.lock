@@ -3801,20 +3801,30 @@
   "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
   "version" "3.7.2"
 
-"bn.js@^4.0.0", "bn.js@^4.1.0", "bn.js@^4.11.8", "bn.js@^4.11.9":
-  "integrity" "sha512-E6QoYqCKZfgatHTdHzs1RRKP7ip4vvm+EyRUeE2RF0NblwVvb0p6jSVeNTOFxPn26QXN2o6SMfNxKp6kU8zQaw=="
-  "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-4.11.9.tgz"
-  "version" "4.11.9"
+"bn.js@^4.0.0":
+  "integrity" "sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA=="
+  "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-4.12.0.tgz"
+  "version" "4.12.0"
 
-"bn.js@^5.0.0":
+"bn.js@^4.1.0":
+  "integrity" "sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA=="
+  "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-4.12.0.tgz"
+  "version" "4.12.0"
+
+"bn.js@^4.11.8":
+  "integrity" "sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA=="
+  "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-4.12.0.tgz"
+  "version" "4.12.0"
+
+"bn.js@^4.11.9":
+  "integrity" "sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA=="
+  "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-4.12.0.tgz"
+  "version" "4.12.0"
+
+"bn.js@^5.0.0", "bn.js@^5.1.1", "bn.js@^5.2.0":
   "integrity" "sha512-D7iWRBvnZE8ecXiLj/9wbxH7Tk79fAh8IHaTNq1RWRixsS02W+5qS+iE9yq6RYl0asXx5tw0bLhmT5pIfbSquw=="
   "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-5.2.0.tgz"
   "version" "5.2.0"
-
-"bn.js@^5.1.1":
-  "integrity" "sha512-GkTiFpjFtUzU9CbMeJ5iazkCzGL3jrhzerzZIuqLABjbwRaFt33I9tUdSNryIptM+RxDet6OKm2WnLXzW51KsQ=="
-  "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-5.1.3.tgz"
-  "version" "5.1.3"
 
 "bn@^1.0.5":
   "integrity" "sha512-7TvGbqbZb6lDzsBtNz1VkdXXV0BVmZKPPViPmo2IpvwaryF7P+QKYKACyVkwo2mZPr2CpFiz7EtgPEcc3o/JFQ=="
@@ -3861,6 +3871,15 @@
   dependencies:
     "@types/bn.js" "^4.11.5"
     "bn.js" "^5.0.0"
+    "bs58" "^4.0.0"
+    "text-encoding-utf-8" "^1.0.2"
+
+"borsh@^0.6.0":
+  "integrity" "sha512-sl5k89ViqsThXQpYa9XDtz1sBl3l1lI313cFUY1HKr+wvMILnb+58xpkqTNrYbelh99dY7K8usxoCusQmqix9Q=="
+  "resolved" "https://registry.npmjs.org/borsh/-/borsh-0.6.0.tgz"
+  "version" "0.6.0"
+  dependencies:
+    "bn.js" "^5.2.0"
     "bs58" "^4.0.0"
     "text-encoding-utf-8" "^1.0.2"
 
@@ -4069,6 +4088,11 @@
   "integrity" "sha512-4/rOEg86jivtPTeOUUT61jJO1Ya1TrR/OkqCSZDyq84WJh3LuuiphBYJN+fm5xufIk4XAFcEwte/8WzC8If/1g=="
   "resolved" "https://registry.npmjs.org/buffer-indexof/-/buffer-indexof-1.1.1.tgz"
   "version" "1.1.1"
+
+"buffer-layout@^1.2.2":
+  "integrity" "sha512-kWSuLN694+KTk8SrYvCqwP2WcgQjoRCiF5b4QDvkkz8EmgD+aWAIceGFKMIAdmF/pH+vpgNV3d3kAKorcdAmWA=="
+  "resolved" "https://registry.npmjs.org/buffer-layout/-/buffer-layout-1.2.2.tgz"
+  "version" "1.2.2"
 
 "buffer-xor@^1.0.3":
   "integrity" "sha1-JuYe0UIvtw3ULm42cp7VHYVf6Nk="
