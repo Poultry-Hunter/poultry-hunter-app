@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   WalletDisconnectButton,
@@ -20,6 +20,10 @@ const Home = () => {
     console.log(`Public Key ${publicKey?.toBase58()}`);
     console.log(`Connected ${connected}`);
   };
+
+  useEffect(() => {
+    
+  },[])
 
   return (
     <div>
