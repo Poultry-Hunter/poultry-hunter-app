@@ -115,13 +115,20 @@
     "test:watch": "yarn test --watch"
   },
   "eslintConfig": {},
-  "browserslist": [
-    "> 0.2%",
-    "defaults ",
-    "maintained node versions",
-    "not IE 11",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2",
+      "not dead",
+      "not op_mini all",
+      "not chrome < 51",
+      "not safari < 10"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "@types/mapbox-gl": "^2.4.0",
     "@types/mz": "^2.7.4"

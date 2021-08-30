@@ -24,12 +24,12 @@
     background-color: white;
     height: 277px;
     width: 100vw;
-    border-radius: 50px 50px 0px 0px;
+    border-radius: 30px 30px 0px 0px;
     box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
     padding: 30px 30px 10px 30px;
     text-align: center;
     display: grid;
-    grid-gap: 10px;
+    grid-template-rows: auto auto auto;
     align-items: center;
     transition: 600ms;
     overflow: hidden;
@@ -53,22 +53,21 @@
   .getting-started--button-container p {
     text-align: start;
     font-weight: 550;
-    font-size: 4vw;
+    font-size: 3.8vw;
     padding: 0px 10px;
   }
 
   .getting-started--button-container button,
   .getting-started-form button {
-    padding: 20px;
+    padding: 15px;
     width: 100%;
-    border-radius: 20px;
+    border-radius: 10px;
     font-size: 1.5rem;
     font-weight: 600;
     border: none;
     background-color: #ff9100;
     color: white;
     box-shadow: 0px 5px 8px rgba(196, 182, 162, 0.34);
-    border-radius: 16px;
   }
 
   .getting-started-form-container {
@@ -81,6 +80,7 @@
     overflow: hidden;
     padding: 0px 20px;
     color: #252525;
+    padding-top: 10px;
   }
   .getting-started-form-container-heading {
     margin-bottom: 20px;
@@ -97,7 +97,7 @@
 
   .getting-started-form {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 270px 70px 1fr;
+    grid-template-rows: 1fr 1fr 1fr 270px 60px 1fr;
     grid-gap: 10px;
     font-size: 1rem;
     font-weight: 500;
@@ -128,7 +128,7 @@
   }
   .form-wrapper {
     height: 100vh;
-    overflow: scroll;
+    overflow: auto;
   }
 }
 
@@ -147,8 +147,8 @@
   .getting-started--button-container {
     height: 207px;
     width: 100vw;
-    grid-gap: 7px;
-    grid-template-rows: 1fr 70px 1fr;
+    border-radius: 30px 30px 0px 0px;
+    grid-template-rows: auto auto auto;
   }
 
   .getting-started--button-container p {
@@ -156,20 +156,22 @@
   }
 
   .animation-wrapper {
-	margin-top: 70px;
+    margin-top: 70px;
     padding: 20px 0px;
   }
 
-  .getting-started--button-container button {
+  .getting-started--button-container button,
+  .getting-started-form button {
     padding: 10px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
   }
 
   .getting-started-form-container {
     overflow: scroll;
   }
   .getting-started-form {
-    grid-template-rows: 1fr 1fr 1fr 300px 60px 1fr;
+    grid-template-rows: 1fr 1fr 1fr 300px 50px 1fr;
   }
   .getting-started-form button {
     padding: 15px;

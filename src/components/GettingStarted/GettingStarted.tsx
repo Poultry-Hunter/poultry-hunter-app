@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import mapboxgl from 'mapbox-gl';
-const mapboxgl = require("mapbox-gl");
+// const mapboxgl = require("mapbox-gl");
+import mapboxgl from "mapbox-gl";
 
 import "./GettingStarted.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -14,14 +15,15 @@ const GettingStarted = () => {
   const [fromToggle, setFromToggle] = useState(false);
   const [move, setMove] = useState("100vh");
   const [moveButtonContainer, setMoveButtonContainer] = useState("unset");
-  const [moveWrapper, setMoveWrapper] = useState("translateY(calc(100vh - 297px))");
+  const [moveWrapper, setMoveWrapper] = useState(
+    "translateY(calc(100vh - 297px))"
+  );
 
   const handleFormToggle = () => {
     setFromToggle(!fromToggle);
 
     if (!fromToggle) {
       setMove("unset");
-      setMoveButtonContainer("unset");
       setMoveWrapper("translateY(-287px)");
     } else {
       setMove("translateY(100vh)");
@@ -37,7 +39,7 @@ const GettingStarted = () => {
     const map = new mapboxgl.Map({
       container: "getting-started-form-map", // container ID
       style: "mapbox://styles/mapbox/streets-v11", // style URL
-      center: [15.51004, 73.966989], // starting position [lng, lat]
+      center: [15.583988, 73.792318], // starting position [lng, lat]
       zoom: 9, // starting zoom
     });
     console.log(map);
@@ -45,28 +47,20 @@ const GettingStarted = () => {
 
   return (
     <>
-      {/* <div
-        className="getting-started-form-map"
-        id="getting-started-form-map"
-      ></div> */}
       <div className="GettingStarted container">
         <img src={starman} />
-        <div style={{transform: moveWrapper}} className="animation-wrapper">
-          <div
-            className="getting-started--button-container"
-            // style={{ transform: moveButtonContainer }}
-          >
+        <div style={{ transform: moveWrapper }} className="animation-wrapper">
+          <div className="getting-started--button-container">
             <h2>Manage Your Farm With Us</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Malesuada
-              ut enim sollicitudin in elit quisque sit sed quisque.
+              Build a Responsive Supply Chain. Improve collaboration between
+              destributors and sellers, and help save lives together.
             </p>
             <button onClick={handleFormToggle}>Getting Started</button>
           </div>
           <div
             className="getting-started-form-container"
             id="getting-started-form"
-            // style={{ transform: move }}
           >
             <div className="getting-started-form-container-heading">
               <h2>Account Details</h2>
