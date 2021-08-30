@@ -1,4 +1,4 @@
-import { FC, lazy, LazyExoticComponent } from 'react';
+import { FC, lazy, LazyExoticComponent } from "react";
 
 export const lazyComponent = (
   name: string,

@@ -1,3 +1,3 @@
 export const app = {
-  name: 'React Starter',
+  name: "React Starter",
 };

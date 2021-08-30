@@ -1,9 +1,9 @@
-import { enableAllPlugins } from 'immer';
-import React, { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
-import { App } from './components/App/App';
-import reportWebVitals from './reportWebVitals';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { enableAllPlugins } from "immer";
+import React, { StrictMode } from "react";
+import ReactDOM from "react-dom";
+import { App } from "./components/App/App";
+import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 enableAllPlugins();
 // If you want to start measuring performance in your app, pass a function to log results (for
@@ -16,7 +16,7 @@ serviceWorkerRegistration.register();
 
 ReactDOM.render(
   <StrictMode>
-      <App />
+    <App />
   </StrictMode>,
-  document.getElementById('app')
+  document.getElementById("app")
 );
