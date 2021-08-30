@@ -40,7 +40,7 @@ const GettingStarted = () => {
     const mapBox = new mapboxgl.Map({
       container: "getting-started-form-map", // container ID
       style: "mapbox://styles/mapbox/streets-v11", // style URL
-      center: [15.583988, 73.792318], // starting position [lng, lat]
+      center: [73.792318, 15.583988], // starting position [lng, lat]
       zoom: 9, // starting zoom
     });
 
