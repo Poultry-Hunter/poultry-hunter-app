@@ -16,13 +16,10 @@ import {
   getTorusWallet,
   getSolletWallet,
 } from "@solana/wallet-adapter-wallets";
-
-import * as borsh from "borsh";
-import { DistributorAccount, SCHEMA } from "../../schema";
 import "./App.css";
 import Home from "../Home/Home";
 import GettingStarted from "../GettingStarted/GettingStarted";
-
+import { FarmDashboard } from "../FarmDashboard";
 export const App = (): JSX.Element => {
   const endpoint = useMemo(() => clusterApiUrl("devnet"), []);
 
@@ -35,20 +32,6 @@ export const App = (): JSX.Element => {
     ],
     []
   );
-  const data = new DistributorAccount({
-    distribution_center: "rhutik distribution center",
-    distributor_name: "rhutik",
-    distributor_email: "test",
-    center_address: "moon",
-    contact_number: "7382732",
-    infected: 0,
-  });
-
-  const test = borsh.serialize(SCHEMA, data);
-  const Buffers = Buffer.from(test);
-
-  const t = borsh.deserialize(SCHEMA, DistributorAccount, Buffers);
-  console.log(t);
   return (
     <>
       <ConnectionProvider endpoint={endpoint}>
@@ -58,6 +41,7 @@ export const App = (): JSX.Element => {
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/getting-started" component={GettingStarted} />
+                <Route path="/farm-dashboard" component={FarmDashboard} />
               </Switch>
             </Router>
           </WalletDialogProvider>

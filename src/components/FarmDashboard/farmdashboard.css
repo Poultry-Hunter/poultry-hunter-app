@@ -1,0 +1,325 @@
+.farm_dashboard_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+.farm_dashboard_sidebar {
+  width: 10%;
+  height: 100%;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border: 10px solid white; */
+  padding: 10px;
+}
+.farm_dashboard {
+  width: 90%;
+  height: 100%;
+  padding: 25px;
+}
+.farm_dashboard_sidebar img {
+  max-width: 100px;
+}
+
+.farm_dashboard_head {
+  display: flex;
+  justify-content: space-between;
+  height: 67px;
+}
+.farm_dashboard_title h3 {
+  font-family: "Poppins";
+  font-size: 1.7em;
+  font-weight: 600;
+  color: #404040;
+}
+.farm_dashboard_title h4 {
+  font-family: "Poppins";
+  font-size: 1em;
+  font-weight: 400;
+  color: #404040;
+}
+.farm_dashboard_title h4 span {
+  color: var(--primary-color);
+}
+
+.farm_dashboard_wallet_button {
+  padding: 10px 20px;
+  height: fit-content;
+  background-color: var(--primary-color);
+  border-radius: 14px;
+  outline: none;
+  color: white;
+  border: none;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  font-weight: 400;
+  cursor: pointer;
+  box-shadow: 0px 5px 8px rgba(255, 153, 0, 0.34);
+}
+
+.farm_dashbord_main {
+  height: calc(100% - 67px);
+  width: 100%;
+  display: flex;
+}
+.farm_dashboard_anlaytics {
+  padding: 10px;
+  margin-top: 10px;
+  width: 70%;
+  height: 100%;
+  overflow: auto;
+}
+.farm_dashboard_analytics_info {
+  display: flex;
+  justify-content: space-between;
+}
+.farm_dashboard_analytics_sales {
+  padding: 0px 20px 0px 20px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.farm_dashboard_analytics_bar {
+  width: 60%;
+  height: 300px;
+  background-color: var(--primary-color);
+  border-radius: 30px;
+  padding: 20px;
+}
+.analytics_bar_sale h3 {
+  font-family: "Poppins";
+  font-size: 3em;
+  font-weight: 600;
+  color: white;
+}
+.analytics_bar_sale h3 h5 {
+  display: inline;
+  font-family: "Poppins";
+  font-size: 0.5em;
+  font-weight: 600;
+}
+.analytics_bar_sale h4 {
+  display: inline;
+  font-family: "Poppins";
+  font-size: 1.2em;
+  font-weight: 400;
+  color: white;
+}
+.analytics_filter {
+  align-self: flex-end;
+}
+.analytics_filter .weekly-button {
+  outline: none;
+  border: none;
+  padding: 10px;
+  background-color: var(--primary-color);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  font-family: "Poppins";
+  font-size: 0.8em;
+  font-weight: 400;
+  color: white;
+  float: left;
+}
+.analytics_filter .monthly-button {
+  outline: none;
+  border: none;
+  padding: 10px;
+  background-color: white;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-family: "Poppins";
+  font-size: 0.8em;
+  font-weight: 400;
+  float: left;
+}
+.analytics_total_batches {
+  margin-top: 10px;
+  height: 120px;
+  width: 100%;
+  background-color: white;
+  border-radius: 20px;
+}
+.analytics_total_sales {
+  margin-top: 10px;
+  height: 120px;
+  width: 100%;
+  background-color: white;
+  border-radius: 20px;
+}
+.analytics_total_batches,
+.analytics_total_sales {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+.analytics_total_batches h3,
+.analytics_total_sales h3 {
+  font-family: "Poppins";
+  font-size: 2em;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+.analytics_total_batches h4,
+.analytics_total_sales h4 {
+  font-family: "Poppins";
+  font-size: 1em;
+  font-weight: 400;
+  color: #404040;
+}
+.farm_dashboard_analytics_history {
+  margin-top: 15px;
+  width: 100%;
+  height: fit-content;
+  background-color: white;
+  border-radius: 25px;
+  padding: 30px;
+}
+.farm_dashboard_analytics_history_head {
+  display: flex;
+  justify-content: space-between;
+}
+.farm_dashboard_analytics_history_head h3 {
+  font-family: "Poppins";
+  font-size: 1.5em;
+  font-weight: 500;
+  color: #404040;
+}
+.farm_dashboard_recent_table {
+  margin-top: 15px;
+  width: 100%;
+}
+.recent_table_head th {
+  font-family: "Poppins";
+  font-size: 1em;
+  font-weight: 400;
+  border-bottom: 1px solid #b7b7b7;
+}
+.recent_table_content th {
+  font-family: "Poppins";
+  font-size: 1em;
+  font-weight: 300;
+  border-bottom: 0.5px solid #e4e4e4;
+  padding: 10px;
+}
+.farm_dashboard_create_batch {
+  width: 30%;
+  height: fit-content;
+  padding: 25px;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.create_batch_title {
+  width: 100%;
+}
+.create_batch_title h3 {
+  font-family: "Poppins";
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #404040;
+  float: left;
+}
+.create_batch_input {
+  width: 60%;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 100px;
+  border: 1px solid #ececec;
+  display: flex;
+  justify-content: space-between;
+}
+.create_batch_input button {
+  width: 35px;
+  height: 35px;
+  background-color: var(--secondary-color);
+  outline: none;
+  border: none;
+  border-radius: 100px;
+  color: white;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+.create_batch_input input {
+  border: none;
+  width: 50%;
+  outline: none;
+}
+
+.create_batch_input input:focus {
+  border: none;
+  outline: none;
+}
+.create_batch {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.create_batch .create_batch_button {
+  margin-top: 10px;
+  outline: none;
+  border: none;
+  width: 70%;
+  border-radius: 20px;
+  background-color: var(--primary-color);
+  padding: 10px 50px;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+.generated_batch_qrcode {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+.generated_batch_qrcode img {
+  max-width: 180px;
+}
+.generated_batch_qrcode h3 {
+  color: #404040;
+  font-size: 0.9em;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.qr_print_section {
+  text-align: center;
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border-top: 2px dotted #404040;
+}
+.qr_print_section h3 {
+  color: #404040;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+.qr_print_buttons {
+  display: flex;
+  justify-content: center;
+}
+.qr_print_buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+  outline: none;
+  border: none;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 0.9em;
+  font-weight: 500;
+  margin-right: 10px;
+  border-radius: 10px;
+}
