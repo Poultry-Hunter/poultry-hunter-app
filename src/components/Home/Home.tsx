@@ -15,7 +15,6 @@ import { TestMap } from "../mapbox";
 
 const Home = () => {
   const [map, setMap] = useState<Map>();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -29,9 +28,8 @@ const Home = () => {
     });
 
     setMap(mapBox);
-    // dispatch()
     console.log(mapBox);
-    const map = TestMap("map");
+    const map = TestMap("home-page-map");
   }, []);
 
   return (
