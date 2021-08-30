@@ -17,18 +17,18 @@ const Home = () => {
   const [map, setMap] = useState<Map>();
 
   useEffect(() => {
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ";
+    // mapboxgl.accessToken =
+    //   "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ";
 
-    const mapBox = new mapboxgl.Map({
-      container: "home-page-map", // container ID
-      style: "mapbox://styles/mapbox/light-v10", // style URL
-      center: [73.792318, 15.583988], // starting position [lng, lat]
-      zoom: 9, // starting zoom
-    });
+    // const mapBox = new mapboxgl.Map({
+    //   container: "home-page-map", // container ID
+    //   style: "mapbox://styles/mapbox/light-v10", // style URL
+    //   center: [73.792318, 15.583988], // starting position [lng, lat]
+    //   zoom: 9, // starting zoom
+    // });
 
-    setMap(mapBox);
-    console.log(mapBox);
+    // setMap(mapBox);
+    // console.log(mapBox);
     const map = TestMap("home-page-map");
   }, []);
 
