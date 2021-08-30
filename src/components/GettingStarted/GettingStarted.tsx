@@ -10,6 +10,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import starman from "../../assets/images/vector-art/starman.svg";
 import close from "../../assets/images/icons/close.svg";
 
+import { TestMap } from "../mapbox"
+
 const GettingStarted = () => {
   const submit = () => {};
   const [fromToggle, setFromToggle] = useState(false);
@@ -18,8 +20,6 @@ const GettingStarted = () => {
   const [moveWrapper, setMoveWrapper] = useState(
     "translateY(calc(100vh - 297px))"
   );
-  const [map, setMap] = useState<Map>();
-
   const handleFormToggle = () => {
     setFromToggle(!fromToggle);
 
@@ -44,8 +44,9 @@ const GettingStarted = () => {
       zoom: 9, // starting zoom
     });
 
-    setMap(mapBox);
     console.log(mapBox);
+    const Map = TestMap("getting-started-form-map");
+    console.log(Map)
   }, []);
 
   return (

@@ -11,6 +11,7 @@ import {
 
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Link } from "react-router-dom";
+import { TestMap } from "../mapbox";
 
 const Home = () => {
   const [map, setMap] = useState<Map>();
@@ -30,6 +31,7 @@ const Home = () => {
     setMap(mapBox);
     // dispatch()
     console.log(mapBox);
+    const map = TestMap("map");
   }, []);
 
   return (
