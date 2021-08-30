@@ -45,7 +45,7 @@ const GettingStarted = () => {
     });
 
     setMap(mapBox);
-    console.log(map);
+    console.log(mapBox);
   }, []);
 
   return (
