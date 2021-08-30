@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import mapboxgl from 'mapbox-gl';
 // const mapboxgl = require("mapbox-gl");
-import mapboxgl, { Map } from "mapbox-gl";
+import { TestMap } from "../mapbox";
 
 import "./GettingStarted.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -18,8 +18,6 @@ const GettingStarted = () => {
   const [moveWrapper, setMoveWrapper] = useState(
     "translateY(calc(100vh - 297px))"
   );
-  const [map, setMap] = useState<Map>();
-
   const handleFormToggle = () => {
     setFromToggle(!fromToggle);
 
@@ -34,18 +32,8 @@ const GettingStarted = () => {
   };
 
   useEffect(() => {
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ";
-
-    const mapBox = new mapboxgl.Map({
-      container: "getting-started-form-map", // container ID
-      style: "mapbox://styles/mapbox/streets-v11", // style URL
-      center: [15.583988, 73.792318], // starting position [lng, lat]
-      zoom: 9, // starting zoom
-    });
-
-    setMap(mapBox);
-    console.log(mapBox);
+    const Map = TestMap("getting-started-form-map");
+    console.log(Map)
   }, []);
 
   return (
