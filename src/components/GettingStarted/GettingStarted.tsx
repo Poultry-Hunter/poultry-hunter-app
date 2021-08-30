@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import mapboxgl from 'mapbox-gl';
-// const mapboxgl = require("mapbox-gl");
-import mapboxgl, { Map } from "mapbox-gl";
+import { Map } from "mapbox-gl";
 
 import "./GettingStarted.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -10,43 +8,28 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import starman from "../../assets/images/vector-art/starman.svg";
 import close from "../../assets/images/icons/close.svg";
 
-import { TestMap } from "../mapbox"
+import { TestMap } from "../mapbox";
 
 const GettingStarted = () => {
   const submit = () => {};
   const [fromToggle, setFromToggle] = useState(false);
-  const [move, setMove] = useState("100vh");
-  const [moveButtonContainer, setMoveButtonContainer] = useState("unset");
   const [moveWrapper, setMoveWrapper] = useState(
     "translateY(calc(100vh - 297px))"
   );
+  const [map, setMap] = useState<Map>();
+
   const handleFormToggle = () => {
     setFromToggle(!fromToggle);
 
     if (!fromToggle) {
-      setMove("unset");
       setMoveWrapper("translateY(-287px)");
     } else {
-      setMove("translateY(100vh)");
-      setMoveButtonContainer("translateY(100px)");
       setMoveWrapper("translateY(calc(100vh - 297px))");
     }
   };
 
   useEffect(() => {
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ";
-
-    const mapBox = new mapboxgl.Map({
-      container: "getting-started-form-map", // container ID
-      style: "mapbox://styles/mapbox/streets-v11", // style URL
-      center: [73.792318, 15.583988], // starting position [lng, lat]
-      zoom: 9, // starting zoom
-    });
-
-    console.log(mapBox);
-    const Map = TestMap("getting-started-form-map");
-    console.log(Map)
+    setMap(TestMap("getting-started-form-map"));
   }, []);
 
   return (
