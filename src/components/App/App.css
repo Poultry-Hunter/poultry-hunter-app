@@ -6,10 +6,11 @@
 }
 :root {
   --primary-color: #ff9900;
-  --secondary-color: #FFC700;
+  --secondary-color: #ffc700;
 }
 body {
-  font-family: 'Poppins', sans-serif;}
+  font-family: "Poppins", sans-serif;
+}
 
 .container {
   max-width: 1500px;

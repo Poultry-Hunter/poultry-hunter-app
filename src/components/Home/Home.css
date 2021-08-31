@@ -159,6 +159,7 @@
   min-width: 948px;
   z-index: 3;
   position: fixed;
+  transition: 600ms;
 }
 
 .home-page-bottom-tracker--card {
@@ -204,6 +205,7 @@
   align-items: center;
   position: fixed;
   /* background-color: red; */
+  transition: 600ms;
 }
 
 .home-page-map-navigations--card {
@@ -308,6 +310,42 @@
 
   .home-page-bottom-tracker--card h3 {
     font-size: 0.9rem;
+  }
+
+  .home-page-map-navigations {
+    grid-template-rows: 200px 200px;
+    grid-gap: 20px;
+    margin: 100px auto 0 0px;
+    justify-content: start;
+  }
+
+  .home-page-map-navigations--card {
+    width: 200px;
+    height: 200px;
+  }
+
+  .map-index-list {
+    font-size: 0.8rem;
+  }
+  .map-index-list img {
+    width: 40px;
+  }
+
+  .map-filter-checkbox input {
+    width: 20px;
+    height: 20px;
+  }
+  .map-filter-checkbox {
+    font-size: 0.8rem;
+  }
+
+  .map-filter-checkbox input[type="checkbox"]::before {
+    width: 13px;
+    height: 13px;
+  }
+
+  .home-page-map-navigations--card h3 {
+    font-size: 1rem;
   }
 }
 
