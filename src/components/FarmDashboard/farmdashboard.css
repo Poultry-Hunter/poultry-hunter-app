@@ -24,7 +24,26 @@
   margin-top: 10px;
   max-width: 50px;
 }
-
+.sidebar_navigrations {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+height: 150px;
+  margin-top: 50px;
+}
+.sidebar_navigrations svg {
+  height: 30px;
+  width: 30px;
+}
+.sidebar_navigrations svg path {
+  fill: #404040;
+}
+.sidebar_navigrations button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
 .farm_dashboard_head {
   display: flex;
   justify-content: space-between;
@@ -218,7 +237,7 @@
 }
 .farm_dashboard_create_batch {
   width: 500px;
-  height: 100%;
+  height: fit-content;
   padding: 25px;
   background-color: white;
   border-radius: 20px;
@@ -307,6 +326,19 @@
   font-weight: 400;
   margin-bottom: 5px;
 }
+.print-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.print-container h3 {
+  color: #404040;
+  font-size: 0.9em;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
 .qr_print_section {
   text-align: center;
   margin-top: 10px;
@@ -356,9 +388,7 @@
   .farm_dashbord_main {
     height: calc(100% - 105px);
   }
-  .farm_dashboard_create_batch {
-    width: 600px;
-  }
+
   .generated_batch_qrcode img {
     max-width: 250px;
   }
