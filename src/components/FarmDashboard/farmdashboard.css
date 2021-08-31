@@ -4,7 +4,7 @@
   display: flex;
 }
 .farm_dashboard_sidebar {
-  width: 10%;
+  width: 100px;
   height: 100%;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -16,12 +16,13 @@
   padding: 10px;
 }
 .farm_dashboard {
-  width: 90%;
+  width: 100%;
   height: 100%;
   padding: 25px;
 }
 .farm_dashboard_sidebar img {
-  max-width: 100px;
+  margin-top: 10px;
+  max-width: 50px;
 }
 
 .farm_dashboard_head {
@@ -68,7 +69,7 @@
 .farm_dashboard_anlaytics {
   padding: 10px;
   margin-top: 10px;
-  width: 70%;
+  width: 100%;
   height: 100%;
   overflow: auto;
 }
@@ -85,7 +86,7 @@
 }
 .farm_dashboard_analytics_bar {
   width: 60%;
-  height: 300px;
+  height: fit-content;
   background-color: var(--primary-color);
   border-radius: 30px;
   padding: 20px;
@@ -139,14 +140,14 @@
 }
 .analytics_total_batches {
   margin-top: 10px;
-  height: 120px;
+  height: fit-content;
   width: 100%;
   background-color: white;
   border-radius: 20px;
 }
 .analytics_total_sales {
   margin-top: 10px;
-  height: 120px;
+  height: fit-content;
   width: 100%;
   background-color: white;
   border-radius: 20px;
@@ -208,13 +209,14 @@
   padding: 10px;
 }
 .farm_dashboard_create_batch {
-  width: 30%;
+  width: 500px;
   height: fit-content;
   padding: 25px;
   background-color: white;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
 }
 .create_batch_title {
@@ -228,7 +230,7 @@
   float: left;
 }
 .create_batch_input {
-  width: 60%;
+  width: 70%;
   padding: 5px;
   margin-top: 10px;
   border-radius: 100px;
@@ -322,4 +324,18 @@
   font-weight: 500;
   margin-right: 10px;
   border-radius: 10px;
+}
+@media screen and (min-width: 1440px) {
+  body {
+    font-size: 25px;
+  }
+  .farm_dashboard_head {
+    height: 105px;
+  }
+  .farm_dashbord_main {
+    height: calc(100% - 105px);
+  }
+  .farm_dashboard_create_batch{
+    width: 700px;
+  }
 }

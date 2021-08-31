@@ -11,12 +11,12 @@ import bargraph from "../../assets/images/vector-art/graph.svg";
 import { Icon } from "@iconify/react";
 export const FarmDashboard = () => {
   return (
-    <div className="farm_dashboard_container container">
+    <div className="farm_dashboard_container">
       <div className="farm_dashboard_sidebar">
         <img src={logo} alt="" />
         <Icon
           icon="ic:round-space-dashboard"
-          style={{ marginTop: "60px", width: "40px", height: "40px" }}
+          style={{ marginTop: "60px", width: "30px", height: "30px" }}
         />
       </div>
       <div className="farm_dashboard">
@@ -87,7 +87,7 @@ export const FarmDashboard = () => {
                   <th>Batch ID</th>
                   <th>Batch size</th>
                   <th>Preview</th>
-                  <th>Refund</th>
+                  <th></th>
                 </tr>
                 {[1, 2, 3, 4, 5].map(() => {
                   return (
@@ -97,7 +97,24 @@ export const FarmDashboard = () => {
                       <th>232</th>
                       <th>20</th>
                       <th>
-                        <img src={qricon} alt="" style={{ width: "20px" }} />
+                        <Icon
+                          icon="heroicons-outline:qrcode"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            color: "#FF9900",
+                          }}
+                        />
+                      </th>
+                      <th>
+                        <Icon
+                          icon="ant-design:delete-outlined"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            color: "red",
+                          }}
+                        />
                       </th>
                     </tr>
                   );
