@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./farmdashboard.css";
 import logo from "../../assets/images/logo/logo.svg";
 import a4Paper from "../../assets/images/icons/a4-paper.svg";
@@ -8,22 +8,47 @@ import GeneratedIcon from "../../assets/images/icons/generated-icon.svg";
 import FilterIcon from "../../assets/images/icons/filter.svg";
 import SalesIcon from "../../assets/images/icons/salesIcon.svg";
 import bargraph from "../../assets/images/vector-art/graph.svg";
+import { ReactComponent as InventoryIcon } from "../../assets/images/icons/inventoryIcon.svg";
+import { ReactComponent as MarketPlaceIcon } from "../../assets/images/icons/marketplace.svg";
 import { Icon } from "@iconify/react";
 import { QRCode } from "react-qrcode-logo";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 
 export const FarmDashboard = () => {
   const [BatchSize, setBatchSize] = useState(0);
   const [CreateQr, setCreateQr] = useState(false);
   const [ShowQrPreview, setShowQrPreview] = useState(false);
   const [QRdata, setQRdata] = useState({});
+  const printComponent = useRef(null);
+  function PrintQrcode() {
+    if (printComponent.current) {
+      useReactToPrint({
+        content: () => printComponent.current,
+      });
+    }
+  }
+  const pageStyle = `
+  @page {
+    size: 100mm 100mm;
+    margin:30px;
+  }
+
+`;
   return (
     <div className="farm_dashboard_container">
       <div className="farm_dashboard_sidebar">
         <img src={logo} alt="" />
-        <Icon
-          icon="ic:round-space-dashboard"
-          style={{ marginTop: "60px", width: "30px", height: "30px" }}
-        />
+        <div className="sidebar_navigrations">
+          <button>
+            <Icon icon="ic:round-space-dashboard" />
+          </button>
+          <button>
+            <InventoryIcon />
+          </button>
+          <button>
+            <MarketPlaceIcon />
+          </button>
+        </div>
       </div>
       <div className="farm_dashboard">
         <div className="farm_dashboard_head">
@@ -165,13 +190,18 @@ export const FarmDashboard = () => {
             <div className="generated_batch_qrcode">
               <h3>QR Code Preview</h3>
               {CreateQr || ShowQrPreview ? (
-                <QRCode
-                  value={JSON.stringify(QRdata)}
-                  logoImage={logo}
-                  logoWidth={40}
-                  logoHeight={40}
-                  eyeRadius={5} 
-                />
+                <div className="print-container" ref={printComponent}>
+                  <h3>Batch ID: 200</h3>
+                  <QRCode
+                    value={JSON.stringify(QRdata)}
+                    logoImage={logo}
+                    logoWidth={45}
+                    logoHeight={50}
+                    eyeRadius={10}
+                    qrStyle={"dots"}
+                  />
+                  <h3>Sanket ProFarm</h3>
+                </div>
               ) : (
                 <img src={qrnopreview} />
               )}
@@ -179,15 +209,23 @@ export const FarmDashboard = () => {
             <div className="qr_print_section">
               <h3>Print</h3>
               <div className="qr_print_buttons">
-                <button>
-                  {" "}
-                  <img
-                    src={qricon}
-                    alt=""
-                    style={{ width: "15px", marginRight: "5px" }}
-                  />
-                  Single QR
-                </button>
+                <ReactToPrint
+                  pageStyle={pageStyle}
+                  copyStyles={true}
+                  trigger={() => (
+                    <button>
+                      {" "}
+                      <img
+                        src={qricon}
+                        alt=""
+                        style={{ width: "15px", marginRight: "5px" }}
+                      />
+                      Single QR
+                    </button>
+                  )}
+                  content={() => printComponent.current}
+                />
+
                 <button>
                   <img
                     src={a4Paper}
