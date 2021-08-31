@@ -349,7 +349,7 @@
   }
 }
 
-@media only screen and (max-height: 693px) and (max-width: 1365px) {
+@media only screen and (max-height: 693px) and (max-width: 1366px) {
   .home-page-bottom-tracker {
     min-width: unset;
     grid-template-columns: 210px 210px 210px;
