@@ -83,13 +83,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
 }
 .farm_dashboard_analytics_bar {
   width: 60%;
   height: fit-content;
   background-color: var(--primary-color);
   border-radius: 30px;
-  padding: 20px;
+  padding: 25px;
 }
 .analytics_bar_sale h3 {
   font-family: "Poppins";
@@ -125,6 +126,7 @@
   font-weight: 400;
   color: white;
   float: left;
+  cursor: pointer;
 }
 .analytics_filter .monthly-button {
   outline: none;
@@ -208,15 +210,21 @@
   border-bottom: 0.5px solid #e4e4e4;
   padding: 10px;
 }
+.recent_table_content button {
+  outline: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
 .farm_dashboard_create_batch {
   width: 500px;
-  height: fit-content;
+  height: 100%;
   padding: 25px;
   background-color: white;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
 }
 .create_batch_title {
@@ -248,11 +256,13 @@
   color: white;
   font-size: 1.3em;
   font-weight: 600;
+  cursor: pointer;
 }
 .create_batch_input input {
   border: none;
   width: 50%;
   outline: none;
+  text-align: center;
 }
 
 .create_batch_input input:focus {
@@ -277,6 +287,11 @@
   color: white;
   font-size: 1.2em;
   font-weight: 500;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+.create_batch .create_batch_button:hover {
+  box-shadow: 0px 5px 6px rgba(255, 153, 0, 0.5);
 }
 .generated_batch_qrcode {
   width: 100%;
@@ -324,10 +339,16 @@
   font-weight: 500;
   margin-right: 10px;
   border-radius: 10px;
+  cursor: pointer;
+  transition: 0.5s ease;
 }
+.qr_print_buttons button:hover {
+  box-shadow: 0px 5px 6px rgba(255, 153, 0, 0.5);
+}
+
 @media screen and (min-width: 1440px) {
-  .farm_dashboard_container {
-    font-size: 25px;
+  .farm_dashboard {
+    font-size: 1.5em;
   }
   .farm_dashboard_head {
     height: 105px;
@@ -336,6 +357,16 @@
     height: calc(100% - 105px);
   }
   .farm_dashboard_create_batch {
-    width: 700px;
+    width: 600px;
+  }
+  .generated_batch_qrcode img {
+    max-width: 250px;
+  }
+  .create_batch_input button {
+    width: 55px;
+    height: 55px;
+  }
+  .farm_dashboard_create_batch {
+    min-height: 700px;
   }
 }
