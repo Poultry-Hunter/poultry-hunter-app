@@ -326,7 +326,7 @@
   border-radius: 10px;
 }
 @media screen and (min-width: 1440px) {
-  body {
+  .farm_dashboard_container {
     font-size: 25px;
   }
   .farm_dashboard_head {
@@ -335,7 +335,7 @@
   .farm_dashbord_main {
     height: calc(100% - 105px);
   }
-  .farm_dashboard_create_batch{
+  .farm_dashboard_create_batch {
     width: 700px;
   }
 }
