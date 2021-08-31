@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./farmdashboard.css";
 import logo from "../../assets/images/logo/logo.svg";
 import a4Paper from "../../assets/images/icons/a4-paper.svg";
@@ -9,7 +9,13 @@ import FilterIcon from "../../assets/images/icons/filter.svg";
 import SalesIcon from "../../assets/images/icons/salesIcon.svg";
 import bargraph from "../../assets/images/vector-art/graph.svg";
 import { Icon } from "@iconify/react";
+import { QRCode } from "react-qrcode-logo";
+
 export const FarmDashboard = () => {
+  const [BatchSize, setBatchSize] = useState(0);
+  const [CreateQr, setCreateQr] = useState(false);
+  const [ShowQrPreview, setShowQrPreview] = useState(false);
+  const [QRdata, setQRdata] = useState({});
   return (
     <div className="farm_dashboard_container">
       <div className="farm_dashboard_sidebar">
@@ -97,24 +103,33 @@ export const FarmDashboard = () => {
                       <th>232</th>
                       <th>20</th>
                       <th>
-                        <Icon
-                          icon="heroicons-outline:qrcode"
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                            color: "#FF9900",
+                        <button
+                          onClick={() => {
+                            setQRdata({ batch_size: 20 });
+                            setShowQrPreview(true);
                           }}
-                        />
+                        >
+                          <Icon
+                            icon="heroicons-outline:qrcode"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              color: "#FF9900",
+                            }}
+                          />
+                        </button>
                       </th>
                       <th>
-                        <Icon
-                          icon="ant-design:delete-outlined"
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                            color: "red",
-                          }}
-                        />
+                        <button>
+                          <Icon
+                            icon="ant-design:delete-outlined"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              color: "red",
+                            }}
+                          />
+                        </button>
                       </th>
                     </tr>
                   );
@@ -128,16 +143,38 @@ export const FarmDashboard = () => {
             </div>
             <div className="create_batch">
               <div className="create_batch_input">
-                <button>-</button>
-                <input type="text" placeholder="No. of chickens" />
-                <button>+</button>
+                <button onClick={() => setBatchSize(BatchSize - 1)}>-</button>
+                <input
+                  type="text"
+                  placeholder="No. of chickens"
+                  value={BatchSize}
+                />
+                <button onClick={() => setBatchSize(BatchSize + 1)}>+</button>
               </div>
-              <button className="create_batch_button">Create</button>
+              <button
+                className="create_batch_button"
+                onClick={() => {
+                  setQRdata({ batch_size: BatchSize });
+                  setCreateQr(true);
+                }}
+              >
+                Create
+              </button>
             </div>
 
             <div className="generated_batch_qrcode">
               <h3>QR Code Preview</h3>
-              <img src={qrnopreview} alt="" />
+              {CreateQr || ShowQrPreview ? (
+                <QRCode
+                  value={JSON.stringify(QRdata)}
+                  logoImage={logo}
+                  logoWidth={40}
+                  logoHeight={40}
+                  eyeRadius={5} 
+                />
+              ) : (
+                <img src={qrnopreview} />
+              )}
             </div>
             <div className="qr_print_section">
               <h3>Print</h3>
