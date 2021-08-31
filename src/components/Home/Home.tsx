@@ -85,21 +85,21 @@ const Home = () => {
         <div className="home-page-bottom-tracker--card">
           <h3>Affected Farmers</h3>
           <div className="bottom-tracker--card-count">
-            <h1>5</h1>
+            <h1>50+</h1>
             <img src={farmer} />
           </div>
         </div>
         <div className="home-page-bottom-tracker--card">
           <h3>Affected Distributors</h3>
           <div className="bottom-tracker--card-count">
-            <h1>5</h1>
+            <h1>20+</h1>
             <img src={distributor} />
           </div>
         </div>
         <div className="home-page-bottom-tracker--card">
           <h3>Affected Sellers</h3>
           <div className="bottom-tracker--card-count">
-            <h1>5</h1>
+            <h1>70+</h1>
             <img src={seller} />
           </div>
         </div>
