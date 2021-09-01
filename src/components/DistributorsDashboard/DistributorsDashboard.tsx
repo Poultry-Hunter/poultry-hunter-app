@@ -9,6 +9,7 @@ import FilterIcon from "../../assets/images/icons/filter.svg";
 import { Icon } from "@iconify/react";
 import close from "../../assets/images/icons/close.svg";
 import phLogoBrownBroder from "../../assets/images/logo/phLogoBrownBorder.svg";
+import { MyResponsiveBar } from "../Chart";
 
 export const DDTable = () => {
   return (
@@ -79,7 +80,9 @@ export const DDTable = () => {
 const Dashboard = () => {
   return (
     <main>
-      <div className="dd-main-barchart"></div>
+      <div className="dd-main-barchart">
+        <MyResponsiveBar />
+      </div>
       <div className="dd-main-counter">
         <div className="dd-main-counter-item">
           <h1>3590</h1>
