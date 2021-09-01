@@ -240,6 +240,7 @@
     justify-content: space-evenly;
     grid-gap: 50px;
     padding: 20px;
+    text-align: center;
   }
 
   .dd-inventory-data h1 {
