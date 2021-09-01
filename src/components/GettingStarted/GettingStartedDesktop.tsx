@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Map } from "mapbox-gl";
 
-import "./GettingStarted.css";
+import "./GettingStartedDesktop.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 // Icons and Vectors.
@@ -10,7 +10,7 @@ import close from "../../assets/images/icons/close.svg";
 
 import { TestMap } from "../mapbox";
 
-const GettingStarted = () => {
+const GettingStartedDesktop = () => {
   const submit = () => {};
   const [fromToggle, setFromToggle] = useState(false);
   const [moveWrapper, setMoveWrapper] = useState(
@@ -29,15 +29,15 @@ const GettingStarted = () => {
   };
 
   useEffect(() => {
-    setMap(TestMap("getting-started-form-map"));
+    setMap(TestMap("getting-started-desktop-form-map"));
   }, []);
 
   return (
     <>
-      <div className="GettingStarted container">
+      <div className="GettingStartedDesktop container">
         <img src={starman} />
-        <div style={{ transform: moveWrapper }} className="animation-wrapper">
-          <div className="getting-started--button-container">
+        <div style={{ transform: moveWrapper }} className="animation-wrapper-desktop">
+          <div className="getting-started-desktop--button-container">
             <h2>Manage Your Farm With Us</h2>
             <p>
               Build a Responsive Supply Chain. Improve collaboration between
@@ -46,16 +46,16 @@ const GettingStarted = () => {
             <button onClick={handleFormToggle}>Getting Started</button>
           </div>
           <div
-            className="getting-started-form-container"
-            id="getting-started-form"
+            className="getting-started-desktop-form-container"
+            id="getting-started-desktop-form"
           >
-            <div className="getting-started-form-container-heading">
+            <div className="getting-started-desktop-form-container-heading">
               <h2>Account Details</h2>
               <img src={close} onClick={handleFormToggle} />
             </div>
-            <div className="form-wrapper">
-              <form onSubmit={submit} className="getting-started-form">
-                <div className="gs-form-input">
+            <div className="form-wrapper-desktop">
+              <form onSubmit={submit} className="getting-started-desktop-form">
+                <div className="gs-form-input-desktop">
                   <label>
                     Farm Name <span>*</span>
                   </label>
@@ -65,21 +65,21 @@ const GettingStarted = () => {
                     required
                   />
                 </div>
-                <div className="gs-form-input">
+                <div className="gs-form-input-desktop">
                   <label>
                     Owner Name <span>*</span>{" "}
                   </label>
                   <input type="text" placeholder="Anatoly Yakovenko" required />
                 </div>
-                <div className="gs-form-input">
+                <div className="gs-form-input-desktop">
                   <label>
                     Contact Number <span>*</span>
                   </label>
                   <input type="number" placeholder="9774835592" required />
                 </div>
                 <div
-                  className="getting-started-form-map"
-                  id="getting-started-form-map"
+                  className="getting-started-desktop-form-map"
+                  id="getting-started-desktop-form-map"
                 ></div>
                 <button>Create Account</button>
               </form>
@@ -91,4 +91,4 @@ const GettingStarted = () => {
   );
 };
 
-export default GettingStarted;
+export default GettingStartedDesktop;
