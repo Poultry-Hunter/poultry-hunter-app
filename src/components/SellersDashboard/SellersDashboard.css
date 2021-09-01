@@ -1,0 +1,38 @@
+.seller-dash {
+  display: none;
+}
+
+@media only screen and (max-width: 500px) {
+  .seller-dash {
+    display: block;
+  }
+  .seller-dash header {
+    display: grid;
+    grid-template-rows: auto auto;
+    max-height: 115px;
+    padding-bottom: 10px;
+    overflow: hidden;
+	z-index: 2;
+	position: sticky;
+	top: 0;
+	background-color: #f7f2ed;
+  }
+
+  .s-header-name {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 15px;
+  }
+
+  .seller-dash header span {
+    font-weight: 400;
+  }
+
+  .seller-dash  header img {
+    width: 30px;
+  }
+
+  .seller-dash-main {
+    padding: 10px;
+  }
+}
