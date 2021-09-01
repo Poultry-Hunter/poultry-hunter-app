@@ -10,7 +10,6 @@ A blockchain-based farm to butcher tracker that rapidly traces bird flu
 - [Getting Started](#Getting-Started)
 - [Live Demo](#Live-Demo)
 - [Built With](#Built-With)
-- [Contract Releases](#Contract-Releases)
 - [Contributors](#Contributors)
 - [License](#License)
 
