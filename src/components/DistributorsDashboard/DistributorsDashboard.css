@@ -217,6 +217,7 @@
   .dd-inventory-main-comp main {
     display: grid;
     grid-template-rows: auto 1fr;
+    grid-gap: 10px;
   }
 
   .dd-inventory-summary {
@@ -240,6 +241,7 @@
     justify-content: space-evenly;
     grid-gap: 50px;
     padding: 20px;
+    text-align: center;
   }
 
   .dd-inventory-data h1 {
