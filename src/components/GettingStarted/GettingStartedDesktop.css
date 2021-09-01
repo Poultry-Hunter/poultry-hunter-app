@@ -1,0 +1,131 @@
+.GettingStarted {
+  position: relative;
+}
+
+.GettingStarted img {
+  display: none;
+}
+
+.GettingStarted {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.GettingStarted img {
+  display: block;
+  width: 350px;
+  max-width: 380px;
+  margin-top: 10px;
+  position: absolute;
+}
+.getting-started--button-container {
+  background-color: white;
+  height: 277px;
+  width: 100vw;
+  border-radius: 30px 30px 0px 0px;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
+  padding: 30px 30px 10px 30px;
+  text-align: center;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  transition: 600ms;
+  overflow: hidden;
+}
+
+.animation-wrapper {
+  height: fit-content;
+  position: absolute;
+  transition: 600ms;
+  transform: translateY(calc(100vh - 297px));
+  animation: 0ms cubic-bezier(0.4, 0, 1, 1) 0.5s;
+  overflow: hidden;
+  background-color: transparent;
+  padding: 20px 0px;
+}
+
+.getting-started--button-container h2 {
+  font-size: 6vw;
+}
+
+.getting-started--button-container p {
+  text-align: start;
+  font-weight: 550;
+  font-size: 3.8vw;
+  padding: 0px 10px;
+}
+
+.getting-started--button-container button,
+.getting-started-form button {
+  padding: 15px;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: none;
+  background-color: #ff9100;
+  color: white;
+  box-shadow: 0px 5px 8px rgba(196, 182, 162, 0.34);
+}
+
+.getting-started-form-container {
+  background-color: white;
+  height: fit-content;
+  width: 100vw;
+  transition: 600ms;
+  z-index: 10;
+  animation: 0ms cubic-bezier(0.4, 0, 1, 1) 0.5s;
+  overflow: hidden;
+  padding: 0px 20px;
+  color: #252525;
+  padding-top: 10px;
+}
+.getting-started-form-container-heading {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.getting-started-form-container-heading img {
+  width: 40px;
+  position: static;
+  margin-top: 0px;
+}
+
+.getting-started-form {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 270px 60px 1fr;
+  grid-gap: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.getting-started-form span {
+  color: red;
+}
+
+.gs-form-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.gs-form-input input {
+  height: 50px;
+  margin-top: 10px;
+  border: none;
+  background-color: #efefef;
+  border-radius: 10px;
+}
+
+.gs-form-input input::placeholder {
+  padding: 0px 10px;
+}
+.getting-started-form-map {
+  margin-top: 10px;
+}
+.form-wrapper {
+  height: 100vh;
+  overflow: auto;
+}
