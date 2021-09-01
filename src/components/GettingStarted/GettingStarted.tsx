@@ -43,7 +43,7 @@ const GettingStarted = () => {
               Build a Responsive Supply Chain. Improve collaboration between
               destributors and sellers, and help save lives together.
             </p>
-            <button onClick={handleFormToggle}>Getting Started</button>
+            <button onClick={handleFormToggle} className="getting-started-desktop-form-button">Getting Started</button>
           </div>
           <div
             className="getting-started-form-container"
@@ -81,7 +81,9 @@ const GettingStarted = () => {
                   className="getting-started-form-map"
                   id="getting-started-form-map"
                 ></div>
-                <button>Create Account</button>
+                <button className="getting-started-desktop-form-button">
+                  Create Account
+                </button>
               </form>
             </div>
           </div>
