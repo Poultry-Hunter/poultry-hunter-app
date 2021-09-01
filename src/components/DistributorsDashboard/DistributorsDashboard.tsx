@@ -9,7 +9,7 @@ import FilterIcon from "../../assets/images/icons/filter.svg";
 import { Icon } from "@iconify/react";
 import close from "../../assets/images/icons/close.svg";
 import phLogoBrownBroder from "../../assets/images/logo/phLogoBrownBorder.svg";
-import { MyResponsiveBar } from "../Chart";
+import { MyResponsiveBar, MyResponsivePie } from "../Chart";
 
 export const DDTable = () => {
   return (
