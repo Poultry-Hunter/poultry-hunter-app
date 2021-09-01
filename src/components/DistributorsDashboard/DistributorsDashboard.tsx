@@ -10,7 +10,7 @@ import { Icon } from "@iconify/react";
 import close from "../../assets/images/icons/close.svg";
 import phLogoBrownBroder from "../../assets/images/logo/phLogoBrownBorder.svg";
 
-const DDTable = () => {
+export const DDTable = () => {
   return (
     <div className="dd-main-table">
       <div className="dd_analytics_history">
@@ -130,11 +130,11 @@ const DistributorsDashboard = () => {
   const [topNav, setTopNav] = useState<string>("grid");
 
   const handleQRToggle = (close = "any") => {
-    setQrToggle(!qrToggle);
-
     if (close == "close") {
       setQrAnimation("qr-dont-show 400ms ease-in-out");
+      setQrToggle(false);
     } else {
+      setQrToggle(!qrToggle);
       if (!qrToggle) {
         setQrAnimation("qr-show 400ms ease-in-out");
         setBatchDataAnimation("translateY(0px)");
