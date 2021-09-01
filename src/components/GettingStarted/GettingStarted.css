@@ -47,18 +47,18 @@
   }
 
   .getting-started--button-container h2 {
-    font-size: 6vw;
+    font-size: 1.6em;
+    font-weight: 500;
   }
 
   .getting-started--button-container p {
     text-align: start;
-    font-weight: 550;
-    font-size: 3.8vw;
+    font-weight: 400;
+    font-size: 0.9em;
     padding: 0px 10px;
   }
 
-  .getting-started--button-container button,
-  .getting-started-form button {
+  .getting-started-desktop-form-button {
     padding: 15px;
     width: 100%;
     border-radius: 10px;
@@ -160,8 +160,7 @@
     padding: 20px 0px;
   }
 
-  .getting-started--button-container button,
-  .getting-started-form button {
+  .getting-started-desktop-form-button {
     padding: 10px;
     font-size: 1.2rem;
     border-radius: 10px;
@@ -173,7 +172,7 @@
   .getting-started-form {
     grid-template-rows: 1fr 1fr 1fr 300px 50px 1fr;
   }
-  .getting-started-form button {
+  .getting-started-desktop-form-button {
     padding: 15px;
   }
 }
