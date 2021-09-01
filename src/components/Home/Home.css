@@ -424,7 +424,7 @@
 
   .home-page-bottom-tracker {
     min-width: unset;
-    grid-template-columns: 240px 240px 240px;
+    grid-template-columns: 220px 220px 220px;
     width: auto;
     bottom: 20px;
   }

@@ -70,7 +70,7 @@ const Home = () => {
                 <img src={farmer} />
               </div>
               <div className="navbar-dropdown-navigation-button">
-                <Link to="/distributor-dashboard">Distributor</Link>
+                <Link to="/distributors-dashboard">Distributor</Link>
                 <img src={distributor} />
               </div>
               <div className="navbar-dropdown-navigation-button">
