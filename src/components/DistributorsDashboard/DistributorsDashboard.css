@@ -13,6 +13,7 @@
     grid-template-rows: auto auto;
     max-height: 115px;
     padding-bottom: 10px;
+    overflow: hidden;
   }
 
   .dd-header-name {
@@ -51,7 +52,7 @@
 
   .dd_analytics_history {
     background-color: white;
-    padding: 15px;
+    padding: 20px;
     border-radius: 20px;
   }
 
@@ -120,8 +121,8 @@
     font-size: 0.9rem;
   }
 
-  .dd-qr-code-scanner {
-    position: absolute;
+  .dd-qr-code-scanner-comp {
+    position: fixed;
     transition: 400ms ease-in-out;
     width: 100vw;
     height: 100vh;
@@ -134,7 +135,62 @@
     margin: auto;
     /* animation: qr-show 1s ease-out; */
     /* animation: qr-dont-show 1s ease-out; */
-   animation-fill-mode: forwards !important;
+    animation-fill-mode: forwards !important;
+    padding: 30px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .dd-qr-code-reader {
+    margin-top: 20px;
+  }
+
+  .dd-scan-results {
+    display: grid;
+    grid-template-rows: 40px 120px auto 60px;
+    margin-top: 20px;
+    width: 100vw;
+    height: 400px;
+    z-index: 11;
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+    padding: 20px;
+    border-radius: 30px 30px 0px 0px;
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    transition: 600ms ease-in-out;
+  }
+
+  #dd-close {
+    width: 40px;
+  }
+
+  #dd-logo {
+    width: 100px;
+    margin: auto;
+  }
+
+  .dd-scan-results-data {
+    margin: auto;
+  }
+
+  .dd-scan-results button {
+    padding: 0px;
+    width: 80%;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: none;
+    background-color: #ff9100;
+    color: white;
+    box-shadow: 0px 5px 8px rgba(196, 182, 162, 0.34);
+    margin: 0 auto;
   }
 
   @keyframes qr-show {
@@ -158,9 +214,40 @@
       opacity: 0;
     }
   }
+  .dd-inventory-main-comp main {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .dd-inventory-summary {
+    background-color: #ff9900;
+    padding: 20px;
+    color: white;
+    border-radius: 30px;
+    box-shadow: 0px 5px 8px rgba(196, 182, 162, 0.34);
+  }
+  .dd-inventory-summary h1 {
+    font-size: 1.5rem;
+  }
 
   .dd-main-counter-item h1 {
     color: #ff9900;
+  }
+
+  .dd-inventory-data {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-evenly;
+    grid-gap: 50px;
+    padding: 20px;
+  }
+
+  .dd-inventory-data h1 {
+    font-size: 3rem;
+  }
+
+  .dd-inventory-data p {
+    font-size: 1.2rem;
   }
 
   .distributors-dash-bottom-panel-wrapper {
@@ -220,6 +307,9 @@
 }
 
 @media only screen and (max-width: 320px) {
+  .dd-qr-code-scanner-comp {
+    font-size: 0.8rem;
+  }
 }
 
 @media only screen and (max-width: 375px) {

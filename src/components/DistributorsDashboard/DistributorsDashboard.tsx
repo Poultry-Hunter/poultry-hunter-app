@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import QrReader from "react-qr-reader";
 
 import "./DistributorsDashboard.css";
 
@@ -6,25 +7,160 @@ import "./DistributorsDashboard.css";
 import cart from "../../assets/images/icons/cart.svg";
 import FilterIcon from "../../assets/images/icons/filter.svg";
 import { Icon } from "@iconify/react";
+import close from "../../assets/images/icons/close.svg";
+import phLogoBrownBroder from "../../assets/images/logo/phLogoBrownBorder.svg";
+
+const DDTable = () => {
+  return (
+    <div className="dd-main-table">
+      <div className="dd_analytics_history">
+        <div className="dd_analytics_history_head">
+          <h3>Recent</h3>
+          <img
+            src={FilterIcon}
+            alt=""
+            style={{ width: "25px", fill: "#909090" }}
+          />
+        </div>
+        <table className="dd_recent_table">
+          <tr className="recent_table_head" id="dd-recent_table_content">
+            <th>Date</th>
+            <th>Time</th>
+            <th>Batch ID</th>
+            <th>Batch size</th>
+            <th>Preview</th>
+            <th></th>
+          </tr>
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
+            return (
+              <tr className="recent_table_content" id="dd-recent_table_content">
+                <th>10/02/2021</th>
+                <th>11:10</th>
+                <th>232</th>
+                <th>20</th>
+                <th>
+                  <button
+                  // onClick={() => {
+                  //   setQRdata({ batch_size: 20 });
+                  //   setShowQrPreview(true);
+                  // }}
+                  >
+                    <Icon
+                      icon="heroicons-outline:qrcode"
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        color: "#FF9900",
+                      }}
+                    />
+                  </button>
+                </th>
+                <th>
+                  <button>
+                    <Icon
+                      icon="ant-design:delete-outlined"
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        color: "red",
+                      }}
+                    />
+                  </button>
+                </th>
+              </tr>
+            );
+          })}
+        </table>
+      </div>
+    </div>
+  );
+};
+
+const Dashboard = () => {
+  return (
+    <main>
+      <div className="dd-main-barchart"></div>
+      <div className="dd-main-counter">
+        <div className="dd-main-counter-item">
+          <h1>3590</h1>
+          <p>Total Batches Purchased</p>
+        </div>
+        <div className="dd-main-counter-item">
+          <h1>2542</h1>
+          <p>Total Batches Sold</p>
+        </div>
+      </div>
+      <DDTable />
+    </main>
+  );
+};
+
+const Inventory = () => {
+  return (
+    <div className="dd-inventory-main-comp">
+      <main>
+        <div className="dd-inventory-summary">
+          <h1>Inventory Summary</h1>
+          <div className="dd-inventory-data">
+            <div className="dd-inventory-data-item">
+              <h1>12</h1>
+              <p>Batches</p>
+            </div>
+            <div className="dd-inventory-data-item">
+              <h1>99</h1>
+              <p>Chickens</p>
+            </div>
+          </div>
+        </div>
+        <DDTable />
+      </main>
+    </div>
+  );
+};
 
 const DistributorsDashboard = () => {
   const [qrToggle, setQrToggle] = useState<boolean>(false);
   const [qrAnimation, setQrAnimation] = useState<string>(
     "qr-dont-show 400ms ease-in-out"
   );
+  const [batchDataAnimation, setBatchDataAnimation] =
+    useState<string>("translateY(400px)");
+  const [qrData, setQrData] = useState<any>();
+  const [navigation, setNavigation] = useState<string>("dashboard");
+  const [topNav, setTopNav] = useState<string>("grid");
 
-  const handleQRToggle = () => {
+  const handleQRToggle = (close = "any") => {
     setQrToggle(!qrToggle);
 
-    if (!qrToggle) {
-      setQrAnimation("qr-show 400ms ease-in-out");
-    } else {
+    if (close == "close") {
       setQrAnimation("qr-dont-show 400ms ease-in-out");
+    } else {
+      if (!qrToggle) {
+        setQrAnimation("qr-show 400ms ease-in-out");
+        setBatchDataAnimation("translateY(0px)");
+      } else {
+        setQrAnimation("qr-dont-show 400ms ease-in-out");
+      }
     }
+  };
+
+  const handleBatchDataToggle = () => {
+    setBatchDataAnimation("translateY(400px)");
+  };
+
+  const handleScan = (data: any) => {
+    if (data) {
+      setQrData(data);
+    }
+  };
+
+  const handleError = (err: Error) => {
+    console.error(err);
   };
 
   return (
     <div className="distributorsDashboard--main-container">
+      {/* Header */}
       <header>
         <div className="dd-header-name">
           <h3>
@@ -32,7 +168,7 @@ const DistributorsDashboard = () => {
           </h3>
           <img src={cart} />
         </div>
-        <div className="dd-header-navigation">
+        <div className="dd-header-navigation" style={{ display: topNav }}>
           <div className="dd-navigation-item" id="orange">
             <p>Weekly</p>
           </div>
@@ -41,89 +177,51 @@ const DistributorsDashboard = () => {
           </div>
         </div>
       </header>
-      <main>
-        <div className="dd-main-barchart"></div>
-        <div className="dd-main-counter">
-          <div className="dd-main-counter-item">
-            <h1>3590</h1>
-            <p>Total Batches Purchased</p>
-          </div>
-          <div className="dd-main-counter-item">
-            <h1>2542</h1>
-            <p>Total Batches Sold</p>
-          </div>
+      {/* Main Component */}
+      {navigation === "dashboard" ? <Dashboard /> : <Inventory />}
+      {/* Scanner Component */}
+      <div
+        className="dd-qr-code-scanner-comp"
+        style={{ animation: qrAnimation, animationFillMode: "forwards" }}
+      >
+        <div className="dd-qr-code-text">
+          <h3>Place the QR code inside the area </h3>
+          <p>Scanning will start automatically </p>
         </div>
-        <div className="dd-main-table">
-          <div className="dd_analytics_history">
-            <div className="dd_analytics_history_head">
-              <h3>Recent</h3>
-              <img
-                src={FilterIcon}
-                alt=""
-                style={{ width: "25px", fill: "#909090" }}
-              />
-            </div>
-            <table className="dd_recent_table">
-              <tr className="recent_table_head" id="dd-recent_table_content">
-                <th>Date</th>
-                <th>Time</th>
-                <th>Batch ID</th>
-                <th>Batch size</th>
-                <th>Preview</th>
-                <th></th>
-              </tr>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
-                return (
-                  <tr
-                    className="recent_table_content"
-                    id="dd-recent_table_content"
-                  >
-                    <th>10/02/2021</th>
-                    <th>11:10</th>
-                    <th>232</th>
-                    <th>20</th>
-                    <th>
-                      <button
-                      // onClick={() => {
-                      //   setQRdata({ batch_size: 20 });
-                      //   setShowQrPreview(true);
-                      // }}
-                      >
-                        <Icon
-                          icon="heroicons-outline:qrcode"
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                            color: "#FF9900",
-                          }}
-                        />
-                      </button>
-                    </th>
-                    <th>
-                      <button>
-                        <Icon
-                          icon="ant-design:delete-outlined"
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                            color: "red",
-                          }}
-                        />
-                      </button>
-                    </th>
-                  </tr>
-                );
-              })}
-            </table>
-          </div>
+        <div className="dd-qr-code-reader">
+          <QrReader
+            delay={300}
+            onError={handleError}
+            onScan={handleScan}
+            style={{ width: "100%" }}
+          />
         </div>
-      </main>
-      <div className="dd-qr-code-scanner" style={{animation: qrAnimation, animationFillMode: "forwards"}}>
-        <button className="close_batch">Sairaj</button>
       </div>
+      {/* Scan Results */}
+      <div
+        className="dd-scan-results"
+        style={{ transform: batchDataAnimation }}
+      >
+        <img src={close} id="dd-close" onClick={handleBatchDataToggle} />
+        <img src={phLogoBrownBroder} id="dd-logo" />
+        <div className="dd-scan-results-data">
+          <h1>Batch ID: 6289</h1>
+          <p>30 Chickens in the batch.</p>
+        </div>
+        <button>Add to Inventory</button>
+      </div>
+      {/* Bottom Nav */}
       <div className="distributors-dash-bottom-panel-wrapper">
         <div className="distributors-dash-bottom-panel">
-          <div className="distributors-dash-panel-icon" id="dash-icon">
+          <div
+            className="distributors-dash-panel-icon"
+            id="dash-icon"
+            onClick={() => {
+              setNavigation("dashboard"),
+                setTopNav("grid"),
+                handleQRToggle("close");
+            }}
+          >
             <svg
               width="42"
               height="42"
@@ -146,7 +244,11 @@ const DistributorsDashboard = () => {
             </svg>
             <p>Dashboard</p>
           </div>
-          <div className="distributors-dash-panel-icon" id="qr-icon" onClick={handleQRToggle}>
+          <div
+            className="distributors-dash-panel-icon"
+            id="qr-icon"
+            onClick={() => handleQRToggle()}
+          >
             <svg
               width="56"
               height="58"
@@ -167,7 +269,15 @@ const DistributorsDashboard = () => {
               />
             </svg>
           </div>
-          <div className="distributors-dash-panel-icon" id="inventory-icon">
+          <div
+            className="distributors-dash-panel-icon"
+            id="inventory-icon"
+            onClick={() => {
+              setNavigation("inventory"),
+                setTopNav("none"),
+                handleQRToggle("close");
+            }}
+          >
             <svg
               width="42"
               height="42"

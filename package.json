@@ -136,6 +136,7 @@
   "devDependencies": {
     "@iconify/react": "^3.0.1",
     "@types/mapbox-gl": "^2.4.0",
-    "@types/mz": "^2.7.4"
+    "@types/mz": "^2.7.4",
+    "@types/react-qr-reader": "^2.1.4"
   }
 }
