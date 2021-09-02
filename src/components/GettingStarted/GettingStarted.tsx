@@ -103,16 +103,24 @@ const GettingStarted = () => {
   const [comp, setComp] = useState<string>("desktop");
 
   useEffect(() => {
+    if (window.innerWidth <= 500) {
+      setComp("mobile");
+      console.log("less");
+    } else {
+      setComp("desktop");
+      console.log("more");
+    }
+
     window.addEventListener("resize", () => {
       if (window.innerWidth <= 500) {
         setComp("mobile");
-        console.log("less")
+        console.log("less");
       } else {
         setComp("desktop");
-        console.log("more")
+        console.log("more");
       }
     });
-    console.log("added event lstnere")
+    console.log("added event lstnere");
   }, []);
 
   if (comp == "desktop") {
