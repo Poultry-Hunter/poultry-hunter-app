@@ -584,6 +584,7 @@
   .farm_dashboard_analytics_history {
     font-size: 0.8em;
     margin-top: 10;
+    margin-bottom: 70px;
   }
   .create_batch_popup {
     height: 100vh;
