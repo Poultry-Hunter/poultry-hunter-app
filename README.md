@@ -1,6 +1,6 @@
 # Poultry Hunter 
 
-[![License](https://img.shields.io/github/issues/Poultry-Hunter/poultry-hunter-app)](https://github.com/Poultry-Hunter/poultry-hunter-app/blob/main/LICENSE) [![Issues](https://img.shields.io/github/issues/Poultry-Hunter/poultry-hunter-app)](https://github.com/Poultry-Hunter/poultry-hunter-app/issues) [![Website](https://img.shields.io/badge/View-Website-blue)](https://poultryhunter.netlify.app/)
+[![License](https://img.shields.io/github/license/Poultry-Hunter/poultry-hunter-app)](https://github.com/Poultry-Hunter/poultry-hunter-app/blob/main/LICENSE) [![Issues](https://img.shields.io/github/issues/Poultry-Hunter/poultry-hunter-app)](https://github.com/Poultry-Hunter/poultry-hunter-app/issues) [![Website](https://img.shields.io/badge/View-Website-blue)](https://poultryhunter.netlify.app/)
  
 A blockchain-based farm to butcher tracker that rapidly traces bird flu
 

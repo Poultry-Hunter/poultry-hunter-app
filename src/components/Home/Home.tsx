@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Map } from "mapbox-gl";
+import mapboxgl, { Map } from "mapbox-gl";
 import { TestMap } from "../mapbox";
 
 import "./Home.css";
@@ -31,9 +31,46 @@ const Home = () => {
       console.log("hiding");
     }
   };
+  const geojson = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        properties: {
+          iconSize: [60, 60],
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [73.792318, 15.583988],
+        },
+      },
+    ],
+  };
+  useEffect(() => {
+    const test = TestMap("home-page-map");
+
+    for (const marker of geojson.features) {
+      // Create a DOM element for each marker.
+      const el = document.createElement("img");
+      const width = marker.properties.iconSize[0];
+      const height = marker.properties.iconSize[1];
+      el.className = "marker";
+      el.src = directContact;
+      el.style.width = "50px";
+      el.style.height = "50px";
+      // Add markers to the map.
+      new mapboxgl.Marker(el)
+        .setLngLat([73.792318, 15.583988])
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
+        )
+        .addTo(test);
+    }
+  }, []);
 
   useEffect(() => {
-    setMap(TestMap("home-page-map"));
+    // setMap(TestMap("home-page-map"));
   }, []);
 
   return (
