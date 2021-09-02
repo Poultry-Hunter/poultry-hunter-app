@@ -95,6 +95,10 @@
     "workbox-routing": "^6.2.2",
     "workbox-strategies": "^6.2.2",
     "workbox-streams": "^6.2.2"
+  },  
+  "engines": {
+    "node": ">=14.17.6",
+    "npm": ">=6.14.15"
   },
   "scripts": {
     "start": "react-scripts start",
