@@ -42,8 +42,8 @@ Therefore, a decentralised system is required that tracks every point of Poultry
 #### Testing on a local server
 
 ```shell
-git clone https://github.com/Paper-House/PaperHouse.git
-cd client/
+git clone https://github.com/Poultry-Hunter/poultry-hunter-app.git
+cd poultry-hunter-app/
 npm install
 npm start
 ```
@@ -51,8 +51,8 @@ npm start
 #### *OR*
 
 ```shell
-git clone git clone https://github.com/Paper-House/PaperHouse.git
-cd client/
+git clone https://github.com/Poultry-Hunter/poultry-hunter-app.git
+cd poultry-hunter-app/
 yarn install
 yarn start
 ```
