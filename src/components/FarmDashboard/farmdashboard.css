@@ -6,8 +6,7 @@
 .farm_dashboard_sidebar {
   width: 100px;
   height: 100%;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-radius: 20px;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -28,7 +27,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-height: 150px;
+  height: 150px;
   margin-top: 50px;
 }
 .sidebar_navigrations svg {
@@ -36,13 +35,23 @@ height: 150px;
   width: 30px;
 }
 .sidebar_navigrations svg path {
-  fill: #404040;
+  fill: #9f9c96;
 }
+.sidebar_navigrations svg:hover {
+  fill: var(--primary-color);
+}
+.nav_active path {
+  fill: var(--primary-color) !important;
+}
+
 .sidebar_navigrations button {
   outline: none;
   border: none;
   background-color: transparent;
   cursor: pointer;
+}
+.sidebar_navigrations button:hover {
+  fill: black;
 }
 .farm_dashboard_head {
   display: flex;
@@ -85,6 +94,12 @@ height: 150px;
   width: 100%;
   display: flex;
 }
+.inventory_main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
 .farm_dashboard_anlaytics {
   padding: 10px;
   margin-top: 10px;
@@ -92,6 +107,7 @@ height: 150px;
   height: 100%;
   overflow: auto;
 }
+
 .farm_dashboard_analytics_info {
   display: flex;
   justify-content: space-between;
@@ -377,7 +393,80 @@ height: 150px;
 .qr_print_buttons button:hover {
   box-shadow: 0px 5px 6px rgba(255, 153, 0, 0.5);
 }
+.farm_navigation_create_button {
+  display: none;
+}
 
+/* inventory section */
+
+.farm_dashboard_inventory {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.farm_inventory_analysis_section {
+  overflow-y: auto;
+  padding: 20px;
+  width: 600px;
+  height: 100%;
+}
+.farm_inventory_summary h3 {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.farm_inventory_summary_info_blocks {
+  display: flex;
+}
+.farm_inventory_summary_batches,
+.farm_inventory_summary_chickens {
+  width: 50%;
+  height: fit-content;
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.farm_inventory_summary_chickens {
+  margin-left: 10px;
+}
+.farm_inventory_summary_batches h3,
+.farm_inventory_summary_chickens h3 {
+  font-size: 2em;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+.farm_inventory_summary_batches h4,
+.farm_inventory_summary_chickens h4 {
+  font-size: 1em;
+  font-weight: 300;
+}
+.farm_inventory_summary_batches svg,
+.farm_inventory_summary_chickens svg {
+  align-self: flex-start;
+}
+.farm_inventory_market_summary {
+  margin-top: 10px;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.farm_inventory_market_summary h3 {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.analytics_filter_mobile {
+  display: none;
+}
+.close_batch_popup {
+  display: none;
+}
 @media screen and (min-width: 1440px) {
   .farm_dashboard {
     font-size: 1.5em;
@@ -398,5 +487,191 @@ height: 150px;
   }
   .farm_dashboard_create_batch {
     min-height: 700px;
+  }
+}
+@media screen and (max-width: 425px) {
+  .farm_dashboard {
+    padding: 15px;
+  }
+  .farm_dashboard_create_batch {
+    display: none;
+  }
+  .marketplace-icon {
+    display: none;
+  }
+  .farm_dashbord_main {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .farm_dashboard_sidebar {
+    flex-direction: row;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    align-items: center;
+    height: 50px;
+    border-radius: 20px;
+    margin: auto;
+    margin-bottom: 20px;
+    background-color: transparent;
+  }
+  .farm_dashboard_sidebar img {
+    display: none;
+  }
+  .sidebar_navigrations {
+    width: 70%;
+    margin: 0 auto;
+    padding: 20px;
+    height: fit-content;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: white;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
+  }
+  .farm_dashboard_analytics_info {
+    flex-direction: column;
+  }
+  .farm_navigation_create_button {
+    margin-top: -30px;
+    display: block;
+    height: 60px;
+    width: 60px;
+    background-color: var(--primary-color) !important;
+    border-radius: 200px;
+    color: white;
+    font-size: 2.5em;
+    font-weight: 300;
+  }
+  .farm_dashboard_analytics_bar {
+    width: 100%;
+  }
+  .farm_dashboard_analytics_sales {
+    width: 100%;
+    flex-direction: row;
+    padding: 0px;
+  }
+  .total_sales_info,
+  .total_batches_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .analytics_total_batches {
+    margin-right: 10px;
+  }
+  .farm_dashboard_analytics_sales img {
+    display: none;
+  }
+  .analytics_filter {
+    display: none;
+  }
+  .analytics_filter_mobile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .analytics_filter_mobile button {
+    width: 50%;
+  }
+  .analytics_total_batches,
+  .analytics_total_sales {
+    width: 100%;
+  }
+  .farm_dashboard_analytics_history {
+    font-size: 0.8em;
+    margin-top: 10;
+  }
+  .create_batch_popup {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+  }
+  .create_batch_popup .farm_dashboard_create_batch {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    z-index: 10;
+  }
+  .create_batch_popup .farm_dashboard_create_batch .create_batch_title {
+    width: unset;
+  }
+  .create_batch_popup .farm_dashboard_create_batch .create_batch_title h3 {
+    font-size: 1.5em;
+  }
+  .close_batch_popup {
+    display: block;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    align-self: flex-start;
+  }
+  .close_batch_popup svg {
+    width: 40px;
+    height: 40px;
+  }
+  /* Inventory Section */
+  .farm_dashboard_inventory {
+    overflow: unset;
+  }
+  .farm_inventory_analysis_section {
+    padding: 0;
+    width: 100%;
+    height: fit-content;
+    overflow-y: unset;
+  }
+  .farm_inventory_summary h3 {
+    color: white;
+    font-size: 1.3em;
+  }
+  .farm_inventory_market_summary {
+    display: none;
+  }
+  .farm_inventory_summary {
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: var(--primary-color);
+  }
+  .farm_inventory_summary_info_blocks svg {
+    display: none;
+  }
+  .farm_inventory_summary_info_blocks h3 {
+    font-size: 3em;
+    font-weight: 800;
+    color: white;
+  }
+  .farm_inventory_summary_info_blocks h4 {
+    font-size: 1.2em;
+    color: white;
+    font-weight: 500;
+  }
+  .inventory_summary_data {
+    text-align: center;
+  }
+  .farm_inventory_summary_batches,
+  .farm_inventory_summary_chickens {
+    border-radius: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+  .farm_inventory_summary_batches {
+    border-right: 1px solid white;
+  }
+  .qr_print_buttons button {
+    font-size: 1.1em;
+  }
+  .generated_batch_qrcode h3 {
+    font-size: 1em;
+  }
+  .generated_batch_qrcode img {
+    max-width: 200px;
+  }
+  .inventory_main {
+    flex-direction: column;
   }
 }
