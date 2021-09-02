@@ -103,15 +103,21 @@ const Home = () => {
               style={{ transform: dropDownScaleValue }}
             >
               <div className="navbar-dropdown-navigation-button">
-                <Link to="/farmer-dashboard">Farmer</Link>
+                <a href="/farm-dashboard" target="_blank">
+                  Farmer
+                </a>
                 <img src={farmer} />
               </div>
               <div className="navbar-dropdown-navigation-button">
-                <Link to="/distributors-dashboard">Distributor</Link>
+                <a href="/distributors-dashboard" target="_blank">
+                  Distributor
+                </a>
                 <img src={distributor} />
               </div>
-              <div className="navbar-dropdown-navigation-button" >
-                <Link to="/seller-dashboard">Seller</Link>
+              <div className="navbar-dropdown-navigation-button">
+                <a href="/seller-dashboard" target="_blank">
+                  Seller
+                </a>
                 <img src={seller} />
               </div>
             </div>
