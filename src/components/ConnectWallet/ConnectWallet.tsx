@@ -6,6 +6,16 @@ import { WalletMultiButton } from "@solana/wallet-adapter-material-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useHistory } from "react-router";
 import { CheckFarmAccount } from "../../accounts/getaccount";
+import { CreateAccountAndInitialiseFarm } from "../../instructions";
+import {
+  Keypair,
+  Connection,
+  PublicKey,
+  SystemProgram,
+  TransactionInstruction,
+  Transaction,
+  sendAndConfirmTransaction,
+} from "@solana/web3.js";
 
 export default function ConnectWallet() {
   const { connected, publicKey, sendTransaction } = useWallet();
@@ -14,12 +24,26 @@ export default function ConnectWallet() {
   useEffect(() => {
     if (connected) {
       if (publicKey) {
-        CheckFarmAccount(publicKey, publicKey, connection).then((data) => {
-          if (data) {
-            history.push("/farm-dashboard");
-          }
-          history.push("/getting-started");
-        });
+        CreateAccountAndInitialiseFarm(
+          new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+          publicKey,
+          {
+            farm_name: "rhutik Farm",
+            owner_name: "rhutiik",
+            farm_address: "mpoood",
+            infected: 0,
+            refund_account: publicKey,
+            contact_number: "234343",
+          },
+          connection,
+          sendTransaction
+        ).then(() => console.log("Data_sent"));
+        // CheckFarmAccount(publicKey, publicKey, connection).then((data) => {
+        //   if (data) {
+        //     history.push("/farm-dashboard");
+        //   }
+        //   history.push("/getting-started");
+        // });
       }
     }
   }, [connected]);
