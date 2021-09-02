@@ -52,11 +52,11 @@ const Home = () => {
             <Link to="/marketplace">MarketPlace</Link>
             <Link to="/enroll">Enroll</Link>
           </div>
-          <div
-            className="hone-navbar-dash-dropdown-wrapper"
-            onClick={handleDropDownToggle}
-          >
-            <div className="home-navbar-dash-dropdown">
+          <div className="hone-navbar-dash-dropdown-wrapper">
+            <div
+              className="home-navbar-dash-dropdown"
+              onClick={handleDropDownToggle}
+            >
               <button>Dashboard</button>
               <img src={downArrow} />
             </div>
