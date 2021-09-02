@@ -1,41 +1,56 @@
 # Poultry Hunter 
 
 [![License](https://img.shields.io/github/license/Poultry-Hunter/poultry-hunter-app)](https://github.com/Poultry-Hunter/poultry-hunter-app/blob/main/LICENSE) [![Issues](https://img.shields.io/github/issues/Poultry-Hunter/poultry-hunter-app)](https://github.com/Poultry-Hunter/poultry-hunter-app/issues) [![Website](https://img.shields.io/badge/View-Website-blue)](https://poultryhunter.netlify.app/)
- 
-A blockchain-based farm to butcher tracker that rapidly traces bird flu
 
 ## Contents
 
-- [What is Poultry Hunter?](#What-is-Poultry-Hunter?)
+- [Description](#Description)
+- [Roadmap](#Roadmap)
 - [Getting Started](#Getting-Started)
 - [Live Demo](#Live-Demo)
 - [Built With](#Built-With)
 - [Contributors](#Contributors)
 - [License](#License)
 
-## What is Poultry Hunter?
 
-While the Poultry supply chain becomes more complex Rapid Tracking of bird diseases like birds flu becomes near to impossible, in most cases it takes months! And long tracking means a significant loss to the entire supply chain for a certain period, delay in containment, and above all increase in disease transmission both in humans and birds.
 
-A system is required which decentrally tracks every point of Chicken transaction with an intuitive rather technology minimal medium for one-click rapid bird disease tracing.
+## Description
 
-Introducing Poultry Hunter, a blockchain-based farm to butcher tracker that rapidly traces bird flu. In order to have a foolproof system, Poultry Hunter maximizes platform enrollment by providing a marketplace to Poultry farmers and cuts down on distributors' labor cost
+While the Poultry supply chain becomes more complex, the **Rapid Tracing of bird diseases** like bird flu becomes **near to impossible**, in most cases it takes <u>months</u>! And long tracing time leads to:
+
+1. **Significant loss** to the <u>entire supply chain</u>.
+2. **Delay** in <u>containment</u>.
+3. And above all **increase in disease transmission** both in humans and birds.
+
+Complexity in the food-related Supply chains also introduces <u>economic inefficiency</u> at every point of transactions, be it a poultry farmer or a distributor.
+
+
+Therefore, a decentralised system is required that tracks every point of Poultry transaction with an intuitive rather technology minimal medium that can trace bird disease as well as maximise efficiency in operations at every level, from Poultry farm to Chicken Butcher/seller.
+
+ Introducing **Poultry Hunter**, a **blockchain-based** farm to butcher/seller <u>chicken tracker</u> that **rapidly traces bird flu** while also providing a <u>platform</u> to **maximise operational efficiency**. 
+
+
+
+## Roadmap
+
+*Coming* *Soon*!
+
 
 
 ## Getting Started
 
-### <p align="center"> <b> Installing React dependencies and starting local server </b> </p>
+#### Testing on a local server
 
-```
+```shell
 git clone https://github.com/Paper-House/PaperHouse.git
 cd client/
 npm install
 npm start
 ```
 
-<p align="center">OR</p>
+#### *OR*
 
-```
+```shell
 git clone git clone https://github.com/Paper-House/PaperHouse.git
 cd client/
 yarn install
@@ -43,9 +58,12 @@ yarn start
 ```
 
 
+
 ## Live Demo
 
-Our Official Website: [PoultryHunter.netlify.app/](https://poultryhunter.netlify.app/).
+You can find a working demo at [PoultryHunter.netlify.app/](https://poultryhunter.netlify.app/).
+
+
 
 ## Built With
 
@@ -56,11 +74,14 @@ Our Official Website: [PoultryHunter.netlify.app/](https://poultryhunter.netlify
 - [Web3](https://solana-labs.github.io/solana-web3.js/) - web3. js is a collection of libraries which allow you to interact with a local or remote blockchain node.
 
 
+
 ## Contributors
 
 <a href="https://github.com/Poultry-Hunter/poultry-hunter-app/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Poultry-Hunter/poultry-hunter-app" />
 </a>
+
+
 
 ## License
 
