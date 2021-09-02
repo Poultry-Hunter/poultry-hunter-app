@@ -81,7 +81,7 @@ const Home = () => {
           <div className="home-navbar-logo">
             <img src={phLogoBrownBorder} />
             <h2>
-              Poultry <span id="orange">Hunter</span>
+              Poultry <span id="orange-text">Hunter</span>
             </h2>
           </div>
           <div className="home-navbar-navigations">
@@ -110,7 +110,7 @@ const Home = () => {
                 <Link to="/distributors-dashboard">Distributor</Link>
                 <img src={distributor} />
               </div>
-              <div className="navbar-dropdown-navigation-button">
+              <div className="navbar-dropdown-navigation-button" >
                 <Link to="/seller-dashboard">Seller</Link>
                 <img src={seller} />
               </div>
@@ -133,7 +133,7 @@ const Home = () => {
             <img src={distributor} />
           </div>
         </div>
-        <div className="home-page-bottom-tracker--card">
+        <div className="home-page-bottom-tracker--card" id="home-seller">
           <h3>Affected Sellers</h3>
           <div className="bottom-tracker--card-count">
             <h1>70+</h1>

@@ -130,6 +130,14 @@
     height: 100vh;
     overflow: auto;
   }
+
+  .mapboxgl-ctrl-top-right {
+    padding: 0 !important;
+  }
+
+  .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+    margin: 0 !important;
+  }
 }
 
 @media only screen and (max-width: 320px) {
