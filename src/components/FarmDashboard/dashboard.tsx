@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./farmdashboard.css";
 import logo from "../../assets/images/logo/logo.svg";
 import a4Paper from "../../assets/images/icons/a4-paper.svg";
@@ -16,9 +16,21 @@ import { Icon } from "@iconify/react";
 import { QRCode } from "react-qrcode-logo";
 import ReactToPrint from "react-to-print";
 import { MyResponsiveBar, MyResponsivePie } from "../Chart";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useHistory } from "react-router-dom";
+import {
+  WalletDisconnectButton,
+} from "@solana/wallet-adapter-material-ui";
 export const FarmDashboard = () => {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
+  const { connected } = useWallet();
+  const history = useHistory();
+  useEffect(() => {
+    if (!connected) {
+      history.push("/connect-wallet");
+    }
+  }, [connected]);
   return (
     <div className="farm_dashboard_container container">
       {newBatchPopup ? (
@@ -58,8 +70,10 @@ export const FarmDashboard = () => {
               hi, <span>Sanket ProFarm</span>
             </h4>
           </div>
-
-          <button className="farm_dashboard_wallet_button">Connected</button>
+          <WalletDisconnectButton className="farm_dashboard_wallet_button"/>
+          {/* <button className="farm_dashboard_wallet_button">
+            {connected ? "Connected" : ""}
+          </button> */}
         </div>
         <div className="farm_dashbord_main">
           {navButton ? <Dashboard /> : <Inventory />}

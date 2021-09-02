@@ -128,7 +128,9 @@ function MarkedAffected() {
                 />
               </svg>
 
-              <h3>Sanket ProSeller - Seller</h3>
+              <h3>
+                <span>Sanket ProSeller</span> - Seller
+              </h3>
               <h4>Contact Number : +91 73238 49388</h4>
             </div>
             <Icon
@@ -152,7 +154,9 @@ function MarkedAffected() {
                 />
               </svg>
 
-              <h3>Sanket ProSeller - Distributor</h3>
+              <h3>
+                <span>Sanket ProDistributor</span> - Distributor
+              </h3>
               <h4>Contact Number : +91 73238 49388</h4>
             </div>
             <Icon
@@ -176,7 +180,9 @@ function MarkedAffected() {
                 />
               </svg>
 
-              <h3>Sanket ProSeller - Farmer</h3>
+              <h3>
+                <span>Sanket ProFarmer</span> - Farmer
+              </h3>
               <h4>Contact Number : +91 73238 49388</h4>
             </div>
             <Icon

@@ -75,18 +75,18 @@
 }
 
 .farm_dashboard_wallet_button {
-  padding: 10px 20px;
+  padding: 10px 20px !important;
   height: fit-content;
-  background-color: var(--primary-color);
-  border-radius: 14px;
+  background-color: var(--primary-color) !important;
+  border-radius: 14px !important;
   outline: none;
-  color: white;
+  color: white !important;
   border: none;
-  font-family: "Poppins";
-  font-size: 0.9em;
-  font-weight: 400;
+  font-family: "Poppins" !important;
+  font-size: 0.9em !important;
+  font-weight: 400 !important;
   cursor: pointer;
-  box-shadow: 0px 5px 8px rgba(255, 153, 0, 0.34);
+  box-shadow: 0px 5px 8px rgba(255, 153, 0, 0.34) !important;
 }
 
 .farm_dashbord_main {
