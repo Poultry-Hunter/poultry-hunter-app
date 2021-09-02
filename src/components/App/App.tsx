@@ -22,6 +22,7 @@ import GettingStarted from "../GettingStarted/GettingStarted";
 import { FarmDashboard } from "../FarmDashboard";
 import DistributorsDashboard from "../DistributorsDashboard/DistributorsDashboard";
 import SellersDashboard from "../SellersDashboard/SellersDashboard";
+import { OfficerDashboard } from "../OfficerDashboard/Dashboard";
 export const App = (): JSX.Element => {
   const endpoint = useMemo(() => clusterApiUrl("devnet"), []);
 
@@ -44,8 +45,12 @@ export const App = (): JSX.Element => {
                 <Route path="/" exact component={Home} />
                 <Route path="/getting-started" component={GettingStarted} />
                 <Route path="/farm-dashboard" component={FarmDashboard} />
-                <Route path="/distributors-dashboard" component={DistributorsDashboard} />
+                <Route
+                  path="/distributors-dashboard"
+                  component={DistributorsDashboard}
+                />
                 <Route path="/sellers-dashboard" component={SellersDashboard} />
+                <Route path="/officer-dashboard" component={OfficerDashboard} />
               </Switch>
             </Router>
           </WalletDialogProvider>
