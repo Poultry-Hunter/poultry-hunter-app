@@ -95,7 +95,7 @@
     "workbox-routing": "^6.2.2",
     "workbox-strategies": "^6.2.2",
     "workbox-streams": "^6.2.2"
-  },  
+  },
   "engines": {
     "node": ">=14.17.6",
     "npm": ">=6.14.15"
@@ -108,23 +108,7 @@
     "clean:program-rust": "cargo clean --manifest-path=./program/Cargo.toml && rm -rf ./dist",
     "test:program-rust": "cargo test-bpf --manifest-path=./program/Cargo.toml",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "analyze": "source-map-explorer \"build/static/js/*.js\"",
-    "format": "prettier \"**/*.{css,html,js,jsx,json,less,md,scss,ts,tsx,yml}\" -c -w",
-    "icons": "pwa-asset-generator \"src/assets/images/icons/logo.svg\" \"public/static/images/icons\" -f -i \"public/index.html\" -m \"public/manifest.json\" -o false -t png -v \"static/images/icons\"",
-    "lint": "yarn lint:eslint && npm run lint:stylelint",
-    "lint:eslint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
-    "lint:stylelint": "stylelint \"**/*.{css,less,scss}\"",
-    "prebuild": "yarn format && npm run lint && npm run test:ci",
-    "serve": "serve build -s",
-    "serve:https": "serve build -s --ssl-cert \"config/ssl/cert.pem\" --ssl-key \"config/ssl/key.pem\"",
-    "setup": "yarn setup:husky && npm run setup:ssl",
-    "setup:husky": "husky install && husky add \".husky/pre-commit\" \"npx --no-install lint-staged\"",
-    "setup:ssl": "mkdirp \"config/ssl\" && mkcert -cert-file \"config/ssl/cert.pem\" -key-file \"config/ssl/key.pem\" localhost",
-    "test:ci": "cross-env CI=true yarn test --env=jsdom",
-    "test:coverage": "cross-env CI=true yarn test -- --coverage",
-    "test:debug": "react-scripts --inspect-brk test --no-cache --runInBand",
-    "test:watch": "yarn test --watch"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {},
   "browserslist": {
