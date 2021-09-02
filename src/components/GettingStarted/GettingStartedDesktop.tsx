@@ -36,7 +36,10 @@ const GettingStartedDesktop = () => {
     <>
       <div className="GettingStartedDesktop container">
         <img src={starman} />
-        <div style={{ transform: moveWrapper }} className="animation-wrapper-desktop">
+        <div
+          style={{ transform: moveWrapper }}
+          className="animation-wrapper-desktop"
+        >
           <div className="getting-started-desktop--button-container">
             <h2>Manage Your Farm With Us</h2>
             <p>

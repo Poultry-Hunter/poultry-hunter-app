@@ -12,10 +12,10 @@
     max-height: 115px;
     padding-bottom: 10px;
     overflow: hidden;
-	z-index: 2;
-	position: sticky;
-	top: 0;
-	background-color: #f7f2ed;
+    z-index: 2;
+    position: sticky;
+    top: 0;
+    background-color: #f7f2ed;
   }
 
   .s-header-name {
@@ -28,7 +28,7 @@
     font-weight: 400;
   }
 
-  .seller-dash  header img {
+  .seller-dash header img {
     width: 30px;
   }
 
@@ -36,6 +36,6 @@
     padding: 10px;
   }
   .dd_recent_table {
-	  width: 100%;
+    width: 100%;
   }
 }

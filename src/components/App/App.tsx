@@ -44,7 +44,10 @@ export const App = (): JSX.Element => {
                 <Route path="/" exact component={Home} />
                 <Route path="/getting-started" component={GettingStarted} />
                 <Route path="/farm-dashboard" component={FarmDashboard} />
-                <Route path="/distributors-dashboard" component={DistributorsDashboard} />
+                <Route
+                  path="/distributors-dashboard"
+                  component={DistributorsDashboard}
+                />
                 <Route path="/sellers-dashboard" component={SellersDashboard} />
               </Switch>
             </Router>
