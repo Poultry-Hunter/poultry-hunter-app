@@ -115,7 +115,7 @@ const Home = () => {
                 <img src={distributor} />
               </div>
               <div className="navbar-dropdown-navigation-button">
-                <a href="/seller-dashboard" target="_blank">
+                <a href="/sellers-dashboard" target="_blank">
                   Seller
                 </a>
                 <img src={seller} />
