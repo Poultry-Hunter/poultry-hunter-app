@@ -15,7 +15,7 @@ import { ReactComponent as ChickenIcon } from "../../assets/images/icons/Chicken
 import { Icon } from "@iconify/react";
 import { QRCode } from "react-qrcode-logo";
 import ReactToPrint from "react-to-print";
-import { MyResponsiveBar } from "../Chart";
+import { MyResponsiveBar, MyResponsivePie } from "../Chart";
 export const FarmDashboard = () => {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
@@ -312,6 +312,9 @@ export function Inventory() {
         </div>
         <div className="farm_inventory_market_summary">
           <h3>Market Summary</h3>
+          <div className="bar_graph" style={{ width: "100%", height: "200px" }}>
+            <MyResponsivePie />
+          </div>{" "}
         </div>
       </div>
       <div className="farm_dashboard_inventory">
