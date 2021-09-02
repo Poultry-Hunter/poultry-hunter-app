@@ -9,8 +9,9 @@ import starman from "../../assets/images/vector-art/starman.svg";
 import close from "../../assets/images/icons/close.svg";
 
 import { TestMap } from "../mapbox";
+import GettingStartedDesktop from "../GettingStartedDesktop/GettingStartedDesktop";
 
-const GettingStarted = () => {
+const GettingStartedMobile = () => {
   const submit = () => {};
   const [fromToggle, setFromToggle] = useState(false);
   const [moveWrapper, setMoveWrapper] = useState(
@@ -96,6 +97,29 @@ const GettingStarted = () => {
       </div>
     </>
   );
+};
+
+const GettingStarted = () => {
+  const [comp, setComp] = useState<string>("desktop");
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 500) {
+        setComp("mobile");
+        console.log("less")
+      } else {
+        setComp("desktop");
+        console.log("more")
+      }
+    });
+    console.log("added event lstnere")
+  }, []);
+
+  if (comp == "desktop") {
+    return <GettingStartedDesktop />;
+  } else {
+    return <GettingStartedMobile />;
+  }
 };
 
 export default GettingStarted;

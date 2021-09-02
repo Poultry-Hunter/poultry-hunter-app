@@ -1,0 +1,137 @@
+.getting-started-desktop-main {
+  display: flex;
+  overflow: hidden;
+}
+
+.getting-started-desktop-main-left {
+  width: 50%;
+  height: 100vh;
+}
+
+.getting-started-desktop-main-left img {
+  width: 60%;
+  min-width: 384px;
+}
+
+.getting-started-desktop-main-right {
+  width: 50%;
+  background-color: white;
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.getting-started--button-container--desktop {
+  width: 500px;
+}
+
+.getting-started--button-container--desktop h2 {
+  font-size: 2rem;
+}
+.getting-started--button-container--desktop p {
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.getting-started--button-container--desktop button {
+  padding: 20px 80px;
+  border: none;
+  background-color: #ff9900;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0px 5px 8px rgb(196 182 162 / 34%);
+  cursor: pointer;
+}
+
+.getting-started-form-container--desktop {
+  position: absolute;
+  height: 100vh;
+  width: 50%;
+  background-color: white;
+  padding: 100px 20px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  transition: 600ms ease;
+  /* animation: qr-show 1s ease-out; */
+  /* animation: qr-dont-show 1s ease-out; */
+  animation-fill-mode: forwards !important;
+  overflow-y: auto;
+}
+
+@keyframes show {
+  0% {
+    z-index: -1;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    z-index: 3;
+  }
+}
+
+@keyframes dont-show {
+  0% {
+    opacity: 1;
+    z-index: 3;
+  }
+  100% {
+    z-index: -1;
+    opacity: 0;
+  }
+}
+
+.getting-started-form-container-heading--desktop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+}
+.getting-started-form--desktop {
+  display: grid;
+  grid-template-rows: auto auto auto 400px auto 1fr;
+  grid-gap: 15px;
+  margin-top: 20px;
+}
+.gs-form-input--desktop {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 80%;
+  text-align: start;
+}
+.gs-form-input--desktop input {
+  padding: 15px;
+  border: none;
+  background-color: #efefef;
+  border-radius: 10px;
+}
+.getting-started-desktop-form-button--desktop {
+  width: 50%;
+  margin: 0 auto;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #ff9900;
+  cursor: pointer;
+}
+
+#getting-started-form-map--desktop {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.getting-started-form-map--desktop .mapboxgl-ctrl-top-right {
+  padding-top: 0px !important;
+  padding-right:0px;
+  top: 0;
+}

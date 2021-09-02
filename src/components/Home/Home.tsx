@@ -85,7 +85,7 @@ const Home = () => {
             </h2>
           </div>
           <div className="home-navbar-navigations">
-            <Link to="/home">Home</Link>
+            <Link to="/">Home</Link>
             <Link to="/marketplace">MarketPlace</Link>
             <Link to="/enroll">Enroll</Link>
           </div>
@@ -111,7 +111,7 @@ const Home = () => {
                 <img src={distributor} />
               </div>
               <div className="navbar-dropdown-navigation-button" >
-                <Link to="/seller-dashboard">Seller</Link>
+                <Link to="/sellers-dashboard">Seller</Link>
                 <img src={seller} />
               </div>
             </div>

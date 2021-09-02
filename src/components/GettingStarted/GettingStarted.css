@@ -1,13 +1,12 @@
 .GettingStarted {
   position: relative;
-}
-
-.GettingStarted img {
   display: none;
 }
 
+
 @media only screen and (max-width: 500px) {
   .GettingStarted {
+    display: block;
     height: 100vh;
     position: relative;
     overflow: hidden;
