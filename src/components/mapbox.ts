@@ -17,5 +17,6 @@ export function TestMap(container_id: string) {
       mapboxgl: mapBox,
     })
   );
+
   return mapBox;
 }

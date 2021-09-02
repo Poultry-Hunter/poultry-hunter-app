@@ -47,15 +47,15 @@
   }
 
   .getting-started--button-container h2 {
-    font-size: 1.6em;
+    font-size: 6vw;
     font-weight: 500;
   }
 
   .getting-started--button-container p {
     text-align: start;
     font-weight: 400;
-    font-size: 0.9em;
-    padding: 0px 10px;
+    font-size: 3.8vw;
+    padding: 0 5px;
   }
 
   .getting-started-desktop-form-button {
@@ -151,8 +151,15 @@
     grid-template-rows: auto auto auto;
   }
 
+  .getting-started--button-container h2 {
+    font-size: 5vw;
+    text-align: center
+  }
+
   .getting-started--button-container p {
     padding: 10px 0px;
+    font-size: 3.2vw;
+    text-align: center;
   }
 
   .animation-wrapper {
