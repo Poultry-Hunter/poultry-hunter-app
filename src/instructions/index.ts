@@ -6,6 +6,7 @@ import {
   TransactionInstruction,
   Transaction,
   sendAndConfirmTransaction,
+  LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
 import {
   BATCH_INPUT_LAYOUT,
@@ -43,6 +44,7 @@ export async function CreateAccountAndInitialiseFarm(
   connection: Connection,
   sendTransaction: any
 ) {
+  await connection.requestAirdrop(wallet_pubkey, LAMPORTS_PER_SOL);
   const farm_data = new FarmAccount(farmData);
   const input = borsh.serialize(SCHEMA, farm_data);
   const FARM_ACCOUNT_SIZE = input.length;
@@ -73,13 +75,13 @@ export async function CreateAccountAndInitialiseFarm(
         programId,
       })
     );
-    await sendTransaction(connection, transaction);
+    await sendTransaction(transaction, connection);
     const instruction = new TransactionInstruction({
       keys: [{ pubkey: farm_data_account, isSigner: false, isWritable: true }],
       programId,
       data: data,
     });
-    await sendTransaction(connection, new Transaction().add(instruction));
+    await sendTransaction(new Transaction().add(instruction), connection);
   }
 }
 
@@ -122,7 +124,7 @@ export async function CreateAccountAndInitialiseDistributor(
         programId,
       })
     );
-    await sendTransaction(connection, transaction);
+    await sendTransaction(transaction, connection);
     const instruction = new TransactionInstruction({
       keys: [
         { pubkey: distributor_data_account, isSigner: false, isWritable: true },
@@ -130,7 +132,7 @@ export async function CreateAccountAndInitialiseDistributor(
       programId,
       data: data,
     });
-    await sendTransaction(connection, new Transaction().add(instruction));
+    await sendTransaction(new Transaction().add(instruction), connection);
   }
 }
 
@@ -171,7 +173,7 @@ export async function CreateAccountAndInitialiseSeller(
         programId,
       })
     );
-    await sendTransaction(connection, transaction);
+    await sendTransaction(transaction, connection);
     const instruction = new TransactionInstruction({
       keys: [
         { pubkey: seller_data_account, isSigner: false, isWritable: true },
@@ -179,7 +181,7 @@ export async function CreateAccountAndInitialiseSeller(
       programId,
       data: data,
     });
-    await sendTransaction(connection, new Transaction().add(instruction));
+    await sendTransaction(new Transaction().add(instruction), connection);
   }
 }
 export async function CreateAccountAndInitialiseOfficer(
@@ -221,7 +223,7 @@ export async function CreateAccountAndInitialiseOfficer(
         programId,
       })
     );
-    await sendTransaction(connection, transaction);
+    await sendTransaction(transaction, connection);
     const instruction = new TransactionInstruction({
       keys: [
         { pubkey: officer_data_account, isSigner: false, isWritable: true },
@@ -229,7 +231,7 @@ export async function CreateAccountAndInitialiseOfficer(
       programId,
       data: data,
     });
-    await sendTransaction(connection, new Transaction().add(instruction));
+    await sendTransaction(new Transaction().add(instruction), connection);
   }
 }
 
@@ -271,7 +273,7 @@ export async function CreateAccountAndGenerateBatch(
         programId,
       })
     );
-    await sendTransaction(connection, transaction);
+    await sendTransaction(transaction, connection);
     const instruction = new TransactionInstruction({
       keys: [
         { pubkey: batch_data_account, isSigner: false, isWritable: true },
@@ -280,7 +282,7 @@ export async function CreateAccountAndGenerateBatch(
       programId,
       data: data,
     });
-    await sendTransaction(connection, new Transaction().add(instruction));
+    await sendTransaction(new Transaction().add(instruction), connection);
   }
 }
 export async function UpdateBatchDistributor(
@@ -302,7 +304,7 @@ export async function UpdateBatchDistributor(
     programId,
     data: data,
   });
-  await sendTransaction(connection, new Transaction().add(instruction));
+  await sendTransaction(new Transaction().add(instruction), connection);
 }
 export async function UpdateBatchSeller(
   programId: PublicKey,
@@ -323,7 +325,7 @@ export async function UpdateBatchSeller(
     programId,
     data: data,
   });
-  await sendTransaction(connection, new Transaction().add(instruction));
+  await sendTransaction(new Transaction().add(instruction), connection);
 }
 export async function SetAffectedChain(
   programId: PublicKey,
@@ -352,7 +354,7 @@ export async function SetAffectedChain(
     programId,
     data: data,
   });
-  await sendTransaction(connection, new Transaction().add(instruction));
+  await sendTransaction(new Transaction().add(instruction), connection);
 }
 export async function DeleteBatchAndRefund(
   programId: PublicKey,
@@ -375,5 +377,5 @@ export async function DeleteBatchAndRefund(
     programId,
     data: data,
   });
-  await sendTransaction(connection, new Transaction().add(instruction));
+  await sendTransaction(new Transaction().add(instruction), connection);
 }

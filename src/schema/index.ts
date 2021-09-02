@@ -9,7 +9,6 @@ import {
 export class FarmAccount {
   farm_name: string;
   owner_name: string;
-  owner_email: string;
   contact_number: string;
   farm_address: string;
   refund_account: Uint8Array;
@@ -18,7 +17,6 @@ export class FarmAccount {
   constructor(args: FarmAccountData) {
     this.farm_name = args.farm_name;
     this.owner_name = args.owner_name;
-    this.owner_email = args.owner_email;
     this.contact_number = args.contact_number;
     this.farm_address = args.farm_address;
     this.refund_account = args.refund_account.toBuffer();
@@ -29,7 +27,6 @@ export class FarmAccount {
 export class DistributorAccount {
   distribution_center: string;
   distributor_name: string;
-  distributor_email: string;
   center_address: string;
   contact_number: string;
   infected: Number;
@@ -37,7 +34,6 @@ export class DistributorAccount {
   constructor(args: DistributorAccountData) {
     this.distribution_center = args.distribution_center;
     this.distributor_name = args.distributor_name;
-    this.distributor_email = args.distributor_email;
     this.center_address = args.center_address;
     this.contact_number = args.contact_number;
     this.infected = args.infected;
@@ -46,7 +42,6 @@ export class DistributorAccount {
 export class SellerAccount {
   shop_name: string;
   owner_name: string;
-  owner_email: string;
   shop_address: string;
   contact_number: string;
   infected: Number;
@@ -54,7 +49,6 @@ export class SellerAccount {
   constructor(args: SellerAccountData) {
     this.shop_name = args.shop_name;
     this.owner_name = args.owner_name;
-    this.owner_email = args.owner_email;
     this.shop_address = args.shop_address;
     this.contact_number = args.contact_number;
     this.infected = args.infected;
@@ -64,13 +58,11 @@ export class SellerAccount {
 export class HealthOfficerAccount {
   officer_name: string;
   office_id: string;
-  officer_email: string;
   office_address: string;
   officer_contact: string;
   constructor(args: OfficerAccountData) {
     this.officer_name = args.officer_name;
     this.office_id = args.office_id;
-    this.officer_email = args.office_email;
     this.office_address = args.office_address;
     this.officer_contact = args.officer_contact;
   }
@@ -83,7 +75,6 @@ export const SCHEMA = new Map<any, any>([
       fields: [
         ["farm_name", "String"],
         ["owner_name", "String"],
-        ["owner_email", "String"],
         ["contact_number", "String"],
         ["farm_address", "String"],
         ["refund_account", [32]],
@@ -98,7 +89,6 @@ export const SCHEMA = new Map<any, any>([
       fields: [
         ["distribution_center", "String"],
         ["distributor_name", "String"],
-        ["distributor_email", "String"],
         ["center_address", "String"],
         ["contact_number", "String"],
         ["infected", "u32"],
@@ -112,7 +102,6 @@ export const SCHEMA = new Map<any, any>([
       fields: [
         ["shop_name", "String"],
         ["owner_name", "String"],
-        ["owner_email", "String"],
         ["shop_address", "String"],
         ["contact_number", "String"],
         ["infected", "u32"],
@@ -126,7 +115,6 @@ export const SCHEMA = new Map<any, any>([
       fields: [
         ["officer_name", "String"],
         ["office_id", "String"],
-        ["officer_email", "String"],
         ["office_address", "String"],
         ["officer_contact", "String"],
       ],
