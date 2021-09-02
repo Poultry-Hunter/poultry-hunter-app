@@ -16,26 +16,32 @@ import { Icon } from "@iconify/react";
 import { QRCode } from "react-qrcode-logo";
 import ReactToPrint from "react-to-print";
 import { MyResponsiveBar, MyResponsivePie } from "../Chart";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useHistory } from "react-router-dom";
-import {
-  WalletDisconnectButton,
-} from "@solana/wallet-adapter-material-ui";
+import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
+import { CreateAccountAndGenerateBatch } from "../../instructions";
+import { PublicKey } from "@solana/web3.js";
 export const FarmDashboard = () => {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
   const { connected } = useWallet();
+  const [QRdata, setQRdata] = useState({});
+
   const history = useHistory();
-  useEffect(() => {
-    if (!connected) {
-      history.push("/connect-wallet");
-    }
-  }, [connected]);
+  // useEffect(() => {
+  //   if (!connected) {
+  //     history.push("/connect-wallet");
+  //   }
+  // }, [connected]);
   return (
     <div className="farm_dashboard_container container">
       {newBatchPopup ? (
         <div className="create_batch_popup">
-          <CreateBatch setnewBatchPopup={() => setnewBatchPopup(false)} />
+          <CreateBatch
+            setnewBatchPopup={() => setnewBatchPopup(false)}
+            QRdata={QRdata}
+            setQRdata={setQRdata}
+          />
         </div>
       ) : null}
       <div className="farm_dashboard_sidebar">
@@ -70,22 +76,25 @@ export const FarmDashboard = () => {
               hi, <span>Sanket ProFarm</span>
             </h4>
           </div>
-          <WalletDisconnectButton className="farm_dashboard_wallet_button"/>
+          <WalletDisconnectButton className="farm_dashboard_wallet_button" />
           {/* <button className="farm_dashboard_wallet_button">
             {connected ? "Connected" : ""}
           </button> */}
         </div>
         <div className="farm_dashbord_main">
-          {navButton ? <Dashboard /> : <Inventory />}
+          {navButton ? (
+            <Dashboard QRdata={QRdata} setQRdata={setQRdata} />
+          ) : (
+            <Inventory />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-function Dashboard() {
+function Dashboard({ QRdata, setQRdata }: any) {
   const [ShowQrPreview, setShowQrPreview] = useState(false);
-  const [QRdata, setQRdata] = useState({});
   return (
     <>
       <div className="farm_dashboard_anlaytics">
@@ -217,6 +226,8 @@ function CreateBatch({
   const [BatchSize, setBatchSize] = useState(0);
   const [CreateQr, setCreateQr] = useState(false);
   const printComponent = useRef(null);
+  const { connected, publicKey, sendTransaction } = useWallet();
+  const { connection } = useConnection();
   const pageStyle = `
   @page {
     size: 100mm 100mm;
@@ -224,6 +235,32 @@ function CreateBatch({
   }
 
 `;
+  function GenerateNewBatch() {
+    const batch_input = {
+      batch_id: Math.floor(Math.random() * 4294967295 + 1),
+      batch_size: BatchSize,
+      timestamp: Date.now(),
+    };
+    if (publicKey && connected) {
+      CreateAccountAndGenerateBatch(
+        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        publicKey,
+        publicKey,
+        batch_input,
+        connection,
+        sendTransaction
+      ).then((Batch_pubkey) => {
+        console.log(Batch_pubkey);
+        setQRdata({
+          batch_id: batch_input.batch_id,
+          batch_size: batch_input.batch_size,
+          key: Batch_pubkey,
+          timestamp: batch_input.timestamp,
+        });
+        setCreateQr(true);
+      });
+    }
+  }
   return (
     <div className="farm_dashboard_create_batch">
       <button className="close_batch_popup" onClick={() => setnewBatchPopup()}>
@@ -241,8 +278,7 @@ function CreateBatch({
         <button
           className="create_batch_button"
           onClick={() => {
-            setQRdata({ batch_size: BatchSize });
-            setCreateQr(true);
+            GenerateNewBatch();
           }}
         >
           Create
@@ -253,7 +289,7 @@ function CreateBatch({
         <h3>QR Code Preview</h3>
         {CreateQr || ShowQrPreview ? (
           <div className="print-container" ref={printComponent}>
-            <h3>Batch ID: 200</h3>
+            <h3>Batch ID: {QRdata.batch_id}</h3>
             <QRCode
               value={JSON.stringify(QRdata)}
               logoImage={logo}

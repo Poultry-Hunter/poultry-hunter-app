@@ -243,7 +243,8 @@ export async function CreateAccountAndGenerateBatch(
   connection: Connection,
   sendTransaction: any
 ) {
-  const new_batch_data = BATCH_INPUT_LAYOUT.encode(batchData);
+  const new_batch_data = Buffer.alloc(BATCH_INPUT_LAYOUT.span);
+  BATCH_INPUT_LAYOUT.encode(batchData, new_batch_data);
   const BATCH_ACCOUNT_SIZE = BATCH_LAYOUT.span;
   const buffers = [
     Buffer.from(Int8Array.from([PoultryInstructions.GenerateBatch])),
@@ -284,6 +285,7 @@ export async function CreateAccountAndGenerateBatch(
     });
     await sendTransaction(new Transaction().add(instruction), connection);
   }
+  return batch_data_account.toString();
 }
 export async function UpdateBatchDistributor(
   programId: PublicKey,
