@@ -22,7 +22,9 @@ import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
 import { CreateAccountAndGenerateBatch } from "../../instructions";
 import { PublicKey } from "@solana/web3.js";
 import { GetBatchAccounts } from "../../utils/filters";
-import { GenerateFarmAccountPubkey } from "../../accounts/generateAccounts";
+import { checkFarmAcount } from "../../utils/checkAccount";
+import ConnectWallet from "../ConnectWallet/ConnectWallet";
+import GettingStarted from "../GettingStarted/GettingStarted";
 
 export const FarmDashboard = () => {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
@@ -31,80 +33,81 @@ export const FarmDashboard = () => {
   const [QRdata, setQRdata] = useState({});
   const { connection } = useConnection();
   const history = useHistory();
+  const [FarmData, setFarmData] = useState<any>();
   useEffect(() => {
-    if (publicKey) {
-      GenerateFarmAccountPubkey(
-        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-        publicKey
-      ).then((farm_pubkey) => {
-        GetBatchAccounts(
-          new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-          publicKey,
-          connection,
-          "farm_pubkey"
-        ).then((data) => console.log(data));
+    if (connected && publicKey) {
+      checkFarmAcount(publicKey, publicKey, connection).then((farm_pubkey) => {
+        setFarmData(farm_pubkey);
       });
     }
-  });
-  return (
-    <div className="farm_dashboard_container container">
-      {newBatchPopup ? (
-        <div className="create_batch_popup">
-          <CreateBatch
-            setnewBatchPopup={() => setnewBatchPopup(false)}
-            QRdata={QRdata}
-            setQRdata={setQRdata}
-          />
-        </div>
-      ) : null}
-      <div className="farm_dashboard_sidebar">
-        <img src={logo} alt="" />
-        <div className="sidebar_navigrations">
-          <button onClick={() => setNavButton(true)}>
-            <Icon
-              icon="ic:round-space-dashboard"
-              className={navButton ? "nav_active" : ""}
+  }, []);
+  return connected ? (
+    FarmData ? (
+      <div className="farm_dashboard_container container">
+        {newBatchPopup ? (
+          <div className="create_batch_popup">
+            <CreateBatch
+              setnewBatchPopup={() => setnewBatchPopup(false)}
+              QRdata={QRdata}
+              setQRdata={setQRdata}
             />
-          </button>
-          <button
-            className="farm_navigation_create_button"
-            onClick={() => setnewBatchPopup(true)}
-          >
-            +
-          </button>
-
-          <button onClick={() => setNavButton(false)}>
-            <InventoryIcon className={!navButton ? "nav_active" : ""} />
-          </button>
-          <button className="marketplace-icon">
-            <MarketPlaceIcon />
-          </button>
-        </div>
-      </div>
-      <div className="farm_dashboard">
-        <div className="farm_dashboard_head">
-          <div className="farm_dashboard_title">
-            <h3>{navButton ? " Dashboard" : "Inventory"}</h3>
-            <h4>
-              hi, <span>Sanket ProFarm</span>
-            </h4>
           </div>
-          <WalletDisconnectButton className="farm_dashboard_wallet_button" />
-          {/* <button className="farm_dashboard_wallet_button">
+        ) : null}
+        <div className="farm_dashboard_sidebar">
+          <img src={logo} alt="" />
+          <div className="sidebar_navigrations">
+            <button onClick={() => setNavButton(true)}>
+              <Icon
+                icon="ic:round-space-dashboard"
+                className={navButton ? "nav_active" : ""}
+              />
+            </button>
+            <button
+              className="farm_navigation_create_button"
+              onClick={() => setnewBatchPopup(true)}
+            >
+              +
+            </button>
+
+            <button onClick={() => setNavButton(false)}>
+              <InventoryIcon className={!navButton ? "nav_active" : ""} />
+            </button>
+            <button className="marketplace-icon">
+              <MarketPlaceIcon />
+            </button>
+          </div>
+        </div>
+        <div className="farm_dashboard">
+          <div className="farm_dashboard_head">
+            <div className="farm_dashboard_title">
+              <h3>{navButton ? " Dashboard" : "Inventory"}</h3>
+              <h4>
+                hi, <span>Sanket ProFarm</span>
+              </h4>
+            </div>
+            <WalletDisconnectButton className="farm_dashboard_wallet_button" />
+            {/* <button className="farm_dashboard_wallet_button">
             {connected ? "Connected" : ""}
           </button> */}
-        </div>
-        <div className="farm_dashbord_main">
-          {navButton ? (
-            <Dashboard QRdata={QRdata} setQRdata={setQRdata} />
-          ) : (
-            <Inventory />
-          )}
+          </div>
+          <div className="farm_dashbord_main">
+            {navButton ? (
+              <Dashboard QRdata={QRdata} setQRdata={setQRdata} />
+            ) : (
+              <Inventory />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    ) : (
+      <GettingStarted />
+    )
+  ) : (
+    <ConnectWallet />
   );
 };
+
+
 
 function Dashboard({ QRdata, setQRdata }: any) {
   const [ShowQrPreview, setShowQrPreview] = useState(false);
