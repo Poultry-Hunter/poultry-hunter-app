@@ -4,7 +4,7 @@ export type FarmAccountData = {
   owner_name: string;
   contact_number: string;
   farm_address: string;
-  refund_account: PublicKey;
+  refund_account: Uint8Array;
   infected: number;
 };
 export type DistributorAccountData = {

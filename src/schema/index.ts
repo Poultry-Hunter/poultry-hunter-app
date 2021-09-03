@@ -19,7 +19,7 @@ export class FarmAccount {
     this.owner_name = args.owner_name;
     this.contact_number = args.contact_number;
     this.farm_address = args.farm_address;
-    this.refund_account = args.refund_account.toBuffer();
+    this.refund_account = args.refund_account;
     this.infected = args.infected;
   }
 }
