@@ -21,18 +21,31 @@ import { useHistory } from "react-router-dom";
 import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
 import { CreateAccountAndGenerateBatch } from "../../instructions";
 import { PublicKey } from "@solana/web3.js";
+import { GetBatchAccounts } from "../../utils/filters";
+import { GenerateFarmAccountPubkey } from "../../accounts/generateAccounts";
+
 export const FarmDashboard = () => {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
-  const { connected } = useWallet();
+  const { connected, publicKey } = useWallet();
   const [QRdata, setQRdata] = useState({});
-
+  const { connection } = useConnection();
   const history = useHistory();
-  // useEffect(() => {
-  //   if (!connected) {
-  //     history.push("/connect-wallet");
-  //   }
-  // }, [connected]);
+  useEffect(() => {
+    if (publicKey) {
+      GenerateFarmAccountPubkey(
+        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        publicKey
+      ).then((farm_pubkey) => {
+        GetBatchAccounts(
+          new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+          publicKey,
+          connection,
+          "farm_pubkey"
+        ).then((data) => console.log(data));
+      });
+    }
+  });
   return (
     <div className="farm_dashboard_container container">
       {newBatchPopup ? (
@@ -235,6 +248,8 @@ function CreateBatch({
   }
 
 `;
+  useEffect(() => {}, [connected]);
+
   function GenerateNewBatch() {
     const batch_input = {
       batch_id: Math.floor(Math.random() * 4294967295 + 1),

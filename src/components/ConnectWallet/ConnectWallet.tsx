@@ -5,7 +5,6 @@ import logo from "../../assets/images/logo/logo.svg";
 import { WalletMultiButton } from "@solana/wallet-adapter-material-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useHistory } from "react-router";
-import { CheckFarmAccount } from "../../accounts/getaccount";
 import { CreateAccountAndInitialiseFarm } from "../../instructions";
 import {
   Keypair,
