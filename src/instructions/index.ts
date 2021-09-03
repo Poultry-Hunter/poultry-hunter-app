@@ -44,7 +44,6 @@ export async function CreateAccountAndInitialiseFarm(
   connection: Connection,
   sendTransaction: any
 ) {
-  await connection.requestAirdrop(wallet_pubkey, LAMPORTS_PER_SOL);
   const farm_data = new FarmAccount(farmData);
   const input = borsh.serialize(SCHEMA, farm_data);
   const FARM_ACCOUNT_SIZE = input.length;

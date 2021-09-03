@@ -17,3 +17,20 @@ export async function checkFarmAcount(
     return Pubkey;
   }
 }
+export async function checkOfficerAcount(
+  programId: PublicKey,
+  wallet: PublicKey,
+  connection: Connection
+) {
+  const Pubkey = await PublicKey.createWithSeed(
+    wallet,
+    "officeraccount",
+    programId
+  );
+  const account_info = await connection.getAccountInfo(Pubkey);
+  if (account_info === null) {
+    return false;
+  } else {
+    return Pubkey;
+  }
+}

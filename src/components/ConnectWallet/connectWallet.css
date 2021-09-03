@@ -17,6 +17,10 @@
   width: 150px;
   height: 150px;
 }
+.connect_wallet_left_svg svg{
+  width: 600px;
+  height: 600px;
+}
 .connect_wallet_main h3 {
   margin-top: 10px;
   font-size: 2em;
