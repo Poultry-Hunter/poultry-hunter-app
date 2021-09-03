@@ -12,7 +12,7 @@ export class FarmAccount {
   contact_number: string;
   farm_address: string;
   refund_account: Uint8Array;
-  infected: Number;
+  infected: number;
 
   constructor(args: FarmAccountData) {
     this.farm_name = args.farm_name;

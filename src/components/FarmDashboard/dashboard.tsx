@@ -33,15 +33,19 @@ import {
   setWallet,
 } from "../../redux/reducers/reducers";
 import { useHistory } from "react-router";
-
+import { FarmAccount } from "../../schema";
+type FarmDataType = {
+  farm_data: FarmAccount;
+  farm_account_pubkey: PublicKey;
+};
 export function FarmDashboard() {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
   const { connected, publicKey, sendTransaction } = useWallet();
   const [QRdata, setQRdata] = useState({});
   const { connection } = useConnection();
-  const [batchData, setBatchData] = useState();
-  const [FarmAccountData, setFarmAccountData] = useState<any>();
+  const [batchData, setBatchData] = useState([]);
+  const [FarmAccountData, setFarmAccountData] = useState<FarmDataType>();
   const history = useHistory();
   const dispatch = useDispatch();
   const farmAccount = useSelector(
@@ -58,12 +62,17 @@ export function FarmDashboard() {
         connection
       )
         .then((farm_data) => {
+          console.log(farm_data);
           if (!farm_data) {
             history.push("getting-started");
           } else {
-            // dispatch(setAccountData("test"));
-            setFarmAccountData(farm_data);
             console.log(farm_data);
+            setFarmAccountData({
+              farm_data: farm_data.farm_data,
+              farm_account_pubkey: farm_data.farm_account_pubkey,
+            });
+            //@ts-ignore
+            setBatchData(farm_data.farm_batches);
           }
         })
         .catch((err) => console.log(err));
@@ -78,6 +87,7 @@ export function FarmDashboard() {
             setnewBatchPopup={() => setnewBatchPopup(false)}
             QRdata={QRdata}
             setQRdata={setQRdata}
+            FarmAccountData={FarmAccountData}
           />
         </div>
       ) : null}
@@ -112,18 +122,22 @@ export function FarmDashboard() {
             <h4>
               hi,{" "}
               <span>
-                {FarmAccountData ? FarmAccountData.farm_name : "loading"}
+                {FarmAccountData
+                  ? FarmAccountData.farm_data.farm_name
+                  : "loading"}
               </span>
             </h4>
           </div>
           <WalletDisconnectButton className="farm_dashboard_wallet_button" />
-          {/* <button className="farm_dashboard_wallet_button">
-            {connected ? "Connected" : ""}
-          </button> */}
         </div>
         <div className="farm_dashbord_main">
           {navButton ? (
-            <Dashboard QRdata={QRdata} setQRdata={setQRdata} />
+            <Dashboard
+              QRdata={QRdata}
+              setQRdata={setQRdata}
+              FarmAccountData={FarmAccountData}
+              batchData={batchData}
+            />
           ) : (
             <Inventory />
           )}
@@ -135,8 +149,31 @@ export function FarmDashboard() {
   );
 }
 
-function Dashboard({ QRdata, setQRdata }: any) {
+function Dashboard({ QRdata, setQRdata, FarmAccountData, batchData }: any) {
   const [ShowQrPreview, setShowQrPreview] = useState(false);
+  const [TotalSale, setTotalSale] = useState<number>(0);
+  const [GeneratedBatches, setGeneratedBatches] = useState<number>(0);
+  const [totalChickens, settotalChickens] = useState<number>(0);
+  useEffect(() => {
+    let SoldBatches = 0;
+    let GeneratedBatches = 0;
+    let totalchicken = 0;
+    batchData.map(
+      //@ts-ignore
+      (batch) => {
+        if (batch.distributor_pubkey != PublicKey.default.toString()) {
+          SoldBatches++;
+          setTotalSale(SoldBatches);
+        } else {
+          GeneratedBatches++;
+          setGeneratedBatches(GeneratedBatches);
+        }
+        totalchicken += batch.batch_size;
+        settotalChickens(totalchicken);
+      }
+    );
+    setTotalSale(SoldBatches);
+  }, [batchData]);
   return (
     <>
       <div className="farm_dashboard_anlaytics">
@@ -155,7 +192,8 @@ function Dashboard({ QRdata, setQRdata }: any) {
             {/* <img src={bargraph} alt="" style={{ height: "60%" }} /> */}
             <div className="analytics_bar_sale">
               <h3>
-                137<h5>Chickens</h5>
+                {totalChickens}
+                <h5>Chickens</h5>
               </h3>
               <h4>sold this month</h4>
             </div>
@@ -167,7 +205,7 @@ function Dashboard({ QRdata, setQRdata }: any) {
             </div>
             <div className="analytics_total_batches">
               <div className="total_batches_info">
-                <h3>1029</h3>
+                <h3>{GeneratedBatches}</h3>
                 <h4>Total batches generated</h4>
               </div>
               <img
@@ -178,7 +216,7 @@ function Dashboard({ QRdata, setQRdata }: any) {
             </div>
             <div className="analytics_total_sales">
               <div className="total_sales_info">
-                <h3>1002</h3>
+                <h3>{TotalSale}</h3>
                 <h4>Total batches Sold</h4>
               </div>
               <img
@@ -207,45 +245,49 @@ function Dashboard({ QRdata, setQRdata }: any) {
               <th>Preview</th>
               <th></th>
             </tr>
-            {[1, 2, 3, 4, 5].map(() => {
-              return (
-                <tr className="recent_table_content">
-                  <th>10/02/2021</th>
-                  <th>11:10</th>
-                  <th>232</th>
-                  <th>20</th>
-                  <th>
-                    <button
-                      onClick={() => {
-                        setQRdata({ batch_size: 20 });
-                        setShowQrPreview(true);
-                      }}
-                    >
-                      <Icon
-                        icon="heroicons-outline:qrcode"
-                        style={{
-                          width: "30px",
-                          height: "30px",
-                          color: "#FF9900",
-                        }}
-                      />
-                    </button>
-                  </th>
-                  <th>
-                    <button>
-                      <Icon
-                        icon="ant-design:delete-outlined"
-                        style={{
-                          width: "30px",
-                          height: "30px",
-                          color: "red",
-                        }}
-                      />
-                    </button>
-                  </th>
-                </tr>
-              );
-            })}
+
+            {batchData.length != 0
+              ? //@ts-ignore
+                batchData.map((batch) => {
+                  return (
+                    <tr className="recent_table_content">
+                      <th>test</th>
+                      <th>11:10</th>
+                      <th>{batch.batch_id}</th>
+                      <th>{batch.batch_size}</th>
+                      <th>
+                        <button
+                          onClick={() => {
+                            setQRdata({ batch_size: 20 });
+                            setShowQrPreview(true);
+                          }}
+                        >
+                          <Icon
+                            icon="heroicons-outline:qrcode"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              color: "#FF9900",
+                            }}
+                          />
+                        </button>
+                      </th>
+                      <th>
+                        <button>
+                          <Icon
+                            icon="ant-design:delete-outlined"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              color: "red",
+                            }}
+                          />
+                        </button>
+                      </th>
+                    </tr>
+                  );
+                })
+              : "No Data"}
           </table>
         </div>
       </div>
@@ -254,6 +296,7 @@ function Dashboard({ QRdata, setQRdata }: any) {
         setShowQrPreview={setShowQrPreview}
         QRdata={QRdata}
         setQRdata={setQRdata}
+        FarmAccountData={FarmAccountData}
       />
     </>
   );
@@ -264,6 +307,7 @@ function CreateBatch({
   setShowQrPreview,
   QRdata,
   setQRdata,
+  FarmAccountData,
 }: any): JSX.Element {
   const [BatchSize, setBatchSize] = useState(0);
   const [CreateQr, setCreateQr] = useState(false);
@@ -293,16 +337,18 @@ function CreateBatch({
         batch_input,
         connection,
         sendTransaction
-      ).then((Batch_pubkey) => {
-        console.log(Batch_pubkey);
-        setQRdata({
-          batch_id: batch_input.batch_id,
-          batch_size: batch_input.batch_size,
-          key: Batch_pubkey,
-          timestamp: batch_input.timestamp,
-        });
-        setCreateQr(true);
-      });
+      )
+        .then((Batch_pubkey) => {
+          setQRdata({
+            batch_id: batch_input.batch_id,
+            batch_size: batch_input.batch_size,
+            key: Batch_pubkey,
+            timestamp: batch_input.timestamp,
+          });
+          setCreateQr(true);
+          console.log(Batch_pubkey);
+        })
+        .catch((err) => console.log(err));
     }
   }
   return (

@@ -1,14 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PublicKey } from "@solana/web3.js";
-
-let initialState = {
+import { FarmAccount } from "../../schema";
+type stateType = {
+  wallet: { connected: boolean; pubkey: PublicKey };
+  account: {
+    pubkey: boolean;
+    data: FarmAccount | undefined;
+  };
+  batches: {
+    data: [];
+  };
+};
+let initialState: stateType = {
   wallet: {
     connected: false,
-    pubkey: PublicKey,
+    pubkey: PublicKey.default,
   },
   account: {
     pubkey: false,
-    data: {},
+    data: undefined,
   },
   batches: {
     data: [],
