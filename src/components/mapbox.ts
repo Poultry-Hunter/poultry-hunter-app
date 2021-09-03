@@ -1,4 +1,46 @@
-import mapboxgl, { Map } from "mapbox-gl";
+import React, { useState } from "react";
+import ReactMapGL, { Marker } from "react-map-gl";
+import "./mapbox.css";
+
+export const TestMap = () => {
+  let [viewport, setViewport] = useState({
+    latitude: 15.583988,
+    longitude: 73.792318,
+    zoom: 9,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    pitch: 50
+  });
+
+
+  return (
+    <ReactMapGL
+      
+      mapboxApiAccessToken={
+        "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ"
+      }
+      {...viewport}
+      onViewportChange={(newView) => setViewport(newView)}
+    >
+      <Marker
+        latitude={15.472357}
+        longitude={73.81095}
+        offsetTop={(-viewport.zoom * 5) / 2}
+      >
+        <img
+          src="directContact.svg"
+          width={viewport.zoom * 5}
+          height={viewport.zoom * 5}
+        />
+      </Marker>
+    </ReactMapGL>
+    
+  );
+};
+
+{/*
+
+  import mapboxgl, { Map } from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 export function TestMap(container_id: string) {
@@ -20,3 +62,6 @@ export function TestMap(container_id: string) {
 
   return mapBox;
 }
+
+*/}
+
