@@ -7,7 +7,6 @@ import qrnopreview from "../../assets/images/vector-art/qrnopreview.svg";
 import GeneratedIcon from "../../assets/images/icons/generated-icon.svg";
 import FilterIcon from "../../assets/images/icons/filter.svg";
 import SalesIcon from "../../assets/images/icons/salesIcon.svg";
-import bargraph from "../../assets/images/vector-art/graph.svg";
 import { ReactComponent as InventoryIcon } from "../../assets/images/icons/inventoryIcon.svg";
 import { ReactComponent as MarketPlaceIcon } from "../../assets/images/icons/marketplace.svg";
 import { ReactComponent as BatchesIcon } from "../../assets/images/icons/BatchesIcon.svg";
@@ -17,97 +16,124 @@ import { QRCode } from "react-qrcode-logo";
 import ReactToPrint from "react-to-print";
 import { MyResponsiveBar, MyResponsivePie } from "../Chart";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { useHistory } from "react-router-dom";
 import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
-import { CreateAccountAndGenerateBatch } from "../../instructions";
+import {
+  CreateAccountAndGenerateBatch,
+  CreateAccountAndInitialiseFarm,
+} from "../../instructions";
 import { PublicKey } from "@solana/web3.js";
-import { GetBatchAccounts } from "../../utils/filters";
 import { checkFarmAcount } from "../../utils/checkAccount";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import GettingStarted from "../GettingStarted/GettingStarted";
+import { GetBatchAccounts, GetFarmerData } from "../../utils/filters";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setAccountData,
+  setAccountPubkey,
+  setWallet,
+} from "../../redux/reducers/reducers";
+import { useHistory } from "react-router";
 
-export const FarmDashboard = () => {
+export function FarmDashboard() {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
-  const { connected, publicKey } = useWallet();
+  const { connected, publicKey, sendTransaction } = useWallet();
   const [QRdata, setQRdata] = useState({});
   const { connection } = useConnection();
+  const [batchData, setBatchData] = useState();
+  const [FarmAccountData, setFarmAccountData] = useState<any>();
   const history = useHistory();
-  const [FarmData, setFarmData] = useState<any>();
-  useEffect(() => {
-    if (connected && publicKey) {
-      checkFarmAcount(publicKey, publicKey, connection).then((farm_pubkey) => {
-        setFarmData(farm_pubkey);
-      });
-    }
-  }, []);
-  return connected ? (
-    FarmData ? (
-      <div className="farm_dashboard_container container">
-        {newBatchPopup ? (
-          <div className="create_batch_popup">
-            <CreateBatch
-              setnewBatchPopup={() => setnewBatchPopup(false)}
-              QRdata={QRdata}
-              setQRdata={setQRdata}
-            />
-          </div>
-        ) : null}
-        <div className="farm_dashboard_sidebar">
-          <img src={logo} alt="" />
-          <div className="sidebar_navigrations">
-            <button onClick={() => setNavButton(true)}>
-              <Icon
-                icon="ic:round-space-dashboard"
-                className={navButton ? "nav_active" : ""}
-              />
-            </button>
-            <button
-              className="farm_navigation_create_button"
-              onClick={() => setnewBatchPopup(true)}
-            >
-              +
-            </button>
+  const dispatch = useDispatch();
+  const farmAccount = useSelector(
+    //@ts-ignore
+    (state) => state.poultryhunter.account.pubkey
+  );
 
-            <button onClick={() => setNavButton(false)}>
-              <InventoryIcon className={!navButton ? "nav_active" : ""} />
-            </button>
-            <button className="marketplace-icon">
-              <MarketPlaceIcon />
-            </button>
-          </div>
+  useEffect(() => {
+    dispatch(setWallet({ connected: connected, pubKey: PublicKey }));
+    if (publicKey) {
+      checkFarmAcount(
+        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        publicKey,
+        connection
+      )
+        .then((farm_data) => {
+          if (!farm_data) {
+            history.push("getting-started");
+          } else {
+            // dispatch(setAccountData("test"));
+            setFarmAccountData(farm_data);
+            console.log(farm_data);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [connected]);
+
+  return connected ? (
+    <div className="farm_dashboard_container container">
+      {newBatchPopup ? (
+        <div className="create_batch_popup">
+          <CreateBatch
+            setnewBatchPopup={() => setnewBatchPopup(false)}
+            QRdata={QRdata}
+            setQRdata={setQRdata}
+          />
         </div>
-        <div className="farm_dashboard">
-          <div className="farm_dashboard_head">
-            <div className="farm_dashboard_title">
-              <h3>{navButton ? " Dashboard" : "Inventory"}</h3>
-              <h4>
-                hi, <span>Sanket ProFarm</span>
-              </h4>
-            </div>
-            <WalletDisconnectButton className="farm_dashboard_wallet_button" />
-            {/* <button className="farm_dashboard_wallet_button">
-            {connected ? "Connected" : ""}
-          </button> */}
-          </div>
-          <div className="farm_dashbord_main">
-            {navButton ? (
-              <Dashboard QRdata={QRdata} setQRdata={setQRdata} />
-            ) : (
-              <Inventory />
-            )}
-          </div>
+      ) : null}
+      <div className="farm_dashboard_sidebar">
+        <img src={logo} alt="" />
+        <div className="sidebar_navigrations">
+          <button onClick={() => setNavButton(true)}>
+            <Icon
+              icon="ic:round-space-dashboard"
+              className={navButton ? "nav_active" : ""}
+            />
+          </button>
+          <button
+            className="farm_navigation_create_button"
+            onClick={() => setnewBatchPopup(true)}
+          >
+            +
+          </button>
+
+          <button onClick={() => setNavButton(false)}>
+            <InventoryIcon className={!navButton ? "nav_active" : ""} />
+          </button>
+          <button className="marketplace-icon">
+            <MarketPlaceIcon />
+          </button>
         </div>
       </div>
-    ) : (
-      <GettingStarted />
-    )
+      <div className="farm_dashboard">
+        <div className="farm_dashboard_head">
+          <div className="farm_dashboard_title">
+            <h3>{navButton ? " Dashboard" : "Inventory"}</h3>
+            <h4>
+              hi,{" "}
+              <span>
+                {FarmAccountData ? FarmAccountData.farm_name : "loading"}
+              </span>
+            </h4>
+          </div>
+          <WalletDisconnectButton className="farm_dashboard_wallet_button" />
+          {/* <button className="farm_dashboard_wallet_button">
+            {connected ? "Connected" : ""}
+          </button> */}
+        </div>
+        <div className="farm_dashbord_main">
+          {navButton ? (
+            <Dashboard QRdata={QRdata} setQRdata={setQRdata} />
+          ) : (
+            <Inventory />
+          )}
+        </div>
+      </div>
+    </div>
   ) : (
     <ConnectWallet />
   );
-};
-
-
+}
 
 function Dashboard({ QRdata, setQRdata }: any) {
   const [ShowQrPreview, setShowQrPreview] = useState(false);

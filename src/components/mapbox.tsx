@@ -40,7 +40,6 @@ export const ReactMap = () => {
   );
 };
 
-
 export function TestMap(container_id: string) {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ";
@@ -58,5 +57,14 @@ export function TestMap(container_id: string) {
     })
   );
 
-  return mapBox;
+  const geolocate = new mapboxgl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    trackUserLocation: true,
+  });
+
+  mapBox.addControl(geolocate);
+
+  return { map: mapBox, geolocation: geolocate };
 }

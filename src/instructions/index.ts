@@ -44,6 +44,8 @@ export async function CreateAccountAndInitialiseFarm(
   connection: Connection,
   sendTransaction: any
 ) {
+  console.log(programId.toBase58(), wallet_pubkey.toBase58(), farmData)
+  console.log(connection)
   await connection.requestAirdrop(wallet_pubkey, LAMPORTS_PER_SOL);
   const farm_data = new FarmAccount(farmData);
   const input = borsh.serialize(SCHEMA, farm_data);

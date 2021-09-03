@@ -6,10 +6,38 @@ import { ReactComponent as InventoryIcon } from "../../assets/images/icons/inven
 import { ReactComponent as QrCodeIcon } from "../../assets/images/icons/QrIcon.svg";
 import { Icon } from "@iconify/react";
 import { ReactComponent as AffectedRedIcon } from "../../assets/images/icons/AffectedRedIcon.svg";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import ConnectWallet from "../ConnectWallet/ConnectWallet";
+import { checkOfficerAcount } from "../../utils/checkAccount";
+import { PublicKey } from "@solana/web3.js";
+import GettingStarted from "../GettingStarted/GettingStarted";
 export const OfficerDashboard = () => {
   const [navButton, setNavButton] = useState(true);
   const [showQrScannerPopup, setshowQrScannerPopup] = useState(false);
   const [QrData, setQrData] = useState<any>();
+  const [OfficerPubkey, setOfficerPubkey] = useState<any>(false);
+  const [OfficerAccountData, setOfficerAccountData] = useState<any>();
+  const [markedAffectedBatches, setmarkedAffectedBatches] = useState<any>();
+
+  const { connection } = useConnection();
+  const { publicKey, connected } = useWallet();
+
+  useEffect(() => {
+    if (connected && publicKey) {
+      checkOfficerAcount(
+        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        publicKey,
+        connection
+      ).then((pubkey) => {
+        if (pubkey) {
+          setOfficerPubkey(pubkey);
+        } else {
+          setOfficerPubkey(false);
+        }
+      });
+    }
+  }, []);
+
   const handleScan = (data: any) => {
     if (data) {
       setQrData(data);
@@ -20,67 +48,73 @@ export const OfficerDashboard = () => {
     console.error(err);
   };
 
-  return (
-    <>
-      <div className="visit_on_mobile">
-        <p>Visit on Mobile</p>
-      </div>
-      <div className="officer_dashboard_container">
-        {showQrScannerPopup ? (
-          <div className="officer_scanner_popup">
-            <button
-              className="close_batch_popup"
-              onClick={() => setshowQrScannerPopup(false)}
-            >
-              <Icon icon="iconoir:cancel" />
-            </button>{" "}
-            <div className="officer_dashboard_qr_title">
-              <h3>Place the QR code inside the area </h3>
-              <h4>Scanning will start automatically </h4>
-              <div className="officer_dashboard_qr_scanner">
-                <QrReader
-                  delay={300}
-                  onError={handleError}
-                  onScan={handleScan}
-                  style={{ width: "100%" }}
-                />
-              </div>
-              {QrData != null ? (
-                <div className="officer_dashboard_batch_data">
-                  <h3>Batch ID: 200</h3>
-                  <h4>30 batches in chicken</h4>
-                  <div className="officer_batch_data_farm_dist">
-                    <h3>Farm: 1</h3>
-                    <h3>Distributor: 1</h3>
-                  </div>
-                  <button>Mark Infected</button>
+  return connected ? (
+    OfficerPubkey ? (
+      <>
+        <div className="visit_on_mobile">
+          <p>Visit on Mobile</p>
+        </div>
+        <div className="officer_dashboard_container">
+          {showQrScannerPopup ? (
+            <div className="officer_scanner_popup">
+              <button
+                className="close_batch_popup"
+                onClick={() => setshowQrScannerPopup(false)}
+              >
+                <Icon icon="iconoir:cancel" />
+              </button>{" "}
+              <div className="officer_dashboard_qr_title">
+                <h3>Place the QR code inside the area </h3>
+                <h4>Scanning will start automatically </h4>
+                <div className="officer_dashboard_qr_scanner">
+                  <QrReader
+                    delay={300}
+                    onError={handleError}
+                    onScan={handleScan}
+                    style={{ width: "100%" }}
+                  />
                 </div>
-              ) : null}
+                {QrData != null ? (
+                  <div className="officer_dashboard_batch_data">
+                    <h3>Batch ID: 200</h3>
+                    <h4>30 batches in chicken</h4>
+                    <div className="officer_batch_data_farm_dist">
+                      <h3>Farm: 1</h3>
+                      <h3>Distributor: 1</h3>
+                    </div>
+                    <button>Mark Infected</button>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+          {navButton ? <Dashboard /> : <MarkedAffected />}
+          <div className="officer_dashboard_bottom_navigation">
+            <div className="officer_dashboard_bottom_nav_bar">
+              <button onClick={() => setNavButton(true)}>
+                <Icon
+                  icon="ic:round-space-dashboard"
+                  className={navButton ? "nav_active" : ""}
+                />
+              </button>
+              <button
+                className="farm_navigation_create_button officer_dash_qricon"
+                onClick={() => setshowQrScannerPopup(true)}
+              >
+                <QrCodeIcon />
+              </button>
+              <button onClick={() => setNavButton(false)}>
+                <InventoryIcon className={!navButton ? "nav_active" : ""} />
+              </button>{" "}
             </div>
           </div>
-        ) : null}
-        {navButton ? <Dashboard /> : <MarkedAffected />}
-        <div className="officer_dashboard_bottom_navigation">
-          <div className="officer_dashboard_bottom_nav_bar">
-            <button onClick={() => setNavButton(true)}>
-              <Icon
-                icon="ic:round-space-dashboard"
-                className={navButton ? "nav_active" : ""}
-              />
-            </button>
-            <button
-              className="farm_navigation_create_button officer_dash_qricon"
-              onClick={() => setshowQrScannerPopup(true)}
-            >
-              <QrCodeIcon />
-            </button>
-            <button onClick={() => setNavButton(false)}>
-              <InventoryIcon className={!navButton ? "nav_active" : ""} />
-            </button>{" "}
-          </div>
         </div>
-      </div>
-    </>
+      </>
+    ) : (
+      <GettingStarted />
+    )
+  ) : (
+    <ConnectWallet />
   );
 };
 function Dashboard() {

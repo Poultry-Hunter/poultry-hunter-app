@@ -19,33 +19,26 @@ import {
 export default function ConnectWallet() {
   const { connected, publicKey, sendTransaction } = useWallet();
   const { connection } = useConnection();
-  const history = useHistory();
-  useEffect(() => {
-    if (connected) {
-      if (publicKey) {
-        CreateAccountAndInitialiseFarm(
-          new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-          publicKey,
-          {
-            farm_name: "rhutik Farm",
-            owner_name: "rhutiik",
-            farm_address: "mpoood",
-            infected: 0,
-            refund_account: publicKey,
-            contact_number: "234343",
-          },
-          connection,
-          sendTransaction
-        ).then(() => console.log("Data_sent"));
-        // CheckFarmAccount(publicKey, publicKey, connection).then((data) => {
-        //   if (data) {
-        //     history.push("/farm-dashboard");
-        //   }
-        //   history.push("/getting-started");
-        // });
-      }
-    }
-  }, [connected]);
+  // useEffect(() => {
+  //   if (connected) {
+  //     if (publicKey) {
+  //       CreateAccountAndInitialiseFarm(
+  //         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+  //         publicKey,
+  //         {
+  //           farm_name: "rhutik Farm",
+  //           owner_name: "rhutiik",
+  //           farm_address: "mpoood",
+  //           infected: 0,
+  //           refund_account: publicKey,
+  //           contact_number: "234343",
+  //         },
+  //         connection,
+  //         sendTransaction
+  //       ).then(() => console.log("Data_sent"));
+  //     }
+  //   }
+  // }, [connected]);
   return (
     <div className="connect_wallet_container container">
       <div className="connect_wallet_left_svg">
