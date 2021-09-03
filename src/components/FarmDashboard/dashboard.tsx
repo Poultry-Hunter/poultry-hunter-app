@@ -51,17 +51,19 @@ export function FarmDashboard() {
 
   useEffect(() => {
     dispatch(setWallet({ connected: connected, pubKey: PublicKey }));
-    console.log(farmAccount);
     if (publicKey) {
       checkFarmAcount(
         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
         publicKey,
         connection
       )
-        .then((farm_pubkey) => {
-          dispatch(setAccountPubkey(farm_pubkey));
-          if (!farm_pubkey) {
+        .then((farm_data) => {
+          if (!farm_data) {
             history.push("getting-started");
+          } else {
+            // dispatch(setAccountData("test"));
+            setFarmAccountData(farm_data);
+            console.log(farm_data);
           }
         })
         .catch((err) => console.log(err));

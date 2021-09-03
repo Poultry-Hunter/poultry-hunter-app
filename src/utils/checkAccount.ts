@@ -1,4 +1,13 @@
 import { Connection, PublicKey } from "@solana/web3.js";
+import * as borsh from "borsh";
+import {
+  BATCH_LAYOUT,
+  DistributorAccount,
+  FarmAccount,
+  HealthOfficerAccount,
+  SCHEMA,
+  SellerAccount,
+} from "../schema";
 
 export async function checkFarmAcount(
   programId: PublicKey,
@@ -14,7 +23,8 @@ export async function checkFarmAcount(
   if (account_info === null) {
     return false;
   } else {
-    return Pubkey;
+    const farm_data = borsh.deserialize(SCHEMA, FarmAccount, account_info.data);
+    return farm_data;
   }
 }
 export async function checkOfficerAcount(
