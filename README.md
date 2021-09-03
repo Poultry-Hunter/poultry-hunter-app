@@ -48,17 +48,6 @@ npm install
 npm start
 ```
 
-#### *OR*
-
-```shell
-git clone https://github.com/Poultry-Hunter/poultry-hunter-app.git
-cd poultry-hunter-app/
-yarn install
-yarn start
-```
-
-
-
 ## Live Demo
 
 You can find a working demo at [PoultryHunter.netlify.app/](https://poultryhunter.netlify.app/).
