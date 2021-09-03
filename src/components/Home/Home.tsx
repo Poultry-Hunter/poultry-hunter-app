@@ -47,7 +47,7 @@ const Home = () => {
     ],
   };
   useEffect(() => {
-    const test = TestMap("home-page-map");
+    const test = TestMap("home-page-map").map;
 
     for (const marker of geojson.features) {
       // Create a DOM element for each marker.
