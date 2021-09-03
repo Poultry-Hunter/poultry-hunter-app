@@ -18,6 +18,7 @@ export const ReactMap = () => {
 
   return (
     <ReactMapGL
+      mapStyle={"mapbox://styles/msanket9/ckswt7lqw7ecu18lj5dwff5az"}
       mapboxApiAccessToken={
         "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ"
       }
@@ -30,7 +31,7 @@ export const ReactMap = () => {
         offsetTop={(-viewport.zoom * 5) / 2}
       >
         <img
-          src="directContact.svg"
+          src="../assets/images/vector-art/directContact.svg"
           width={viewport.zoom * 5}
           height={viewport.zoom * 5}
         />
