@@ -31,7 +31,7 @@ export const ReactMap = () => {
         offsetTop={(-viewport.zoom * 5) / 2}
       >
         <img
-          src="directContact.svg"
+          src="../assets/images/vector-art/directContact.svg"
           width={viewport.zoom * 5}
           height={viewport.zoom * 5}
         />
