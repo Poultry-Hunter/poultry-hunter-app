@@ -55,7 +55,7 @@ export function FarmDashboard() {
 
   useEffect(() => {
     dispatch(setWallet({ connected: connected, pubKey: PublicKey }));
-    if (publicKey) {
+    if (publicKey && connected) {
       checkFarmAcount(
         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
         publicKey,
@@ -77,7 +77,7 @@ export function FarmDashboard() {
         })
         .catch((err) => console.log(err));
     }
-  }, [connected]);
+  }, [connected, publicKey]);
 
   return connected ? (
     <div className="farm_dashboard_container container">
