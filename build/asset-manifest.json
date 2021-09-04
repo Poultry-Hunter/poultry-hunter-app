@@ -1,19 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.3a276267.chunk.css",
-    "main.js": "/static/js/main.c4d415af.chunk.js",
-    "main.js.map": "/static/js/main.c4d415af.chunk.js.map",
+    "main.css": "/static/css/main.00c64570.chunk.css",
+    "main.js": "/static/js/main.2fa3e29c.chunk.js",
+    "main.js.map": "/static/js/main.2fa3e29c.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.4440c3a4.js",
     "runtime-main.js.map": "/static/js/runtime-main.4440c3a4.js.map",
     "static/css/2.285914a2.chunk.css": "/static/css/2.285914a2.chunk.css",
-    "static/js/2.491f5b50.chunk.js": "/static/js/2.491f5b50.chunk.js",
-    "static/js/2.491f5b50.chunk.js.map": "/static/js/2.491f5b50.chunk.js.map",
+    "static/js/2.716aea26.chunk.js": "/static/js/2.716aea26.chunk.js",
+    "static/js/2.716aea26.chunk.js.map": "/static/js/2.716aea26.chunk.js.map",
     "index.html": "/index.html",
     "service-worker.js": "/service-worker.js",
     "service-worker.js.map": "/service-worker.js.map",
     "static/css/2.285914a2.chunk.css.map": "/static/css/2.285914a2.chunk.css.map",
-    "static/css/main.3a276267.chunk.css.map": "/static/css/main.3a276267.chunk.css.map",
-    "static/js/2.491f5b50.chunk.js.LICENSE.txt": "/static/js/2.491f5b50.chunk.js.LICENSE.txt",
+    "static/css/main.00c64570.chunk.css.map": "/static/css/main.00c64570.chunk.css.map",
+    "static/js/2.716aea26.chunk.js.LICENSE.txt": "/static/js/2.716aea26.chunk.js.LICENSE.txt",
+    "static/media/AffectedRedIcon.246fa89b.svg": "/static/media/AffectedRedIcon.246fa89b.svg",
     "static/media/BatchesIcon.24c5e7ad.svg": "/static/media/BatchesIcon.24c5e7ad.svg",
     "static/media/ChickensIcon.41973051.svg": "/static/media/ChickensIcon.41973051.svg",
     "static/media/QrIcon.d4ce5fab.svg": "/static/media/QrIcon.d4ce5fab.svg",
@@ -36,13 +37,13 @@
     "static/media/reportedSeller.64ddccb8.svg": "/static/media/reportedSeller.64ddccb8.svg",
     "static/media/salesIcon.424583ec.svg": "/static/media/salesIcon.424583ec.svg",
     "static/media/seller.73acfa3a.svg": "/static/media/seller.73acfa3a.svg",
-    "static/media/starman.eb7a3e02.svg": "/static/media/starman.eb7a3e02.svg"
+    "static/media/starman.64df6ab4.svg": "/static/media/starman.64df6ab4.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.4440c3a4.js",
     "static/css/2.285914a2.chunk.css",
-    "static/js/2.491f5b50.chunk.js",
-    "static/css/main.3a276267.chunk.css",
-    "static/js/main.c4d415af.chunk.js"
+    "static/js/2.716aea26.chunk.js",
+    "static/css/main.00c64570.chunk.css",
+    "static/js/main.2fa3e29c.chunk.js"
   ]
 }
