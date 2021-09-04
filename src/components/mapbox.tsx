@@ -42,7 +42,7 @@ export const ReactMap = () => {
 
 export function TestMap(container_id: string) {
   mapboxgl.accessToken =
-    "pk.eyJ1IjoibXNhbmtldDkiLCJhIjoiY2twYXo5bW5wMDJnMTJycnRoYjBseGtwNCJ9.P_dFx_rfgoALAEvtRm7iuQ";
+    "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ";
 
   const mapBox = new mapboxgl.Map({
     container: container_id, // container ID
