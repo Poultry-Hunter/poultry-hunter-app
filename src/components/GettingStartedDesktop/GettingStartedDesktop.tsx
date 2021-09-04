@@ -10,7 +10,7 @@ import "./GettingStartedDesktop.css";
 import dotenv from "dotenv";
 dotenv.config({ path: "../../../.env" });
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   CreateAccountAndInitialiseDistributor,
@@ -22,6 +22,7 @@ import { PublicKey } from "@solana/web3.js";
 import { WalletConnectButton } from "@solana/wallet-adapter-material-ui";
 
 export const GettingStartedDesktop = () => {
+  const { userType } = useParams<{ userType: string }>();
   const { connected, publicKey, sendTransaction } = useWallet();
   const history = useHistory();
   const { connection } = useConnection();
@@ -31,7 +32,7 @@ export const GettingStartedDesktop = () => {
   const [formAnimation, setFormAnimation] = useState<string>(
     "dont-show 400ms ease-in-out"
   );
-  const [userType, setUserType] = useState<string>("distributor");
+  // const [userType, setUserType] = useState<string>("distributor");
   const [programId, setProgramId] = useState<PublicKey>();
   const name = useRef<any>();
   const companyName = useRef<any>();

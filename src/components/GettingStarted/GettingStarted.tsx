@@ -11,7 +11,7 @@ import close from "../../assets/images/icons/close.svg";
 import { TestMap } from "../mapbox";
 import GettingStartedDesktop from "../GettingStartedDesktop/GettingStartedDesktop";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   CreateAccountAndInitialiseDistributor,
@@ -22,6 +22,8 @@ import {
 import { PublicKey } from "@solana/web3.js";
 
 const GettingStartedMobile = () => {
+  //@ts-ignore
+  const { userType } = useParams<{ userType: string }>();
   const submit = () => {};
   const [fromToggle, setFromToggle] = useState(false);
   const [moveWrapper, setMoveWrapper] = useState(
@@ -33,7 +35,7 @@ const GettingStartedMobile = () => {
   const history = useHistory();
   const { connection } = useConnection();
   const [geolocate, setGeolocate] = useState<any | undefined>();
-  const [userType, setUserType] = useState<string>("distributor");
+  // const [userType, setUserType] = useState<string>("distributor");
   const [programId, setProgramId] = useState<PublicKey>();
   const name = useRef<any>();
   const companyName = useRef<any>();
