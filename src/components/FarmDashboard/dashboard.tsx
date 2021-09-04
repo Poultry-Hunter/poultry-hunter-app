@@ -385,7 +385,12 @@ function CreateBatch({
       <div className="create_batch">
         <div className="create_batch_input">
           <button onClick={() => setBatchSize(BatchSize - 1)}>-</button>
-          <input type="text" placeholder="No. of chickens" value={BatchSize} />
+          <input
+            type="number"
+            placeholder="No. of chickens"
+            onChange={(e) => setBatchSize(Number(e.target.value))}
+            value={BatchSize}
+          />{" "}
           <button onClick={() => setBatchSize(BatchSize + 1)}>+</button>
         </div>
         <button
