@@ -79,9 +79,9 @@ const SellersDashboard = () => {
       setQrData(data);
 
       setCurrentBatchData({
-        batchId: JSON.parse(data).batchId,
-        batchSize: JSON.parse(data).batchSize,
-        key: JSON.parse(data).key,
+        batchId: JSON.parse(data).Batch_id,
+        batchSize: JSON.parse(data).Batch_size,
+        key: JSON.parse(data).Key,
       });
 
       setBatchDataAnimation("translateY(0px)");
@@ -133,7 +133,7 @@ const SellersDashboard = () => {
         </div>
       </header>
       <main className="seller-dash-main">
-        <Inventory batchData={batchData} />
+        <Inventory batchData={batchData} navigation={navigation} />
       </main>
 
       <div
@@ -267,7 +267,7 @@ const SellersDashboard = () => {
   );
 };
 
-export const Inventory = ({ batchData }: any) => {
+export const Inventory = ({ batchData, navigation }: any) => {
   return (
     <div className="dd-inventory-main-comp">
       <main>
@@ -292,18 +292,23 @@ export const Inventory = ({ batchData }: any) => {
             </div>
           </div>
         </div>
-        <DDTable />
+        {navigation === "dashboard" ? (
+          <DDTable batchData={batchData} navigation={"Recent"} />
+        ) : (
+          <DDTable batchData={batchData} navigation={"Inventory"} />
+        )}
       </main>
     </div>
   );
 };
 
-export const DDTable = ({ batchData }: any) => {
+export const DDTable = ({ batchData, navigation }: any) => {
+  // batchData = [{batch_id:10, batch_size: 100}]
   return (
     <div className="dd-main-table">
       <div className="dd_analytics_history">
         <div className="dd_analytics_history_head">
-          <h3>Recent</h3>
+          <h3>{navigation}</h3>
           <img
             src={FilterIcon}
             alt=""
@@ -332,7 +337,6 @@ export const DDTable = ({ batchData }: any) => {
                   </tr>
                 );
               })}
-              )
             </table>
           ) : (
             <p style={{ textAlign: "center" }}>No Batches</p>

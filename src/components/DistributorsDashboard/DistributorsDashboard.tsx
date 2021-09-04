@@ -182,9 +182,9 @@ const DistributorsDashboard = () => {
 
       setBatchDataAnimation("translateY(0px)");
       setCurrentBatchData({
-        batchId: JSON.parse(data).batchId,
-        batchSize: JSON.parse(data).batchSize,
-        key: JSON.parse(data).key,
+        batchId: JSON.parse(data).Batch_id,
+        batchSize: JSON.parse(data).Batch_size,
+        key: JSON.parse(data).Key,
       });
     }
   };
