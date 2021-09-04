@@ -48,11 +48,6 @@ export function FarmDashboard() {
   const [FarmAccountData, setFarmAccountData] = useState<FarmDataType>();
   const history = useHistory();
   const dispatch = useDispatch();
-  const farmAccount = useSelector(
-    //@ts-ignore
-    (state) => state.poultryhunter.account.pubkey
-  );
-
   useEffect(() => {
     dispatch(setWallet({ connected: connected, pubKey: PublicKey }));
     if (publicKey && connected) {
@@ -64,7 +59,7 @@ export function FarmDashboard() {
         .then((farm_data) => {
           console.log(farm_data);
           if (!farm_data) {
-            history.push("getting-started");
+            history.push(`getting-started/farmer`);
           } else {
             console.log(farm_data);
             setFarmAccountData({
@@ -79,7 +74,7 @@ export function FarmDashboard() {
     }
   }, [connected, publicKey]);
 
-  return connected ? (
+  return connected && FarmAccountData?.farm_data ? (
     <div className="farm_dashboard_container container">
       {newBatchPopup ? (
         <div className="create_batch_popup">
@@ -351,7 +346,7 @@ function CreateBatch({
             timestamp: batch_input.timestamp,
           });
           setCreateQr(true);
-          console.log(Batch_pubkey);
+          console.log(batch_input);
         })
         .catch((err) => console.log(err));
     }
