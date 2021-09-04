@@ -44,8 +44,8 @@ export async function CreateAccountAndInitialiseFarm(
   connection: Connection,
   sendTransaction: any
 ) {
-  console.log(programId.toBase58(), wallet_pubkey.toBase58(), farmData)
-  console.log(connection)
+  console.log(programId.toBase58(), wallet_pubkey.toBase58(), farmData);
+  console.log(connection);
   await connection.requestAirdrop(wallet_pubkey, LAMPORTS_PER_SOL);
   const farm_data = new FarmAccount(farmData);
   const input = borsh.serialize(SCHEMA, farm_data);
@@ -94,7 +94,13 @@ export async function CreateAccountAndInitialiseDistributor(
   connection: Connection,
   sendTransaction: any
 ) {
-  console.log(programId, wallet_pubkey, distributorData, connection, sendTransaction)
+  console.log(
+    programId,
+    wallet_pubkey,
+    distributorData,
+    connection,
+    sendTransaction
+  );
   const distributor_data = new DistributorAccount(distributorData);
   const input = borsh.serialize(SCHEMA, distributor_data);
   const DISTRIBUTOR_ACCOUNT_SIZE = input.length;
@@ -257,7 +263,7 @@ export async function CreateAccountAndGenerateBatch(
   const data = Buffer.concat(buffers);
 
   const batch_data_account = await PublicKey.createWithSeed(
-    farm_data_account_Pubkey,
+    wallet_pubkey,
     batchData.batch_id.toString(),
     programId
   );
@@ -269,7 +275,7 @@ export async function CreateAccountAndGenerateBatch(
     const transaction = new Transaction().add(
       SystemProgram.createAccountWithSeed({
         fromPubkey: wallet_pubkey,
-        basePubkey: farm_data_account_Pubkey,
+        basePubkey: wallet_pubkey,
         seed: batchData.batch_id.toString(),
         newAccountPubkey: batch_data_account,
         lamports,

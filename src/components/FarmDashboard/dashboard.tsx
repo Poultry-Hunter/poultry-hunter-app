@@ -38,6 +38,7 @@ type FarmDataType = {
   farm_data: FarmAccount;
   farm_account_pubkey: string;
 };
+import BN from "bn.js";
 export function FarmDashboard() {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
@@ -254,8 +255,8 @@ function Dashboard({
                 batchData.map((batch) => {
                   return (
                     <tr className="recent_table_content">
-                      <th>test</th>
-                      <th>11:10</th>
+                      <th>{batch.date}</th>
+                      <th>{batch.time}</th>
                       <th>{batch.batch_id}</th>
                       <th>{batch.batch_size}</th>
                       <th>
@@ -345,7 +346,7 @@ function CreateBatch({
       CreateAccountAndGenerateBatch(
         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
         publicKey,
-        publicKey,
+        new PublicKey(FarmAccountData.farm_account_pubkey),
         batch_input,
         connection,
         sendTransaction
@@ -365,7 +366,7 @@ function CreateBatch({
               batch_pubkey: Batch_pubkey,
               distributor_pubkey: PublicKey.default.toString(),
               batch_size: batch_input.batch_size,
-              generated_at: batch_input.timestamp,
+              generated_at: new BN(batch_input.timestamp),
             },
           ]);
           console.log(batch_input);
@@ -475,7 +476,6 @@ export function Inventory({ batchData }: any) {
         settotalChickens(totalchicken);
       }
     );
-    setTotalSale(SoldBatches);
   }, [batchData]);
   return (
     <div className="inventory_main">
@@ -530,8 +530,8 @@ export function Inventory({ batchData }: any) {
                 batchData.map((batch) => {
                   return (
                     <tr className="recent_table_content">
-                      <th>test</th>
-                      <th>11:10</th>
+                      <th>{batch.date}</th>
+                      <th>{batch.time}</th>
                       <th>{batch.batch_id}</th>
                       <th>{batch.batch_size}</th>
                       <th>

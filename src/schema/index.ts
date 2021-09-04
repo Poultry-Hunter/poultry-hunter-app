@@ -1,6 +1,8 @@
 import { PublicKey } from "@solana/web3.js";
+import BN from "bn.js";
 import BufferLayout from "buffer-layout";
 import {
+  BatchAcountData,
   DistributorAccountData,
   FarmAccountData,
   OfficerAccountData,
@@ -67,6 +69,26 @@ export class HealthOfficerAccount {
     this.officer_contact = args.officer_contact;
   }
 }
+export class BatchAcount {
+  batch_id: number;
+  farm_pubkey: Uint8Array;
+  distributor_pubkey: Uint8Array;
+  seller_pubkey: Uint8Array;
+  infected: number;
+  batch_size: number;
+  generated_at: BN;
+  marked_by: Uint8Array;
+  constructor(args: BatchAcountData) {
+    this.batch_id = args.batch_id;
+    this.farm_pubkey = args.distributor_pubkey;
+    this.distributor_pubkey = args.distributor_pubkey;
+    this.seller_pubkey = args.seller_pubkey;
+    this.infected = args.infected;
+    this.batch_size = args.batch_size;
+    this.generated_at = args.generated_at;
+    this.marked_by = args.marked_by;
+  }
+}
 export const SCHEMA = new Map<any, any>([
   [
     FarmAccount,
@@ -120,8 +142,23 @@ export const SCHEMA = new Map<any, any>([
       ],
     },
   ],
+  [
+    BatchAcount,
+    {
+      kind: "struct",
+      fields: [
+        ["batch_id", "u32"],
+        ["farm_pubkey", [32]],
+        ["distributor_pubkey", [32]],
+        ["seller_pubkey", [32]],
+        ["infected", "u32"],
+        ["batch_size", "u32"],
+        ["generated_at", "u64"],
+        ["marked_by", [32]],
+      ],
+    },
+  ],
 ]);
-
 export const BATCH_LAYOUT = BufferLayout.struct([
   BufferLayout.u32("batch_id"),
   BufferLayout.blob(32, "farm_pubkey"),

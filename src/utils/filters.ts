@@ -4,6 +4,7 @@ import {
   PublicKey,
 } from "@solana/web3.js";
 import {
+  BatchAcount,
   BATCH_LAYOUT,
   DistributorAccount,
   FarmAccount,
@@ -35,24 +36,41 @@ export async function GetBatchAccounts(
         },
       ],
     });
+    // const b_data = [];
     const accounts_data = BatchAccounts.map((account_info) => {
-      let batch_data = BATCH_LAYOUT.decode(account_info.account.data);
-      batch_data.batch_pubkey = account_info.pubkey.toString();
-      batch_data.farm_pubkey = new PublicKey(batch_data.farm_pubkey).toString();
-      batch_data.distributor_pubkey = new PublicKey(
-        batch_data.distributor_pubkey
-      ).toString();
-      batch_data.seller_pubkey = new PublicKey(
-        batch_data.seller_pubkey
-      ).toString();
-      batch_data.marked_by = new PublicKey(batch_data.marked_by).toString();
-      return batch_data;
+      let batch_data = borsh.deserialize(
+        SCHEMA,
+        BatchAcount,
+        account_info.account.data
+      );
+      return {
+        batch_id: batch_data.batch_id,
+        batch_size: batch_data.batch_size,
+        infected: batch_data.infected,
+        date: new Date(batch_data.generated_at.toNumber()).toLocaleDateString(
+          "en-US",
+          { dateStyle: "medium" }
+        ),
+        time: new Date(batch_data.generated_at.toNumber()).toLocaleTimeString(
+          "en-US",
+          {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          }
+        ),
+        farm_pubkey: new PublicKey(batch_data.farm_pubkey).toString(),
+        seller_pubkey: new PublicKey(batch_data.distributor_pubkey).toString(),
+        distributor_pubkey: new PublicKey(
+          batch_data.distributor_pubkey
+        ).toString(),
+        marked_by: new PublicKey(batch_data.marked_by).toString(),
+        batch_pubkey: account_info.pubkey.toString(),
+      };
     });
     return accounts_data;
   }
 }
-
-
 
 export async function GetBatchData(
   programId: PublicKey,
@@ -74,8 +92,6 @@ export async function GetBatchData(
     return batch_data;
   }
 }
-
-
 
 export async function GetFarmerData(
   programId: PublicKey,

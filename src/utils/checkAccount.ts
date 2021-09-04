@@ -30,10 +30,10 @@ export async function checkFarmAcount(
   if (account_info === null) {
     return false;
   } else {
-    if (wallet) {
+    if (Pubkey) {
       const batches = await GetBatchAccounts(
         programId,
-        wallet,
+        Pubkey,
         connection,
         "farm_pubkey"
       );
@@ -78,16 +78,16 @@ export async function checkOfficerAccount(
         HealthOfficerAccount,
         account_info.data
       );
-      if (batches) {
-        if (batches.length != 0) {
-          const batch_withData = batches.forEach(async (batch) => {
-            if (batch.farm_pubkey != PublicKey.default.toString()) {
-              batch.farm_data = await GetFarmerData(
-                programId,
-                new PublicKey("DtkMzPzguJNAw8m5gTBjg2Nay9fs6SnxvYMQBxZVdZg2"),
-                connection
-              );
-            }
+      // if (batches) {
+      //   if (batches.length != 0) {
+      //     const batch_withData = batches.forEach(async (batch) => {
+      //       if (batch.farm_pubkey != PublicKey.default.toString()) {
+      //         batch.farm_data = await GetFarmerData(
+      //           programId,
+      //           new PublicKey("DtkMzPzguJNAw8m5gTBjg2Nay9fs6SnxvYMQBxZVdZg2"),
+      //           connection
+      //         );
+      //       }
             // if (batch.distributor_pubkey != PublicKey.default.toString()) {
             //   batch.distributor_pubkey = await GetDistributorData(
             //     programId,
@@ -102,9 +102,9 @@ export async function checkOfficerAccount(
             //     connection
             //   );
             // }
-          });
-        }
-      }
+      //     });
+      //   }
+      // }
 
       const data = {
         officer_data: officer_data,
