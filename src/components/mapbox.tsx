@@ -6,37 +6,19 @@ import mapboxgl, { Map } from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-export const ReactMap = () => {
-  let [viewport, setViewport] = useState({
-    latitude: 15.583988,
-    longitude: 73.792318,
-    zoom: 9,
-    width: window.innerWidth,
-    height: window.innerHeight,
-    pitch: 50,
-  });
+export const ArcGisMap = () => {
 
   return (
-    <ReactMapGL
-      mapStyle={"mapbox://styles/msanket9/ckswt7lqw7ecu18lj5dwff5az"}
-      mapboxApiAccessToken={
-        "pk.eyJ1Ijoic2FpcmFqazE5IiwiYSI6ImNrc3hiMTkwcTBhdWQybnAyZnJjZmYybHkifQ.RaD2tnWTR8vjk4Q20zDTzQ"
-      }
-      {...viewport}
-      onViewportChange={(newView: any) => setViewport(newView)}
-    >
-      <Marker
-        latitude={15.472357}
-        longitude={73.81095}
-        offsetTop={(-viewport.zoom * 5) / 2}
+    <div className="embed-container">
+      <iframe 
+        width="100%" 
+        height="100%" 
+        scrolling="no" 
+        title="Poultry Hunter" 
+        src="//www.arcgis.com/apps/Embed/index.html?webmap=cb84c7c8fb3f4c2e83606cb2bd6596e0&extent=73.8062,15.4569,73.8379,15.4749&home=true&zoom=true&previewImage=false&scale=true&search=true&searchextent=true&disable_scroll=true&theme=light"
       >
-        <img
-          src="../assets/images/vector-art/directContact.svg"
-          width={viewport.zoom * 5}
-          height={viewport.zoom * 5}
-        />
-      </Marker>
-    </ReactMapGL>
+      </iframe>
+    </div>
   );
 };
 
@@ -46,7 +28,7 @@ export function TestMap(container_id: string) {
 
   const mapBox = new mapboxgl.Map({
     container: container_id, // container ID
-    style: "mapbox://styles/msanket9/ckswt7lqw7ecu18lj5dwff5az", // style URL
+    style: "mapbox://styles/mapbox/light-v10", // style URL
     center: [73.792318, 15.583988], // starting position [lng, lat]
     zoom: 9, // starting zoom
   });
