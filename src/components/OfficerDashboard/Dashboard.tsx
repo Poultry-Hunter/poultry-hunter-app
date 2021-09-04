@@ -21,7 +21,7 @@ import { useHistory } from "react-router";
 import { GetBatchData } from "../../utils/filters";
 type officerDataType = {
   officer_data: HealthOfficerAccount;
-  officer_account_pubkey: PublicKey;
+  officer_account_pubkey: string;
 };
 export const OfficerDashboard = () => {
   const [navButton, setNavButton] = useState(true);
@@ -31,7 +31,7 @@ export const OfficerDashboard = () => {
   const [OfficerAccountData, setOfficerAccountData] =
     useState<officerDataType>();
   const [markedAffectedBatches, setmarkedAffectedBatches] = useState([]);
-
+  const [uiLoading, setuiLoading] = useState(false);
   const { connection } = useConnection();
   const { publicKey, connected, sendTransaction } = useWallet();
   const history = useHistory();
@@ -53,7 +53,7 @@ export const OfficerDashboard = () => {
     if (publicKey && connected) {
       checkOfficerAccount(
         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-        publicKey,
+        new PublicKey("5tcdaxYsPy8XWAUy3HGbxFit2YWcLirkkyJy4KF1Gpwo"),
         connection
       )
         .then((officer_data) => {
@@ -68,6 +68,7 @@ export const OfficerDashboard = () => {
             });
             //@ts-ignore
             setmarkedAffectedBatches(officer_data.marked_batches);
+            setuiLoading(true);
           }
         })
         .catch((err) => console.log(err));
@@ -84,7 +85,7 @@ export const OfficerDashboard = () => {
     console.error(err);
   };
   function markChain() {
-    if (QrData) {
+    if (QrData && OfficerAccountData) {
       console.log(QrData);
       GetBatchData(
         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
@@ -98,7 +99,7 @@ export const OfficerDashboard = () => {
           new PublicKey(data.farm_pubkey),
           new PublicKey(data.distributor_pubkey),
           new PublicKey(data.seller_pubkey),
-          new PublicKey(data.seller_pubkey),
+          new PublicKey(OfficerAccountData.officer_account_pubkey),
           connection,
           sendTransaction
         ).catch((err) => console.log(err));
@@ -106,7 +107,7 @@ export const OfficerDashboard = () => {
     }
   }
 
-  return connected ? (
+  return connected && uiLoading ? (
     <>
       <div className="visit_on_mobile">
         <p>Visit on Mobile</p>
@@ -151,7 +152,10 @@ export const OfficerDashboard = () => {
         {navButton ? (
           <Dashboard OfficerAccountData={OfficerAccountData} />
         ) : (
-          <MarkedAffected markedAffectedBatches={markedAffectedBatches} />
+          <MarkedAffected
+            markedAffectedBatches={markedAffectedBatches}
+            officer_pubkey={OfficerAccountData?.officer_account_pubkey}
+          />
         )}
         <div className="officer_dashboard_bottom_navigation">
           <div className="officer_dashboard_bottom_nav_bar">
@@ -200,99 +204,141 @@ function Dashboard({ OfficerAccountData }: any) {
   );
 }
 
-function MarkedAffected({ markedAffectedBatches }: any) {
-  function unmarkChain() {}
+function MarkedAffected({ markedAffectedBatches, officer_pubkey }: any) {
+  const { publicKey, connected, sendTransaction } = useWallet();
+  const { connection } = useConnection();
+  function unmarkChain(chain: any) {
+    SetAffectedChain(
+      new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+      1,
+      new PublicKey(chain.batch_pubkey),
+      new PublicKey(chain.farm_pubkey),
+      new PublicKey(chain.distributor_pubkey),
+      new PublicKey(chain.seller_pubkey),
+      new PublicKey(officer_pubkey),
+      connection,
+      sendTransaction
+    ).catch((err) => console.log(err));
+  }
   return (
     <div className="officer_dashboard_marked_chain">
       <div className="office_dashboard_marked_chain_title">
         <h3>Marked Affected Chain</h3>
       </div>
       <div className="officer_marked_chain_list">
-        <div className="marked_chain_card">
-          <div className="marked_chain_card_head">
-            <AffectedRedIcon />
-            <h3>Batch ID: 3402</h3>
-          </div>
-          <div className="marked_chain_data">
-            <div className="marked_chain_info">
-              <svg
-                width="31"
-                height="30"
-                viewBox="0 0 31 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
-                  stroke="#FF9900"
-                  stroke-width="3"
-                />
-              </svg>
+        {markedAffectedBatches.length != 0
+          ? markedAffectedBatches.map((chain: any) => {
+              return (
+                <div className="marked_chain_card">
+                  <div className="marked_chain_card_head">
+                    <AffectedRedIcon />
+                    <h3>Batch ID: {chain.batch_id}</h3>
+                  </div>
+                  {chain.seller_data ? (
+                    <div className="marked_chain_data">
+                      <div className="marked_chain_info">
+                        <svg
+                          width="31"
+                          height="30"
+                          viewBox="0 0 31 30"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
+                            stroke="#FF9900"
+                            stroke-width="3"
+                          />
+                        </svg>
 
-              <h3>
-                <span>Sanket ProSeller</span> - Seller
-              </h3>
-              <h4>Contact Number : +91 73238 49388</h4>
-            </div>
-            <Icon
-              icon="carbon:location-filled"
-              className="batch_location_icon"
-            />
-          </div>
-          <div className="marked_chain_data">
-            <div className="marked_chain_info">
-              <svg
-                width="31"
-                height="30"
-                viewBox="0 0 31 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
-                  stroke="#FF9900"
-                  stroke-width="3"
-                />
-              </svg>
+                        <h3>
+                          <span>{chain.seller_data.shop_name}</span> - Seller
+                        </h3>
+                        <h4>
+                          Contact Number : {chain.seller_data.contact_number}
+                        </h4>
+                      </div>
+                      <Icon
+                        icon="carbon:location-filled"
+                        className="batch_location_icon"
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {chain.distributor_data ? (
+                    <div className="marked_chain_data">
+                      <div className="marked_chain_info">
+                        <svg
+                          width="31"
+                          height="30"
+                          viewBox="0 0 31 30"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
+                            stroke="#FF9900"
+                            stroke-width="3"
+                          />
+                        </svg>
 
-              <h3>
-                <span>Sanket ProDistributor</span> - Distributor
-              </h3>
-              <h4>Contact Number : +91 73238 49388</h4>
-            </div>
-            <Icon
-              icon="carbon:location-filled"
-              className="batch_location_icon"
-            />
-          </div>{" "}
-          <div className="marked_chain_data">
-            <div className="marked_chain_info">
-              <svg
-                width="31"
-                height="30"
-                viewBox="0 0 31 30"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
-                  stroke="#FF9900"
-                  stroke-width="3"
-                />
-              </svg>
+                        <h3>
+                          <span>
+                            {chain.distributor_data.distribution_center}
+                          </span>{" "}
+                          - Distributor
+                        </h3>
+                        <h4>
+                          Contact Number :{" "}
+                          {chain.distributor_data.contact_number}
+                        </h4>
+                      </div>
+                      <Icon
+                        icon="carbon:location-filled"
+                        className="batch_location_icon"
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {chain.farm_data ? (
+                    <div className="marked_chain_data">
+                      <div className="marked_chain_info">
+                        <svg
+                          width="31"
+                          height="30"
+                          viewBox="0 0 31 30"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
+                            stroke="#FF9900"
+                            stroke-width="3"
+                          />
+                        </svg>
 
-              <h3>
-                <span>Sanket ProFarmer</span> - Farmer
-              </h3>
-              <h4>Contact Number : +91 73238 49388</h4>
-            </div>
-            <Icon
-              icon="carbon:location-filled"
-              className="batch_location_icon"
-            />
-          </div>
-          <button>Mark As UnAffected</button>
-        </div>
+                        <h3>
+                          <span>{chain.farm_data.farm_name}</span> - Farmer
+                        </h3>
+                        <h4>
+                          Contact Number : {chain.farm_data.contact_number}
+                        </h4>
+                      </div>
+                      <Icon
+                        icon="carbon:location-filled"
+                        className="batch_location_icon"
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  <button>Mark As UnAffected</button>
+                </div>
+              );
+            })
+          : "No batches"}
       </div>
     </div>
   );

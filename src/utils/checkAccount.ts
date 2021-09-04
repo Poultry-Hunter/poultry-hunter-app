@@ -9,7 +9,12 @@ import {
   SCHEMA,
   SellerAccount,
 } from "../schema";
-import { GetBatchAccounts, GetFarmerData } from "./filters";
+import {
+  GetBatchAccounts,
+  GetDistributorData,
+  GetFarmerData,
+  GetSellerData,
+} from "./filters";
 
 export async function checkFarmAcount(
   programId: PublicKey,
@@ -66,16 +71,44 @@ export async function checkOfficerAccount(
         programId,
         wallet,
         connection,
-        "marked_by"
+        "farm_pubkey"
       );
       const officer_data = borsh.deserialize(
         SCHEMA,
         HealthOfficerAccount,
         account_info.data
       );
+      if (batches) {
+        if (batches.length != 0) {
+          const batch_withData = batches.forEach(async (batch) => {
+            if (batch.farm_pubkey != PublicKey.default.toString()) {
+              batch.farm_data = await GetFarmerData(
+                programId,
+                new PublicKey("DtkMzPzguJNAw8m5gTBjg2Nay9fs6SnxvYMQBxZVdZg2"),
+                connection
+              );
+            }
+            // if (batch.distributor_pubkey != PublicKey.default.toString()) {
+            //   batch.distributor_pubkey = await GetDistributorData(
+            //     programId,
+            //     batch.distributor_pubkey,
+            //     connection
+            //   );
+            // }
+            // if (batch.seller_pubkey != PublicKey.default.toString()) {
+            //   batch.seller_pubkey = await GetSellerData(
+            //     programId,
+            //     batch.seller_pubkey,
+            //     connection
+            //   );
+            // }
+          });
+        }
+      }
+
       const data = {
         officer_data: officer_data,
-        officer_account_pubkey: Pubkey,
+        officer_account_pubkey: Pubkey.toString(),
         marked_batches: batches,
       };
       return data;

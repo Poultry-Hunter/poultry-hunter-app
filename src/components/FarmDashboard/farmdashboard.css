@@ -66,7 +66,7 @@
 }
 .farm_dashboard_title h4 {
   font-family: "Poppins";
-  font-size: 1em;
+  font-size: 1.2em;
   font-weight: 400;
   color: #404040;
 }
@@ -582,8 +582,8 @@
     width: 100%;
   }
   .farm_dashboard_analytics_history {
-    font-size: 0.8em;
-    margin-top: 10;
+    font-size: 0.6em;
+    margin-top: 10px;
     margin-bottom: 70px;
   }
   .create_batch_popup {

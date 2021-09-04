@@ -84,6 +84,8 @@ export function FarmDashboard() {
             QRdata={QRdata}
             setQRdata={setQRdata}
             FarmAccountData={FarmAccountData}
+            setBatchData={setBatchData}
+            batchData={batchData}
           />
         </div>
       ) : null}
@@ -133,6 +135,7 @@ export function FarmDashboard() {
               setQRdata={setQRdata}
               FarmAccountData={FarmAccountData}
               batchData={batchData}
+              setBatchData={setBatchData}
             />
           ) : (
             <Inventory batchData={batchData} />
@@ -145,7 +148,13 @@ export function FarmDashboard() {
   );
 }
 
-function Dashboard({ QRdata, setQRdata, FarmAccountData, batchData }: any) {
+function Dashboard({
+  QRdata,
+  setQRdata,
+  FarmAccountData,
+  batchData,
+  setBatchData,
+}: any) {
   const [ShowQrPreview, setShowQrPreview] = useState(false);
   const [TotalSale, setTotalSale] = useState<number>(0);
   const [GeneratedBatches, setGeneratedBatches] = useState<number>(0);
@@ -298,6 +307,8 @@ function Dashboard({ QRdata, setQRdata, FarmAccountData, batchData }: any) {
         QRdata={QRdata}
         setQRdata={setQRdata}
         FarmAccountData={FarmAccountData}
+        batchData={batchData}
+        setBatchData={setBatchData}
       />
     </>
   );
@@ -309,6 +320,8 @@ function CreateBatch({
   QRdata,
   setQRdata,
   FarmAccountData,
+  setBatchData,
+  batchData,
 }: any): JSX.Element {
   const [BatchSize, setBatchSize] = useState(0);
   const [CreateQr, setCreateQr] = useState(false);
@@ -347,6 +360,16 @@ function CreateBatch({
             timestamp: batch_input.timestamp,
           });
           setCreateQr(true);
+          setBatchData([
+            ...batchData,
+            {
+              batch_id: batch_input.batch_id,
+              batch_pubkey: Batch_pubkey,
+              distributor_pubkey: PublicKey.default.toString(),
+              batch_size: batch_input.batch_size,
+              generated_at: batch_input.timestamp,
+            },
+          ]);
           console.log(batch_input);
         })
         .catch((err) => console.log(err));
@@ -363,7 +386,12 @@ function CreateBatch({
       <div className="create_batch">
         <div className="create_batch_input">
           <button onClick={() => setBatchSize(BatchSize - 1)}>-</button>
-          <input type="text" placeholder="No. of chickens" value={BatchSize} />
+          <input
+            type="number"
+            placeholder="No. of chickens"
+            onChange={(e) => setBatchSize(Number(e.target.value))}
+            value={BatchSize}
+          />{" "}
           <button onClick={() => setBatchSize(BatchSize + 1)}>+</button>
         </div>
         <button
@@ -386,10 +414,10 @@ function CreateBatch({
               logoImage={logo}
               logoWidth={45}
               logoHeight={50}
-              eyeRadius={10}
+              eyeRadius={7}
               qrStyle={"dots"}
             />
-            <h3>Sanket ProFarm</h3>
+            <h3>{FarmAccountData.farm_data.farm_name}</h3>
           </div>
         ) : (
           <img src={qrnopreview} />

@@ -11,7 +11,17 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .container {
   max-width: 1920px;
   margin: 0 auto;
