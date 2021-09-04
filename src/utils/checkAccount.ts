@@ -46,6 +46,7 @@ export async function checkFarmAcount(
     }
   }
 }
+
 export async function checkOfficerAcount(
   programId: PublicKey,
   wallet: PublicKey,
@@ -63,3 +64,48 @@ export async function checkOfficerAcount(
     return Pubkey;
   }
 }
+
+export async function checkDistributorsAccount(
+  programId: PublicKey,
+  wallet: PublicKey,
+  connection: Connection
+) {
+  const PubKey = await PublicKey.createWithSeed(
+    wallet,
+    "distributoraccount",
+    programId
+  );
+
+  const accountInfo = await connection.getAccountInfo(PubKey);
+
+  if (accountInfo) {
+    return {
+      data: borsh.deserialize(SCHEMA, DistributorAccount, accountInfo.data),
+      distributorAccountPubkey: PubKey,
+    };
+  }
+  return false;
+}
+
+export async function checkSellerAccount(
+  programId: PublicKey,
+  wallet: PublicKey,
+  connection: Connection
+) {
+  const PubKey = await PublicKey.createWithSeed(
+    wallet,
+    "selleraccount",
+    programId
+  );
+
+  const accountInfo = await connection.getAccountInfo(PubKey);
+
+  if (accountInfo) {
+    return {
+      data: borsh.deserialize(SCHEMA, SellerAccount, accountInfo.data),
+      sellerAccountPubkey: PubKey,
+    };
+  }
+  return false;
+}
+

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import QrReader from "react-qr-reader";
 
 import "./DistributorsDashboard.css";
@@ -10,6 +10,12 @@ import { Icon } from "@iconify/react";
 import close from "../../assets/images/icons/close.svg";
 import phLogoBrownBroder from "../../assets/images/logo/phLogoBrownBorder.svg";
 import { MyResponsiveBar, MyResponsivePie } from "../Chart";
+import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { checkDistributorsAccount } from "../../utils/checkAccount";
+import { PublicKey } from "@solana/web3.js";
+import { DistributorAccount } from "../../schema";
+import { UpdateBatchDistributor } from "../../instructions";
 
 export const DDTable = () => {
   return (
@@ -131,6 +137,16 @@ const DistributorsDashboard = () => {
   const [qrData, setQrData] = useState<any>();
   const [navigation, setNavigation] = useState<string>("dashboard");
   const [topNav, setTopNav] = useState<string>("grid");
+  const [distributorData, setDistributorData] = useState<
+    DistributorAccount | undefined
+  >(undefined);
+  const { publicKey, connected, sendTransaction } = useWallet();
+  const [batchData, setBatchData] = useState<any>({
+    batchSize: undefined,
+    batchId: undefined,
+    key: undefined,
+  });
+  const { connection } = useConnection();
 
   const handleQRToggle = (close = "any") => {
     if (close == "close") {
@@ -140,7 +156,7 @@ const DistributorsDashboard = () => {
       setQrToggle(!qrToggle);
       if (!qrToggle) {
         setQrAnimation("qr-show 400ms ease-in-out");
-        setBatchDataAnimation("translateY(0px)");
+        // setBatchDataAnimation("translateY(0px)");
       } else {
         setQrAnimation("qr-dont-show 400ms ease-in-out");
       }
@@ -151,9 +167,41 @@ const DistributorsDashboard = () => {
     setBatchDataAnimation("translateY(400px)");
   };
 
+  const updateBatchData = () => {
+    if (publicKey) {
+      UpdateBatchDistributor(
+        new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
+        batchData.key,
+        new PublicKey(publicKey),
+        connection,
+        sendTransaction
+      )
+        .then(() => {
+          console.log("Successfully added to inventory");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   const handleScan = (data: any) => {
     if (data) {
       setQrData(data);
+
+      // {
+      //     Batch_id:27722,
+      //     Batch_size:626,
+      //     Key:heiaiajehwiaooqosjnsa
+      //     Timestamp:277288282
+      // }
+
+      setBatchDataAnimation("translateY(0px)");
+      setBatchData({
+        batchId: JSON.parse(data).batchId,
+        batchSize: JSON.parse(data).batchSize,
+        key: JSON.parse(data).key,
+      });
     }
   };
 
@@ -161,18 +209,58 @@ const DistributorsDashboard = () => {
     console.error(err);
   };
 
+  useEffect(() => {
+    if (connected && publicKey) {
+      checkDistributorsAccount(
+        new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
+        new PublicKey(publicKey),
+        connection
+      )
+        .then((data: any) => {
+          console.log(data.data);
+          setDistributorData(data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log(connected, publicKey);
+    }
+  }, [publicKey]);
+
   return (
     <div className="distributorsDashboard--main-container">
       {/* Header */}
       <header>
         <div className="dd-header-name">
-          <h3>
-            <span id="light">Hi, </span>Sanket ProDistributor
-          </h3>
-          <img src={cart} />
+          {distributorData !== undefined ? (
+            <h3 style={{ fontSize: "1rem" }}>
+              <span id="light">Hi, </span>
+              {distributorData.distributor_name} ProDistributor
+            </h3>
+          ) : (
+            <h3 style={{ fontSize: "1rem" }}>
+              <span id="light">Hi, </span>Loading ProDistributor
+            </h3>
+          )}
+          {/* <img src={cart} /> */}
+          <WalletDisconnectButton
+            style={{
+              right: "0px",
+              width: "fit-content",
+              height: "30px",
+              borderRadius: "15px",
+              fontSize: "0px",
+              fontWeight: 500,
+            }}
+          />
         </div>
         <div className="dd-header-navigation" style={{ display: topNav }}>
-          <div className="dd-navigation-item" id="orange">
+          <div
+            className="dd-navigation-item"
+            id="orange"
+            onClick={() => console.log(distributorData)}
+          >
             <p>Weekly</p>
           </div>
           <div className="dd-navigation-item" id="white">
@@ -208,10 +296,13 @@ const DistributorsDashboard = () => {
         <img src={close} id="dd-close" onClick={handleBatchDataToggle} />
         <img src={phLogoBrownBroder} id="dd-logo" />
         <div className="dd-scan-results-data">
-          <h1>Batch ID: 6289</h1>
-          <p>30 Chickens in the batch.</p>
+          <h1>Batch ID: {batchData.batchId ? batchData.batchId : 0}</h1>
+          <p>
+            {batchData.batchSize ? batchData.batchSize : 0} Chickens in the
+            batch.
+          </p>
         </div>
-        <button>Add to Inventory</button>
+        <button onClick={updateBatchData}>Add to Inventory</button>
       </div>
       {/* Bottom Nav */}
       <div className="distributors-dash-bottom-panel-wrapper">

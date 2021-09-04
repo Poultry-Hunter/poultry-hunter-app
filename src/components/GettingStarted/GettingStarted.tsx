@@ -92,6 +92,7 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done!!");
+            history.push("/farm-dashboard");
           })
           .catch(() => {
             console.log("Failed");
@@ -113,6 +114,7 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done");
+            history.push("/distributors-dashboard");
           })
           .catch(() => {
             console.log("Failed transaction");
@@ -134,6 +136,7 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done");
+            history.push("/sellers-dashboard");
           })
           .catch(() => {
             console.log("Failed transaction");

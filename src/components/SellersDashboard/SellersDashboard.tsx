@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import QrReader from "react-qr-reader";
 import { Inventory } from "../DistributorsDashboard/DistributorsDashboard";
 
@@ -10,6 +10,11 @@ import close from "../../assets/images/icons/close.svg";
 import phLogoBrownBroder from "../../assets/images/logo/phLogoBrownBorder.svg";
 
 import "./SellersDashboard.css";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { checkSellerAccount } from "../../utils/checkAccount";
+import { PublicKey } from "@solana/web3.js";
+import { SellerAccount } from "../../schema";
+import { UpdateBatchSeller } from "../../instructions";
 
 const SellersDashboard = () => {
   const [qrToggle, setQrToggle] = useState<boolean>(false);
@@ -20,6 +25,16 @@ const SellersDashboard = () => {
     useState<string>("translateY(400px)");
   const [qrData, setQrData] = useState<any>();
   const [navigation, setNavigation] = useState<string>("dashboard");
+  const [sellersData, setSellersData] = useState<SellerAccount | undefined>(
+    undefined
+  );
+  const [batchData, setBatchData] = useState<any>({
+    batchId: undefined,
+    batchSize: undefined,
+    key: undefined,
+  });
+  const { connected, publicKey, sendTransaction } = useWallet();
+  const { connection } = useConnection();
 
   const handleQRToggle = (close = "any") => {
     if (close == "close") {
@@ -35,6 +50,23 @@ const SellersDashboard = () => {
       }
     }
   };
+
+  const updateBatchData = () => {
+    if (publicKey) {
+      UpdateBatchSeller(
+        new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
+        batchData.key,
+        new PublicKey(publicKey),
+        connection,
+        sendTransaction
+      )
+        .then(() => {
+          console.log("successfully added to inventory");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   const handleBatchDataToggle = () => {
     setBatchDataAnimation("translateY(400px)");
   };
@@ -42,6 +74,14 @@ const SellersDashboard = () => {
   const handleScan = (data: any) => {
     if (data) {
       setQrData(data);
+
+      setBatchData({
+        batchId: JSON.parse(data).batchId,
+        batchSize: JSON.parse(data).batchSize,
+        key: JSON.parse(data).key,
+      });
+
+      setBatchDataAnimation("translateY(0px)");
     }
   };
 
@@ -49,13 +89,39 @@ const SellersDashboard = () => {
     console.error(err);
   };
 
+  useEffect(() => {
+    if (connected && publicKey) {
+      checkSellerAccount(
+        new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
+        new PublicKey(publicKey),
+        connection
+      )
+        .then((data: any) => {
+          console.log(data.data);
+          setSellersData(data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log(connected, publicKey);
+    }
+  }, [publicKey]);
+
   return (
     <div className="seller-dash">
       <header>
         <div className="s-header-name">
-          <h3>
-            <span id="light">Hi, </span>Sanket ProSeller
-          </h3>
+          {sellersData !== undefined ? (
+            <h3>
+              <span id="light">Hi, </span>
+              {sellersData.owner_name} ProSeller
+            </h3>
+          ) : (
+            <h3>
+              <span id="light">Hi, </span>Loading
+            </h3>
+          )}
           <img src={cart} />
         </div>
       </header>
@@ -88,8 +154,14 @@ const SellersDashboard = () => {
         <img src={close} id="dd-close" onClick={handleBatchDataToggle} />
         <img src={phLogoBrownBroder} id="dd-logo" />
         <div className="dd-scan-results-data">
-          <h1>Batch ID: 6289</h1>
-          <p>30 Chickens in the batch.</p>
+          <h1>
+            Batch ID:
+            {batchData.batchId === undefined ? 0 : batchData.batchId}
+          </h1>
+          <p>
+            {batchData.batchSize === undefined ? 0 : batchData.batchSize}{" "}
+            Chickens in the batch.
+          </p>
         </div>
         <button>Add to Inventory</button>
       </div>
