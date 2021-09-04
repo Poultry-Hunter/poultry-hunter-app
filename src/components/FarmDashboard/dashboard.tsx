@@ -36,7 +36,7 @@ import { useHistory } from "react-router";
 import { FarmAccount } from "../../schema";
 type FarmDataType = {
   farm_data: FarmAccount;
-  farm_account_pubkey: PublicKey;
+  farm_account_pubkey: string;
 };
 export function FarmDashboard() {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
@@ -139,7 +139,7 @@ export function FarmDashboard() {
               batchData={batchData}
             />
           ) : (
-            <Inventory />
+            <Inventory batchData={batchData} />
           )}
         </div>
       </div>
@@ -258,7 +258,12 @@ function Dashboard({ QRdata, setQRdata, FarmAccountData, batchData }: any) {
                       <th>
                         <button
                           onClick={() => {
-                            setQRdata({ batch_size: 20 });
+                            setQRdata({
+                              batch_id: batch.batch_id,
+                              batch_size: batch.batch_size,
+                              key: batch.batch_pubkey,
+                              timestamp: batch.timestamp,
+                            });
                             setShowQrPreview(true);
                           }}
                         >
@@ -427,7 +432,30 @@ function CreateBatch({
     </div>
   );
 }
-export function Inventory() {
+export function Inventory({ batchData }: any) {
+  const [TotalSale, setTotalSale] = useState<number>(0);
+  const [GeneratedBatches, setGeneratedBatches] = useState<number>(0);
+  const [totalChickens, settotalChickens] = useState<number>(0);
+  useEffect(() => {
+    let SoldBatches = 0;
+    let GeneratedBatches = 0;
+    let totalchicken = 0;
+    batchData.map(
+      //@ts-ignore
+      (batch) => {
+        if (batch.distributor_pubkey != PublicKey.default.toString()) {
+          SoldBatches++;
+          setTotalSale(SoldBatches);
+        } else {
+          GeneratedBatches++;
+          setGeneratedBatches(GeneratedBatches);
+        }
+        totalchicken += batch.batch_size;
+        settotalChickens(totalchicken);
+      }
+    );
+    setTotalSale(SoldBatches);
+  }, [batchData]);
   return (
     <div className="inventory_main">
       <div className="farm_inventory_analysis_section">
@@ -436,14 +464,14 @@ export function Inventory() {
           <div className="farm_inventory_summary_info_blocks">
             <div className="farm_inventory_summary_batches">
               <div className="inventory_summary_data">
-                <h3>12</h3>
+                <h3>{GeneratedBatches}</h3>
                 <h4>batches</h4>
               </div>
               <BatchesIcon />
             </div>
             <div className="farm_inventory_summary_chickens">
               <div className="inventory_summary_data">
-                <h3>99</h3>
+                <h3>{totalChickens}</h3>
                 <h4>Chickens</h4>
               </div>
               <ChickenIcon />
@@ -476,45 +504,43 @@ export function Inventory() {
               <th>Preview</th>
               <th></th>
             </tr>
-            {[1, 2, 3, 4, 5, 6, 7, 8].map(() => {
-              return (
-                <tr className="recent_table_content">
-                  <th>10/02/2021</th>
-                  <th>11:10</th>
-                  <th>232</th>
-                  <th>20</th>
-                  <th>
-                    <button
-                    // onClick={() => {
-                    //   setQRdata({ batch_size: 20 });
-                    //   setShowQrPreview(true);
-                    // }}
-                    >
-                      <Icon
-                        icon="heroicons-outline:qrcode"
-                        style={{
-                          width: "30px",
-                          height: "30px",
-                          color: "#FF9900",
-                        }}
-                      />
-                    </button>
-                  </th>
-                  <th>
-                    <button>
-                      <Icon
-                        icon="ant-design:delete-outlined"
-                        style={{
-                          width: "30px",
-                          height: "30px",
-                          color: "red",
-                        }}
-                      />
-                    </button>
-                  </th>
-                </tr>
-              );
-            })}
+            {batchData.length != 0
+              ? //@ts-ignore
+                batchData.map((batch) => {
+                  return (
+                    <tr className="recent_table_content">
+                      <th>test</th>
+                      <th>11:10</th>
+                      <th>{batch.batch_id}</th>
+                      <th>{batch.batch_size}</th>
+                      <th>
+                        <button>
+                          <Icon
+                            icon="heroicons-outline:qrcode"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              color: "#FF9900",
+                            }}
+                          />
+                        </button>
+                      </th>
+                      <th>
+                        <button>
+                          <Icon
+                            icon="ant-design:delete-outlined"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              color: "red",
+                            }}
+                          />
+                        </button>
+                      </th>
+                    </tr>
+                  );
+                })
+              : "No Data"}
           </table>
         </div>
       </div>

@@ -39,7 +39,7 @@ export async function checkFarmAcount(
       );
       const data = {
         farm_data: farm_data,
-        farm_account_pubkey: Pubkey,
+        farm_account_pubkey: Pubkey.toString(),
         farm_batches: batches,
       };
       return data;
@@ -47,7 +47,7 @@ export async function checkFarmAcount(
   }
 }
 
-export async function checkOfficerAcount(
+export async function checkOfficerAccount(
   programId: PublicKey,
   wallet: PublicKey,
   connection: Connection
@@ -61,7 +61,25 @@ export async function checkOfficerAcount(
   if (account_info === null) {
     return false;
   } else {
-    return Pubkey;
+    if (wallet) {
+      const batches = await GetBatchAccounts(
+        programId,
+        wallet,
+        connection,
+        "marked_by"
+      );
+      const officer_data = borsh.deserialize(
+        SCHEMA,
+        HealthOfficerAccount,
+        account_info.data
+      );
+      const data = {
+        officer_data: officer_data,
+        officer_account_pubkey: Pubkey,
+        marked_batches: batches,
+      };
+      return data;
+    }
   }
 }
 
@@ -79,10 +97,25 @@ export async function checkDistributorsAccount(
   const accountInfo = await connection.getAccountInfo(PubKey);
 
   if (accountInfo) {
-    return {
-      data: borsh.deserialize(SCHEMA, DistributorAccount, accountInfo.data),
-      distributorAccountPubkey: PubKey,
-    };
+    if (PubKey) {
+      const batches = await GetBatchAccounts(
+        programId,
+        PubKey,
+        connection,
+        "distributor_pubkey"
+      );
+      const distributor_data = borsh.deserialize(
+        SCHEMA,
+        DistributorAccount,
+        accountInfo.data
+      );
+      const data = {
+        data: distributor_data,
+        distributorAccountPubkey: PubKey,
+        distributor_batches: batches,
+      };
+      return data;
+    }
   }
   return false;
 }
@@ -101,11 +134,25 @@ export async function checkSellerAccount(
   const accountInfo = await connection.getAccountInfo(PubKey);
 
   if (accountInfo) {
-    return {
-      data: borsh.deserialize(SCHEMA, SellerAccount, accountInfo.data),
-      sellerAccountPubkey: PubKey,
-    };
+    if (PubKey) {
+      const batches = await GetBatchAccounts(
+        programId,
+        PubKey,
+        connection,
+        "seller_pubkey"
+      );
+      const seller_data = borsh.deserialize(
+        SCHEMA,
+        SellerAccount,
+        accountInfo.data
+      );
+      const data = {
+        data: seller_data,
+        sellerAccountPubkey: PubKey,
+        seller_batches: batches,
+      };
+      return data;
+    }
   }
   return false;
 }
-

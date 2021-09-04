@@ -16,6 +16,7 @@ import { checkDistributorsAccount } from "../../utils/checkAccount";
 import { PublicKey } from "@solana/web3.js";
 import { DistributorAccount } from "../../schema";
 import { UpdateBatchDistributor } from "../../instructions";
+import { useHistory } from "react-router";
 
 export const DDTable = () => {
   return (
@@ -116,7 +117,7 @@ const DistributorsDashboard = () => {
     key: undefined,
   });
   const { connection } = useConnection();
-
+  const history = useHistory();
   const handleQRToggle = (close = "any") => {
     if (close == "close") {
       setQrAnimation("qr-dont-show 400ms ease-in-out");
@@ -182,12 +183,14 @@ const DistributorsDashboard = () => {
     if (connected && publicKey) {
       checkDistributorsAccount(
         new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
-        new PublicKey(publicKey),
+        publicKey,
         connection
       )
-        .then((data: any) => {
-          console.log(data.data);
-          setDistributorData(data.data);
+        .then((data) => {
+          console.log(data);
+          if (!data) {
+            history.push("getting-started");
+          }
         })
         .catch((err) => {
           console.log(err);
