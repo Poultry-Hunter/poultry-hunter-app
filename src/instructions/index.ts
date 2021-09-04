@@ -94,6 +94,7 @@ export async function CreateAccountAndInitialiseDistributor(
   connection: Connection,
   sendTransaction: any
 ) {
+  console.log(programId, wallet_pubkey, distributorData, connection, sendTransaction)
   const distributor_data = new DistributorAccount(distributorData);
   const input = borsh.serialize(SCHEMA, distributor_data);
   const DISTRIBUTOR_ACCOUNT_SIZE = input.length;

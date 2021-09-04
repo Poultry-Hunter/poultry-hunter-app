@@ -18,7 +18,7 @@ import {
 } from "../../instructions";
 import { HealthOfficerAccount } from "../../schema";
 import { useHistory } from "react-router";
-import { GetBatchAccount } from "../../utils/filters";
+import { GetBatchData } from "../../utils/filters";
 type officerDataType = {
   officer_data: HealthOfficerAccount;
   officer_account_pubkey: PublicKey;
@@ -86,7 +86,7 @@ export const OfficerDashboard = () => {
   function markChain() {
     if (QrData) {
       console.log(QrData);
-      GetBatchAccount(
+      GetBatchData(
         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
         new PublicKey(QrData.key),
         connection

@@ -46,6 +46,7 @@ export async function checkFarmAcount(
     }
   }
 }
+
 export async function checkOfficerAccount(
   programId: PublicKey,
   wallet: PublicKey,
@@ -80,4 +81,78 @@ export async function checkOfficerAccount(
       return data;
     }
   }
+}
+
+export async function checkDistributorsAccount(
+  programId: PublicKey,
+  wallet: PublicKey,
+  connection: Connection
+) {
+  const PubKey = await PublicKey.createWithSeed(
+    wallet,
+    "distributoraccount",
+    programId
+  );
+
+  const accountInfo = await connection.getAccountInfo(PubKey);
+
+  if (accountInfo) {
+    if (PubKey) {
+      const batches = await GetBatchAccounts(
+        programId,
+        PubKey,
+        connection,
+        "distributor_pubkey"
+      );
+      const distributor_data = borsh.deserialize(
+        SCHEMA,
+        DistributorAccount,
+        accountInfo.data
+      );
+      const data = {
+        data: distributor_data,
+        distributorAccountPubkey: PubKey,
+        distributor_batches: batches,
+      };
+      return data;
+    }
+  }
+  return false;
+}
+
+export async function checkSellerAccount(
+  programId: PublicKey,
+  wallet: PublicKey,
+  connection: Connection
+) {
+  const PubKey = await PublicKey.createWithSeed(
+    wallet,
+    "selleraccount",
+    programId
+  );
+
+  const accountInfo = await connection.getAccountInfo(PubKey);
+
+  if (accountInfo) {
+    if (PubKey) {
+      const batches = await GetBatchAccounts(
+        programId,
+        PubKey,
+        connection,
+        "seller_pubkey"
+      );
+      const seller_data = borsh.deserialize(
+        SCHEMA,
+        SellerAccount,
+        accountInfo.data
+      );
+      const data = {
+        data: seller_data,
+        sellerAccountPubkey: PubKey,
+        seller_batches: batches,
+      };
+      return data;
+    }
+  }
+  return false;
 }

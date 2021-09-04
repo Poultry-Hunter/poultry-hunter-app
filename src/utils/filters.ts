@@ -51,7 +51,10 @@ export async function GetBatchAccounts(
     return accounts_data;
   }
 }
-export async function GetBatchAccount(
+
+
+
+export async function GetBatchData(
   programId: PublicKey,
   batch_pubkey: PublicKey,
   connection: Connection
@@ -71,6 +74,9 @@ export async function GetBatchAccount(
     return batch_data;
   }
 }
+
+
+
 export async function GetFarmerData(
   programId: PublicKey,
   farm_pubkey: PublicKey,
