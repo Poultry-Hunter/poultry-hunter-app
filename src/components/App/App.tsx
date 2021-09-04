@@ -5,7 +5,7 @@ import { clusterApiUrl } from "@solana/web3.js";
 
 import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
 
-import {ReactMap} from "../mapbox";
+import { ReactMap } from "../mapbox";
 
 import {
   WalletProvider,
@@ -41,13 +41,16 @@ export const App = (): JSX.Element => {
   );
   return (
     <>
-      <ConnectionProvider endpoint={"http://127.0.0.1:8899"}>
+      <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletDialogProvider>
             <Router>
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/getting-started" component={GettingStarted} />
+                <Route
+                  path="/getting-started/:userType"
+                  component={GettingStarted}
+                />
                 <Route
                   path="/getting-started-desktop"
                   component={GettingStartedDesktop}
