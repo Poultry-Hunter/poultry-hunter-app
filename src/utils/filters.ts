@@ -37,6 +37,7 @@ export async function GetBatchAccounts(
     });
     const accounts_data = BatchAccounts.map((account_info) => {
       let batch_data = BATCH_LAYOUT.decode(account_info.account.data);
+      batch_data.batch_pubkey = account_info.pubkey.toString();
       batch_data.farm_pubkey = new PublicKey(batch_data.farm_pubkey).toString();
       batch_data.distributor_pubkey = new PublicKey(
         batch_data.distributor_pubkey
@@ -50,7 +51,26 @@ export async function GetBatchAccounts(
     return accounts_data;
   }
 }
-
+export async function GetBatchAccount(
+  programId: PublicKey,
+  batch_pubkey: PublicKey,
+  connection: Connection
+) {
+  const account_info = await connection.getAccountInfo(batch_pubkey);
+  if (account_info === null) {
+    return false;
+  } else {
+    let batch_data = BATCH_LAYOUT.decode(account_info.data);
+    batch_data.farm_pubkey = new PublicKey(batch_data.farm_pubkey).toString();
+    batch_data.distributor_pubkey = new PublicKey(
+      batch_data.distributor_pubkey
+    ).toString();
+    batch_data.seller_pubkey = new PublicKey(
+      batch_data.seller_pubkey
+    ).toString();
+    return batch_data;
+  }
+}
 export async function GetFarmerData(
   programId: PublicKey,
   farm_pubkey: PublicKey,

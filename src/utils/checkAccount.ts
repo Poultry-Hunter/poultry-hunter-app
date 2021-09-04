@@ -39,14 +39,14 @@ export async function checkFarmAcount(
       );
       const data = {
         farm_data: farm_data,
-        farm_account_pubkey: Pubkey,
+        farm_account_pubkey: Pubkey.toString(),
         farm_batches: batches,
       };
       return data;
     }
   }
 }
-export async function checkOfficerAcount(
+export async function checkOfficerAccount(
   programId: PublicKey,
   wallet: PublicKey,
   connection: Connection
@@ -60,6 +60,24 @@ export async function checkOfficerAcount(
   if (account_info === null) {
     return false;
   } else {
-    return Pubkey;
+    if (wallet) {
+      const batches = await GetBatchAccounts(
+        programId,
+        wallet,
+        connection,
+        "marked_by"
+      );
+      const officer_data = borsh.deserialize(
+        SCHEMA,
+        HealthOfficerAccount,
+        account_info.data
+      );
+      const data = {
+        officer_data: officer_data,
+        officer_account_pubkey: Pubkey,
+        marked_batches: batches,
+      };
+      return data;
+    }
   }
 }
