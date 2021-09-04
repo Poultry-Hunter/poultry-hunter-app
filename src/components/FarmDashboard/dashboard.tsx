@@ -60,7 +60,7 @@ export function FarmDashboard() {
           console.log(farm_data);
           if (!farm_data) {
             history.push(`getting-started/farmer`);
-            window.location.assign("/getting-started/farmer")
+            window.location.assign("/getting-started/farmer");
           } else {
             console.log(farm_data);
             setFarmAccountData({
@@ -169,15 +169,13 @@ function Dashboard({
         if (batch.distributor_pubkey != PublicKey.default.toString()) {
           SoldBatches++;
           setTotalSale(SoldBatches);
-        } else {
-          GeneratedBatches++;
-          setGeneratedBatches(GeneratedBatches);
         }
+        GeneratedBatches++;
+        setGeneratedBatches(GeneratedBatches);
         totalchicken += batch.batch_size;
         settotalChickens(totalchicken);
       }
     );
-    setTotalSale(SoldBatches);
   }, [batchData]);
   return (
     <>
@@ -470,10 +468,9 @@ export function Inventory({ batchData }: any) {
         if (batch.distributor_pubkey != PublicKey.default.toString()) {
           SoldBatches++;
           setTotalSale(SoldBatches);
-        } else {
-          GeneratedBatches++;
-          setGeneratedBatches(GeneratedBatches);
         }
+        GeneratedBatches++;
+        setGeneratedBatches(GeneratedBatches);
         totalchicken += batch.batch_size;
         settotalChickens(totalchicken);
       }

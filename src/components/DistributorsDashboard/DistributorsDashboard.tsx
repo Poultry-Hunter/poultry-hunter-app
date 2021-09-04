@@ -56,10 +56,10 @@ export const DDTable = ({ batchData }: any) => {
               )
             </table>
           ) : (
-            <p style={{textAlign: "center"}}>No Batches</p>
+            <p style={{ textAlign: "center" }}>No Batches</p>
           )
         ) : (
-            <p style={{textAlign: "center"}}>No Batches</p>
+          <p style={{ textAlign: "center" }}>No Batches</p>
         )}
       </div>
     </div>
@@ -155,7 +155,7 @@ const DistributorsDashboard = () => {
     if (publicKey) {
       UpdateBatchDistributor(
         new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
-        currentBatchData.key,
+        new PublicKey(currentBatchData.key),
         new PublicKey(publicKey),
         connection,
         sendTransaction
@@ -197,7 +197,7 @@ const DistributorsDashboard = () => {
     console.log(connection);
     if (connected && publicKey) {
       // alert("connected")
-      console.log(connected, publicKey.toBase58())
+      console.log(connected, publicKey.toBase58());
       checkDistributorsAccount(
         new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
         publicKey,
@@ -208,7 +208,7 @@ const DistributorsDashboard = () => {
             history.push("getting-started/distributor");
             // window.location.assign("/getting-started/distributor")
           } else {
-            console.log("got data")
+            console.log("got data");
           }
           console.log(data);
           setDistributorData(data.data);
@@ -224,7 +224,7 @@ const DistributorsDashboard = () => {
       console.log(connected, publicKey);
       // alert("not connected")
     }
-  }, [publicKey,connected]);
+  }, [publicKey, connected]);
 
   return connected ? (
     <div className="distributorsDashboard--main-container">
