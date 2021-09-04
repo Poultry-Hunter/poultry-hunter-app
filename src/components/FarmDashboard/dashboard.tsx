@@ -60,6 +60,7 @@ export function FarmDashboard() {
           console.log(farm_data);
           if (!farm_data) {
             history.push(`getting-started/farmer`);
+            window.location.assign("/getting-started/farmer")
           } else {
             console.log(farm_data);
             setFarmAccountData({

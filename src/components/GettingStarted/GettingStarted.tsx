@@ -270,10 +270,32 @@ const GettingStartedMobile = () => {
                     required
                   />
                 </div>
-                <div
-                  className="getting-started-form-map"
-                  id="getting-started-form-map"
-                ></div>
+                <div className="gs-form-input">
+                  {userType === "farmer" ? (
+                    <label>
+                      Farm Location <span id="red-star">*</span>
+                    </label>
+                  ) : userType === "distributor" ? (
+                    <label>
+                      Distribution Center Location <span id="red-star">*</span>
+                    </label>
+                  ) : userType === "seller" ? (
+                    <label>
+                      Shop Location <span id="red-star">*</span>
+                    </label>
+                  ) : userType === "officer" ? (
+                    <label>
+                      Office Location <span id="red-star">*</span>
+                    </label>
+                  ) : (
+                    ""
+                  )}
+
+                  <div
+                    className="getting-started-form-map"
+                    id="getting-started-form-map"
+                  ></div>
+                </div>
                 <button className="getting-started-desktop-form-button">
                   Create Account
                 </button>

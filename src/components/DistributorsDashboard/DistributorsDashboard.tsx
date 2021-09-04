@@ -17,8 +17,9 @@ import { PublicKey } from "@solana/web3.js";
 import { DistributorAccount } from "../../schema";
 import { UpdateBatchDistributor } from "../../instructions";
 import { useHistory } from "react-router";
+import ConnectWallet from "../ConnectWallet/ConnectWallet";
 
-export const DDTable = () => {
+export const DDTable = ({ batchData }: any) => {
   return (
     <div className="dd-main-table">
       <div className="dd_analytics_history">
@@ -30,30 +31,42 @@ export const DDTable = () => {
             style={{ width: "25px", fill: "#909090" }}
           />
         </div>
-        <table className="dd_recent_table">
-          <tr className="recent_table_head" id="dd-recent_table_content">
-            <th>Date</th>
-            <th>Time</th>
-            <th>Batch ID</th>
-            <th>Batch size</th>
-          </tr>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
-            return (
-              <tr className="recent_table_content" id="dd-recent_table_content">
-                <th>10/02/2021</th>
-                <th>11:10</th>
-                <th>232</th>
-                <th>20</th>
+        {batchData !== undefined ? (
+          batchData.length !== 0 ? (
+            <table className="dd_recent_table">
+              <tr className="recent_table_head" id="dd-recent_table_content">
+                <th>Date</th>
+                <th>Time</th>
+                <th>Batch ID</th>
+                <th>Batch size</th>
               </tr>
-            );
-          })}
-        </table>
+              {batchData.map((batch: any) => {
+                return (
+                  <tr
+                    className="recent_table_content"
+                    id="dd-recent_table_content"
+                  >
+                    <th>10/02/2021</th>
+                    <th>11:10</th>
+                    <th>{batch.batch_id}</th>
+                    <th>{batch.batch_size}</th>
+                  </tr>
+                );
+              })}
+              )
+            </table>
+          ) : (
+            <p style={{textAlign: "center"}}>No Batches</p>
+          )
+        ) : (
+            <p style={{textAlign: "center"}}>No Batches</p>
+        )}
       </div>
     </div>
   );
 };
 
-const Dashboard = () => {
+const Dashboard = ({ batchData }: any) => {
   return (
     <main>
       <div className="dd-main-barchart">
@@ -61,7 +74,7 @@ const Dashboard = () => {
       </div>
       <div className="dd-main-counter">
         <div className="dd-main-counter-item">
-          <h1>3590</h1>
+          <h1>{batchData !== undefined ? batchData.length : 0}</h1>
           <p>Total Batches Purchased</p>
         </div>
         <div className="dd-main-counter-item">
@@ -69,7 +82,7 @@ const Dashboard = () => {
           <p>Total Batches Sold</p>
         </div>
       </div>
-      <DDTable />
+      <DDTable batchData={batchData} />
     </main>
   );
 };
@@ -111,11 +124,12 @@ const DistributorsDashboard = () => {
     DistributorAccount | undefined
   >(undefined);
   const { publicKey, connected, sendTransaction } = useWallet();
-  const [batchData, setBatchData] = useState<any>({
+  const [currentBatchData, setCurrentBatchData] = useState<any>({
     batchSize: undefined,
     batchId: undefined,
     key: undefined,
   });
+  const [batchData, setBatchData] = useState([]);
   const { connection } = useConnection();
   const history = useHistory();
   const handleQRToggle = (close = "any") => {
@@ -141,7 +155,7 @@ const DistributorsDashboard = () => {
     if (publicKey) {
       UpdateBatchDistributor(
         new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
-        batchData.key,
+        currentBatchData.key,
         new PublicKey(publicKey),
         connection,
         sendTransaction
@@ -167,7 +181,7 @@ const DistributorsDashboard = () => {
       // }
 
       setBatchDataAnimation("translateY(0px)");
-      setBatchData({
+      setCurrentBatchData({
         batchId: JSON.parse(data).batchId,
         batchSize: JSON.parse(data).batchSize,
         key: JSON.parse(data).key,
@@ -180,30 +194,39 @@ const DistributorsDashboard = () => {
   };
 
   useEffect(() => {
+    console.log(connection);
     if (connected && publicKey) {
+      // alert("connected")
+      console.log(connected, publicKey.toBase58())
       checkDistributorsAccount(
         new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
         publicKey,
         connection
       )
         .then((data: any) => {
+          if (!data) {
+            history.push("getting-started/distributor");
+            // window.location.assign("/getting-started/distributor")
+          } else {
+            console.log("got data")
+          }
           console.log(data);
           setDistributorData(data.data);
           setBatchData(data.distributor_batches);
-          console.log(data.distributor_batches)
-          if (!data) {
-            history.push("getting-started");
-          }
+          console.log(data.distributor_batches);
         })
         .catch((err) => {
           console.log(err);
+          // history.push("/error")
+          // alert(err)
         });
     } else {
       console.log(connected, publicKey);
+      // alert("not connected")
     }
-  }, [publicKey]);
+  }, [publicKey,connected]);
 
-  return (
+  return connected ? (
     <div className="distributorsDashboard--main-container">
       {/* Header */}
       <header>
@@ -244,7 +267,11 @@ const DistributorsDashboard = () => {
         </div>
       </header>
       {/* Main Component */}
-      {navigation === "dashboard" ? <Dashboard /> : <Inventory />}
+      {navigation === "dashboard" ? (
+        <Dashboard tableBatchData={batchData} />
+      ) : (
+        <Inventory />
+      )}
       {/* Scanner Component */}
       <div
         className="dd-qr-code-scanner-comp"
@@ -271,10 +298,12 @@ const DistributorsDashboard = () => {
         <img src={close} id="dd-close" onClick={handleBatchDataToggle} />
         <img src={phLogoBrownBroder} id="dd-logo" />
         <div className="dd-scan-results-data">
-          <h1>Batch ID: {batchData.batchId ? batchData.batchId : 0}</h1>
+          <h1>
+            Batch ID: {currentBatchData.batchId ? currentBatchData.batchId : 0}
+          </h1>
           <p>
-            {batchData.batchSize ? batchData.batchSize : 0} Chickens in the
-            batch.
+            {currentBatchData.batchSize ? currentBatchData.batchSize : 0}{" "}
+            Chickens in the batch.
           </p>
         </div>
         <button onClick={updateBatchData}>Add to Inventory</button>
@@ -372,6 +401,8 @@ const DistributorsDashboard = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <ConnectWallet />
   );
 };
 

@@ -95,6 +95,7 @@ export async function checkDistributorsAccount(
   );
 
   const accountInfo = await connection.getAccountInfo(PubKey);
+  console.log(accountInfo)
 
   if (accountInfo) {
     if (PubKey) {

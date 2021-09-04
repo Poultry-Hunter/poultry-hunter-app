@@ -41,7 +41,7 @@ export const App = (): JSX.Element => {
   );
   return (
     <>
-      <ConnectionProvider endpoint={endpoint}>
+      <ConnectionProvider endpoint="http://127.0.0.1:8899">
         <WalletProvider wallets={wallets} autoConnect>
           <WalletDialogProvider>
             <Router>
@@ -52,7 +52,7 @@ export const App = (): JSX.Element => {
                   component={GettingStarted}
                 />
                 <Route
-                  path="/getting-started-desktop"
+                  path="/getting-started-desktop/:userType"
                   component={GettingStartedDesktop}
                 />
                 <Route path="/connect-Wallet" component={ConnectWallet} />

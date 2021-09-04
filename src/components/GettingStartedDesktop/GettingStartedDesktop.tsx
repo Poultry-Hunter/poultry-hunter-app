@@ -68,10 +68,6 @@ export const GettingStartedDesktop = () => {
     }
   }, [geolocate]);
 
-  useEffect(() => {
-    console.log(`Usertype ${userType}`);
-  }, [userType]);
-
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
 
@@ -115,6 +111,7 @@ export const GettingStartedDesktop = () => {
         )
           .then(() => {
             console.log("transaction done");
+            window.location.assign("/distributors-dashboard")
           })
           .catch(() => {
             console.log("Failed transaction");
@@ -203,19 +200,19 @@ export const GettingStartedDesktop = () => {
             <div className="gs-form-input--desktop">
               {userType === "farmer" ? (
                 <label>
-                  Farm Name <span>*</span>
+                  Farm Name <span id="red-star">*</span>
                 </label>
               ) : userType === "distributor" ? (
                 <label>
-                  Distribution Center Name <span>*</span>
+                  Distribution Center Name <span id="red-star">*</span>
                 </label>
               ) : userType === "seller" ? (
                 <label>
-                  Shop Name <span>*</span>
+                  Shop Name <span id="red-star">*</span>
                 </label>
               ) : userType === "officer" ? (
                 <label>
-                  Office Id <span>*</span>
+                  Office Id <span id="red-star">*</span>
                 </label>
               ) : (
                 ""
@@ -240,11 +237,11 @@ export const GettingStartedDesktop = () => {
             <div className="gs-form-input--desktop">
               {userType === "officer" ? (
                 <label>
-                  Officer Name <span>*</span>{" "}
+                  Officer Name <span id="red-star">*</span>{" "}
                 </label>
               ) : (
                 <label>
-                  Owner Name <span>*</span>{" "}
+                  Owner Name <span id="red-star">*</span>{" "}
                 </label>
               )}
               <input
@@ -256,7 +253,7 @@ export const GettingStartedDesktop = () => {
             </div>
             <div className="gs-form-input--desktop">
               <label>
-                Contact Number <span>*</span>
+                Contact Number <span id="red-star">*</span>
               </label>
               <input
                 type="number"
@@ -265,10 +262,32 @@ export const GettingStartedDesktop = () => {
                 required
               />
             </div>
-            <div
-              className="getting-started-form-map--desktop"
-              id="getting-started-form-map--desktop"
-            ></div>
+            <div className="gs-form-input--desktop">
+              {userType === "farmer" ? (
+                <label>
+                  Farm Location <span id="red-star">*</span>
+                </label>
+              ) : userType === "distributor" ? (
+                <label>
+                  Distribution Center Location <span id="red-star">*</span>
+                </label>
+              ) : userType === "seller" ? (
+                <label>
+                  Shop Location <span id="red-star">*</span>
+                </label>
+              ) : userType === "officer" ? (
+                <label>
+                  Office Location <span id="red-star">*</span>
+                </label>
+              ) : (
+                ""
+              )}
+
+              <div
+                className="getting-started-form-map--desktop"
+                id="getting-started-form-map--desktop"
+              ></div>
+            </div>
             <button
               className="getting-started-desktop-form-button--desktop"
               type="submit"
