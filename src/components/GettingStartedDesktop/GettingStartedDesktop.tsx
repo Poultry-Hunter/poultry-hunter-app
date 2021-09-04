@@ -29,9 +29,7 @@ export const GettingStartedDesktop = () => {
   const [map, setMap] = useState<Map>();
   const [geolocate, setGeolocate] = useState<any | undefined>();
   const [formToggle, setFormToggle] = useState<boolean>(false);
-  const [formAnimation, setFormAnimation] = useState<string>(
-    "unset"
-  );
+  const [formAnimation, setFormAnimation] = useState<string>("unset");
   // const [userType, setUserType] = useState<string>("distributor");
   const [programId, setProgramId] = useState<PublicKey>();
   const name = useRef<any>();
@@ -69,6 +67,10 @@ export const GettingStartedDesktop = () => {
       });
     }
   }, [geolocate]);
+
+  useEffect(() => {
+    console.log(`Usertype ${userType}`);
+  }, [userType]);
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();

@@ -186,8 +186,11 @@ const DistributorsDashboard = () => {
         publicKey,
         connection
       )
-        .then((data) => {
+        .then((data: any) => {
           console.log(data);
+          setDistributorData(data.data);
+          setBatchData(data.distributor_batches);
+          console.log(data.distributor_batches)
           if (!data) {
             history.push("getting-started");
           }
