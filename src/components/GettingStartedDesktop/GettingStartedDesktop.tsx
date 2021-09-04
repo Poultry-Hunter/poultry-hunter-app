@@ -29,7 +29,7 @@ export const GettingStartedDesktop = () => {
   const [geolocate, setGeolocate] = useState<any | undefined>();
   const [formToggle, setFormToggle] = useState<boolean>(false);
   const [formAnimation, setFormAnimation] = useState<string>(
-    "dont-show 400ms ease-in-out"
+    "unset"
   );
   const [userType, setUserType] = useState<string>("distributor");
   const [programId, setProgramId] = useState<PublicKey>();
