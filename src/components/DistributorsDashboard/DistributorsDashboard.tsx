@@ -35,8 +35,6 @@ export const DDTable = () => {
             <th>Time</th>
             <th>Batch ID</th>
             <th>Batch size</th>
-            <th>Preview</th>
-            <th></th>
           </tr>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
             return (
@@ -45,35 +43,6 @@ export const DDTable = () => {
                 <th>11:10</th>
                 <th>232</th>
                 <th>20</th>
-                <th>
-                  <button
-                  // onClick={() => {
-                  //   setQRdata({ batch_size: 20 });
-                  //   setShowQrPreview(true);
-                  // }}
-                  >
-                    <Icon
-                      icon="heroicons-outline:qrcode"
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        color: "#FF9900",
-                      }}
-                    />
-                  </button>
-                </th>
-                <th>
-                  <button>
-                    <Icon
-                      icon="ant-design:delete-outlined"
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        color: "red",
-                      }}
-                    />
-                  </button>
-                </th>
               </tr>
             );
           })}
