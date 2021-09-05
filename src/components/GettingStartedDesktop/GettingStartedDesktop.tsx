@@ -241,7 +241,7 @@ export const GettingStartedDesktop = () => {
               {userType === "officer" ? (
                 <input
                   type="text"
-                  placeholder="Anatoli Poultry Farm"
+                  placeholder="7547"
                   ref={officeId}
                   required
                 />
