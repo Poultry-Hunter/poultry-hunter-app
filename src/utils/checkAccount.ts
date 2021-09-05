@@ -91,7 +91,7 @@ export async function checkOfficerAccount(
             }
             if (batch.distributor_pubkey !== PublicKey.default.toString()) {
               //@ts-ignore
-              batch.distributor_pubkey = await GetDistributorData(
+              batch.distributor_data = await GetDistributorData(
                 programId,
                 new PublicKey(batch.distributor_pubkey),
                 connection
@@ -99,7 +99,7 @@ export async function checkOfficerAccount(
             }
             if (batch.seller_pubkey !== PublicKey.default.toString()) {
               //@ts-ignore
-              batch.seller_pubkey = await GetSellerData(
+              batch.seller_data = await GetSellerData(
                 programId,
                 new PublicKey(batch.seller_pubkey),
                 connection

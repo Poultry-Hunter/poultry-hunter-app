@@ -199,6 +199,46 @@ function Dashboard({ OfficerAccountData, batchChain }: any) {
               .addTo(map);
           }
         }
+        if (batch.distributor_data) {
+          let location = batch.distributor_data.center_address.split(" ");
+          if (location.length === 2) {
+            const el = document.createElement("img");
+            el.className = "marker";
+            el.src = directContact;
+            el.style.width = "50px";
+            el.style.height = "50px";
+            // Add markers to the map.
+            new mapboxgl.Marker(el)
+              .setLngLat([location[1], location[0]])
+              .setPopup(
+                new mapboxgl.Popup({ offset: 25 }) // add popups
+                  .setHTML(
+                    `<h3>${batch.distributor_data.distribution_center}</h3><p>${batch.distributor_data.contact_number}</p>`
+                  )
+              )
+              .addTo(map);
+          }
+        }
+        if (batch.seller_data) {
+          let location = batch.seller_data.shop_address.split(" ");
+          if (location.length === 2) {
+            const el = document.createElement("img");
+            el.className = "marker";
+            el.src = directContact;
+            el.style.width = "50px";
+            el.style.height = "50px";
+            // Add markers to the map.
+            new mapboxgl.Marker(el)
+              .setLngLat([location[1], location[0]])
+              .setPopup(
+                new mapboxgl.Popup({ offset: 25 }) // add popups
+                  .setHTML(
+                    `<h3>${batch.seller_data.shop_name}</h3><p>${batch.seller_data.contact_number}</p>`
+                  )
+              )
+              .addTo(map);
+          }
+        }
       });
     }
   });
