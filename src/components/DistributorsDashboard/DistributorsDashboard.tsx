@@ -197,12 +197,14 @@ const DistributorsDashboard = () => {
     if (data) {
       setQrData(data);
       setBatchDataAnimation("translateY(0px)");
+      console.log(data)
       setCurrentBatchData({
-        batchId: JSON.parse(data).Batch_id,
-        batchSize: JSON.parse(data).Batch_size,
+        batchId: JSON.parse(data).batch_id,
+        batchSize: JSON.parse(data).batch_size,
         key: JSON.parse(data).Key,
       });
     }
+      console.log(data)
   };
 
   const handleError = (err: Error) => {
