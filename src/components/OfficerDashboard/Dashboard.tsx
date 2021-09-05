@@ -136,7 +136,7 @@ export const OfficerDashboard = () => {
               {QrData != null ? (
                 <div className="officer_dashboard_batch_data">
                   <h3>Batch ID: {QrData.batch_id}</h3>
-                  <h4>{QrData.batch_size} batches in chicken</h4>
+                  <h4>{QrData.batch_size} chickens in batch</h4>
                   <div className="officer_batch_data_farm_dist">
                     <h3>Farm: 1</h3>
                     <h3>Distributor: 1</h3>
