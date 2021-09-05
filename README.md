@@ -43,9 +43,14 @@ Therefore, a decentralised system is required that tracks every point of Poultry
 #### Testing on a local server
 
 ```shell
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+sh -c "$(curl -sSfL https://release.solana.com/v1.7.11/install)"
 git clone https://github.com/Poultry-Hunter/poultry-hunter-app.git
 cd poultry-hunter-app/
 npm install
+npm run build:program-rust
+solana program deploy /<YourPath>/poultry-hunter-app/dist/program/poultry_hunter.so 
+copy programid and paste in /poultry-hunter-app/src/utils/utils.ts
 npm start
 ```
 
