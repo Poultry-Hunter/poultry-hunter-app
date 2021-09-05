@@ -14,12 +14,14 @@ import seller from "../../assets/images/icons/seller.svg";
 import reportedSeller from "../../assets/images/vector-art/reportedSeller.svg";
 import directContact from "../../assets/images/vector-art/directContact.svg";
 import indirectContact from "../../assets/images/vector-art/indirectContact.svg";
-
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { programId } from "../../utils/utils";
+import { AffectedPlaces } from "../../utils/filters";
 const Home = () => {
   const [map, setMap] = useState<Map>();
   const [dropDownToggle, setDropDownToggle] = useState(false);
   const [dropDownScaleValue, setDropDownScaleValue] = useState("scaleY(0)");
-
+  const { connection } = useConnection();
   const handleDropDownToggle = () => {
     setDropDownToggle(!dropDownToggle);
 
@@ -49,25 +51,24 @@ const Home = () => {
   useEffect(() => {
     const test = TestMap("home-page-map").map;
 
-    for (const marker of geojson.features) {
-      // Create a DOM element for each marker.
-      const el = document.createElement("img");
-      const width = marker.properties.iconSize[0];
-      const height = marker.properties.iconSize[1];
-      el.className = "marker";
-      el.src = directContact;
-      el.style.width = "50px";
-      el.style.height = "50px";
-      // Add markers to the map.
-      new mapboxgl.Marker(el)
-        .setLngLat([73.792318, 15.583988])
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
-        )
-        .addTo(test);
-    }
-  }, []);
+    AffectedPlaces(programId, connection).then((data) => {
+      data.map((loc: any) => {
+        const el = document.createElement("img");
+        el.className = "marker";
+        el.src = directContact;
+        el.style.width = "50px";
+        el.style.height = "50px";
+        console.log(loc);
+        new mapboxgl.Marker(el)
+          .setLngLat(loc)
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }) // add popups
+              .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
+          )
+          .addTo(test);
+      });
+    });
+  }, [connection]);
 
   useEffect(() => {
     // setMap(TestMap("home-page-map"));

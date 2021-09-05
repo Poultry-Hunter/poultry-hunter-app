@@ -56,7 +56,6 @@ export const OfficerDashboard = () => {
   }, [connected, publicKey]);
 
   const handleScan = (data: any) => {
-    console.log(data);
     if (data) {
       setQrData(JSON.parse(data));
     }
@@ -67,11 +66,10 @@ export const OfficerDashboard = () => {
   };
   function markChain() {
     if (QrData && OfficerAccountData) {
-      console.log(QrData);
       GetBatchData(programId, new PublicKey(QrData.key), connection).then(
         (data) => {
           SetAffectedChain(
-            new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+            programId,
             0,
             new PublicKey(QrData.key),
             new PublicKey(data.farm_pubkey),
