@@ -313,10 +313,6 @@
   padding-right: calc(100vw / 2 - 290px / 2);
 }
 
-#marketplace:hover::after, #enroll:hover::after {
-  content: " Comming Soon";
-}
-
 /* Small Screens :-/ */
 @media only screen and (max-height: 859px) and (max-width: 1440px) {
   .home-page-bottom-tracker {

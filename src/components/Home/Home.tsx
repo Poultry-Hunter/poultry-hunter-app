@@ -112,11 +112,9 @@ const Home = () => {
             <Link to="/">Home</Link>
             <Link to="#" id="marketplace">
               MarketPlace
-              <span></span>
             </Link>
             <Link to="#" id="enroll">
               Enroll
-              <span></span>
             </Link>
           </div>
           <div className="hone-navbar-dash-dropdown-wrapper">
