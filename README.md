@@ -5,6 +5,7 @@
 ## Contents
 
 - [Description](#Description)
+- [Demo Video](#Demo-Video)
 - [Roadmap](#Roadmap)
 - [Getting Started](#Getting-Started)
 - [Live Demo](#Live-Demo)
@@ -31,10 +32,14 @@ Therefore, a decentralised system is required that tracks every point of Poultry
  Introducing **Poultry Hunter**, a **blockchain-based** farm to butcher/seller <u>chicken tracker</u> that **rapidly traces bird flu** while also providing a <u>platform</u> to **maximise operational efficiency**. 
 
 
+## Demo Video
+[![Watch the video](/images/imageT.png)](https://youtu.be/4hFYPGZmTtA)
+
+
 
 ## Roadmap
 
-*Coming* *Soon*!
+![Roadmap](./images/roadmap.png)
 
 
 
@@ -43,24 +48,9 @@ Therefore, a decentralised system is required that tracks every point of Poultry
 #### Testing on a local server
 
 ```shell
-#Install rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-sh -c "$(curl -sSfL https://release.solana.com/v1.7.11/install)"
-
-#Clone repo
 git clone https://github.com/Poultry-Hunter/poultry-hunter-app.git
 cd poultry-hunter-app/
-
-#Install dependencies and build solana progarm
 npm install
-npm run build:program-rust
-
-#Start a local node cluster and deploy program.
-solana-test-validator
-solana program deploy /<YourPath>/poultry-hunter-app/dist/program/poultry_hunter.so 
-
-#Add program id in our app and run react server.
-copy programid and paste in /poultry-hunter-app/src/utils/utils.ts
 npm start
 ```
 
