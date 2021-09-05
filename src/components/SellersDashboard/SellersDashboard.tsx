@@ -44,6 +44,7 @@ const SellersDashboard = () => {
   const history = useHistory();
   const [batchData, setBatchData] = useState([]);
   const [qrDisplay, setQrDisplay] = useState("none");
+  const [sellerAccountPubkey, setSellerAccountPubKey] = useState<PublicKey>();
 
   const handleQRToggle = (close = "any") => {
     if (close == "close") {
@@ -69,11 +70,11 @@ const SellersDashboard = () => {
     }
   };
   const updateBatchData = () => {
-    if (publicKey) {
+    if (publicKey && sellerAccountPubkey) {
       UpdateBatchSeller(
         new PublicKey(programId),
-        currentBatchData.key,
-        new PublicKey(publicKey),
+        new PublicKey(currentBatchData.key),
+        sellerAccountPubkey,
         connection,
         sendTransaction
       )
@@ -121,6 +122,7 @@ const SellersDashboard = () => {
           console.log(data.data);
           setSellersData(data.data);
           setBatchData(data.seller_batches);
+          setSellerAccountPubKey(data.sellerAccountPubkey)
         })
         .catch((err) => {
           console.log(err);
@@ -203,7 +205,7 @@ const SellersDashboard = () => {
             Chickens in the batch.
           </p>
         </div>
-        <button>Add to Inventory</button>
+        <button onClick={updateBatchData}>Add to Inventory</button>
       </div>
       <div className="distributors-dash-bottom-panel-wrapper">
         <div className="distributors-dash-bottom-panel">
