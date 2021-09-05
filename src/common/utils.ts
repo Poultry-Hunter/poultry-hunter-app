@@ -14,9 +14,12 @@ export const getSoldBatches = (sellerDefaultPubKey: String, batchData: any) => {
     return 0;
   }
 
+  console.log("TOTAL BATCHES SOLD")
+  console.log(batchData)
+
   let batches = 0;
   batchData.map((batch: any) => {
-    if (batch.seller_pubkey === sellerDefaultPubKey) {
+    if (batch.seller_pubkey !== sellerDefaultPubKey) {
       batches++;
     }
   });
