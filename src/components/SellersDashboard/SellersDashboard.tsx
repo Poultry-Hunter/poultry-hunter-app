@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
 import { getChickens } from "../../common/utils";
+import { toast } from "react-toastify";
 
 const SellersDashboard = () => {
   const [qrToggle, setQrToggle] = useState<boolean>(false);
@@ -68,6 +69,7 @@ const SellersDashboard = () => {
       )
         .then(() => {
           console.log("successfully added to inventory");
+          toast("Added batch to inventory!! 🚀");
         })
         .catch((err) => console.log(err));
     }
