@@ -20,6 +20,7 @@ import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
 import { getChickens } from "../../common/utils";
 import { toast } from "react-toastify";
+import { programId } from "../../utils/utils";
 
 const SellersDashboard = () => {
   const [qrToggle, setQrToggle] = useState<boolean>(false);
@@ -61,7 +62,7 @@ const SellersDashboard = () => {
   const updateBatchData = () => {
     if (publicKey) {
       UpdateBatchSeller(
-        new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
+        new PublicKey(programId),
         currentBatchData.key,
         new PublicKey(publicKey),
         connection,
@@ -100,7 +101,7 @@ const SellersDashboard = () => {
   useEffect(() => {
     if (connected && publicKey) {
       checkSellerAccount(
-        new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
+        new PublicKey(programId),
         new PublicKey(publicKey),
         connection
       )

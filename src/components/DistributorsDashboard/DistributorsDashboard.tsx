@@ -20,6 +20,7 @@ import { useHistory } from "react-router";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import { getChickens, getSoldBatches } from "../../common/utils";
 import { toast } from "react-toastify";
+import { programId } from "../../utils/utils";
 
 export const DDTable = ({ batchData }: any) => {
   return (
@@ -176,7 +177,7 @@ const DistributorsDashboard = () => {
   const updateBatchData = () => {
     if (publicKey) {
       UpdateBatchDistributor(
-        new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
+        new PublicKey(programId),
         new PublicKey(currentBatchData.key),
         new PublicKey(publicKey),
         connection,
@@ -214,7 +215,7 @@ const DistributorsDashboard = () => {
       // alert("connected")
       console.log(connected, publicKey.toBase58());
       checkDistributorsAccount(
-        new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"),
+        new PublicKey(programId),
         publicKey,
         connection
       )
