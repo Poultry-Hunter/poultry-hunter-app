@@ -45,6 +45,7 @@ const SellersDashboard = () => {
   const [batchData, setBatchData] = useState([]);
   const [qrDisplay, setQrDisplay] = useState("none");
   const [sellerAccountPubkey, setSellerAccountPubKey] = useState<PublicKey>();
+  const [disable, setDisable] = useState(false);
 
   const handleQRToggle = (close = "any") => {
     if (close == "close") {
@@ -71,6 +72,7 @@ const SellersDashboard = () => {
   };
   const updateBatchData = () => {
     if (publicKey && sellerAccountPubkey) {
+      setDisable(true);
       UpdateBatchSeller(
         new PublicKey(programId),
         new PublicKey(currentBatchData.key),
@@ -80,6 +82,8 @@ const SellersDashboard = () => {
       )
         .then(() => {
           console.log("successfully added to inventory");
+          setBatchDataAnimation("translateY(400px)");
+          setDisable(false);
           toast("Added batch to inventory!! 🚀");
         })
         .catch((err) => console.log(err));
@@ -122,7 +126,7 @@ const SellersDashboard = () => {
           console.log(data.data);
           setSellersData(data.data);
           setBatchData(data.seller_batches);
-          setSellerAccountPubKey(data.sellerAccountPubkey)
+          setSellerAccountPubKey(data.sellerAccountPubkey);
         })
         .catch((err) => {
           console.log(err);
@@ -205,7 +209,9 @@ const SellersDashboard = () => {
             Chickens in the batch.
           </p>
         </div>
-        <button onClick={updateBatchData}>Add to Inventory</button>
+        <button onClick={updateBatchData} disabled={disable}>
+          Add to Inventory
+        </button>
       </div>
       <div className="distributors-dash-bottom-panel-wrapper">
         <div className="distributors-dash-bottom-panel">
