@@ -110,10 +110,10 @@ const Home = () => {
           </div>
           <div className="home-navbar-navigations">
             <Link to="/">Home</Link>
-            <Link to="#" id="marketplace">
+            <Link to="#" id="marketplace" title="Coming Soon" >
               MarketPlace
             </Link>
-            <Link to="#" id="enroll">
+            <Link to="#" id="enroll" title="Coming Soon">
               Enroll
             </Link>
           </div>
