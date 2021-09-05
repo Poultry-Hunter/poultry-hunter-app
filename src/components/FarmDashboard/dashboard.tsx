@@ -43,7 +43,6 @@ type FarmDataType = {
   farm_data: FarmAccount;
   farm_account_pubkey: string;
 };
-import BN from "bn.js";
 export function FarmDashboard() {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
@@ -66,7 +65,7 @@ export function FarmDashboard() {
           console.log(farm_data);
           if (!farm_data) {
             history.push(`getting-started/farmer`);
-            window.location.assign("/getting-started/farmer");
+            window.location.href = "/getting-started/farmer";
           } else {
             console.log(farm_data);
             setFarmAccountData({
@@ -128,7 +127,8 @@ export function FarmDashboard() {
               <span>
                 {FarmAccountData
                   ? FarmAccountData.farm_data.farm_name
-                  : "loading"}
+                  : "loading"}{" "}
+                👋
               </span>
             </h4>
           </div>

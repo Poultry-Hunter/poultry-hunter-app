@@ -148,6 +148,7 @@
 }
 .analytics_filter {
   align-self: flex-end;
+  cursor: pointer;
 }
 .analytics_filter .weekly-button {
   outline: none;
@@ -174,6 +175,8 @@
   font-size: 0.8em;
   font-weight: 400;
   float: left;
+  cursor: pointer;
+
 }
 .analytics_total_batches {
   margin-top: 10px;
