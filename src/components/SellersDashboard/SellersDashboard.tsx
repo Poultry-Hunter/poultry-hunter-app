@@ -16,6 +16,9 @@ import { PublicKey } from "@solana/web3.js";
 import { SellerAccount } from "../../schema";
 import { UpdateBatchSeller } from "../../instructions";
 import { useHistory } from "react-router-dom";
+import ConnectWallet from "../ConnectWallet/ConnectWallet";
+import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
+import { getChickens } from "../../common/utils";
 
 const SellersDashboard = () => {
   const [qrToggle, setQrToggle] = useState<boolean>(false);
@@ -115,7 +118,7 @@ const SellersDashboard = () => {
     }
   }, [publicKey]);
 
-  return (
+  return connected ? (
     <div className="seller-dash">
       <header>
         <div className="s-header-name">
@@ -129,7 +132,17 @@ const SellersDashboard = () => {
               <span id="light">Hi, </span>Loading
             </h3>
           )}
-          <img src={cart} />
+          <WalletDisconnectButton
+            style={{
+              right: "0px",
+              width: "fit-content",
+              height: "30px",
+              borderRadius: "15px",
+              fontSize: "0px",
+              fontWeight: 500,
+            }}
+          />
+          {/* <img src={cart} /> */}
         </div>
       </header>
       <main className="seller-dash-main">
@@ -264,10 +277,18 @@ const SellersDashboard = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <ConnectWallet />
   );
 };
 
 export const Inventory = ({ batchData, navigation }: any) => {
+  const [totalChickens, setTotalChickens] = useState<any>(undefined);
+
+  useEffect(() => {
+    setTotalChickens(getChickens(batchData));
+  }, [batchData]);
+
   return (
     <div className="dd-inventory-main-comp">
       <main>
@@ -287,7 +308,11 @@ export const Inventory = ({ batchData, navigation }: any) => {
               <p>Batches</p>
             </div>
             <div className="dd-inventory-data-item">
-              <h1>99</h1>
+              {totalChickens !== undefined ? (
+                <h1>{totalChickens}</h1>
+              ) : (
+                <h1>0</h1>
+              )}
               <p>Chickens</p>
             </div>
           </div>

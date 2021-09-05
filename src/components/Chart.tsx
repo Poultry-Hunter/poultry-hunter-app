@@ -4,37 +4,27 @@ import { ResponsivePie } from "@nivo/pie";
 export const MyResponsiveBar = (data: any) => {
   data = [
     {
-      country: "AD",
-      "hot dog": 48,
-      "hot dogColor": "hsl(3, 70%, 50%)",
-    },
-    {
-      country: "AE",
-      "hot dog": 47,
-      "hot dogColor": "hsl(326, 70%, 50%)",
-    },
-    {
-      country: "AF",
-      "hot dog": 121,
-      "hot dogColor": "hsl(67, 70%, 50%)",
-    },
-    {
-      country: "AG",
-      "hot dog": 5,
-      "hot dogColor": "hsl(33, 70%, 50%)",
-    },
-    {
-      country: "AI",
+      Month: "May",
       "hot dog": 52,
       "hot dogColor": "hsl(178, 70%, 50%)",
     },
     {
-      country: "AL",
+      Month: "June",
       "hot dog": 67,
       "hot dogColor": "hsl(136, 70%, 50%)",
     },
     {
-      country: "AM",
+      Month: "July",
+      "hot dog": 2,
+      "hot dogColor": "hsl(61, 70%, 50%)",
+    },
+    {
+      Month: "August",
+      "hot dog": 2,
+      "hot dogColor": "hsl(61, 70%, 50%)",
+    },
+    {
+      Month: "September",
       "hot dog": 2,
       "hot dogColor": "hsl(61, 70%, 50%)",
     },
@@ -44,7 +34,7 @@ export const MyResponsiveBar = (data: any) => {
     <ResponsiveBar
       data={data}
       keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-      indexBy="country"
+      indexBy="Month"
       margin={{ top: 50, right: 40, bottom: 50, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
@@ -91,7 +81,7 @@ export const MyResponsiveBar = (data: any) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "country",
+        legend: "Month",
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -99,7 +89,7 @@ export const MyResponsiveBar = (data: any) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "food",
+        legend: "Chickens",
         legendPosition: "middle",
         legendOffset: -40,
       }}

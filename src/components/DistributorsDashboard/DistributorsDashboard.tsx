@@ -18,6 +18,7 @@ import { DistributorAccount } from "../../schema";
 import { UpdateBatchDistributor } from "../../instructions";
 import { useHistory } from "react-router";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
+import { getChickens, getSoldBatches } from "../../common/utils";
 
 export const DDTable = ({ batchData }: any) => {
   return (
@@ -46,8 +47,8 @@ export const DDTable = ({ batchData }: any) => {
                     className="recent_table_content"
                     id="dd-recent_table_content"
                   >
-                    <th>10/02/2021</th>
-                    <th>11:10</th>
+                    <th>{batch.date}</th>
+                    <th>{batch.time}</th>
                     <th>{batch.batch_id}</th>
                     <th>{batch.batch_size}</th>
                   </tr>
@@ -67,6 +68,12 @@ export const DDTable = ({ batchData }: any) => {
 };
 
 const Dashboard = ({ batchData }: any) => {
+  const [soldBatches, setSoldBatches] = useState<any>(undefined);
+
+  useEffect(() => {
+    setSoldBatches(getSoldBatches(PublicKey.default.toString(), batchData));
+  }, [batchData]);
+
   return (
     <main>
       <div className="dd-main-barchart">
@@ -78,7 +85,7 @@ const Dashboard = ({ batchData }: any) => {
           <p>Total Batches Purchased</p>
         </div>
         <div className="dd-main-counter-item">
-          <h1>2542</h1>
+          {soldBatches !== undefined ? <h1>{soldBatches}</h1> : <h1>0</h1>}
           <p>Total Batches Sold</p>
         </div>
       </div>
@@ -87,7 +94,13 @@ const Dashboard = ({ batchData }: any) => {
   );
 };
 
-export const Inventory = () => {
+export const Inventory = ({ batchData }: any) => {
+  const [totalChickens, setTotalChickens] = useState<any>(undefined);
+
+  useEffect(() => {
+    setTotalChickens(getChickens(batchData));
+  }, [batchData]);
+
   return (
     <div className="dd-inventory-main-comp">
       <main>
@@ -95,11 +108,19 @@ export const Inventory = () => {
           <h1>Inventory Summary</h1>
           <div className="dd-inventory-data">
             <div className="dd-inventory-data-item">
-              <h1>12</h1>
+              {batchData !== undefined ? (
+                <h1>{batchData.length}</h1>
+              ) : (
+                <h1>0</h1>
+              )}
               <p>Batches</p>
             </div>
             <div className="dd-inventory-data-item">
-              <h1>99</h1>
+              {totalChickens !== undefined ? (
+                <h1>{totalChickens}</h1>
+              ) : (
+                <h1>0</h1>
+              )}
               <p>Chickens</p>
             </div>
           </div>
@@ -270,7 +291,7 @@ const DistributorsDashboard = () => {
       {navigation === "dashboard" ? (
         <Dashboard tableBatchData={batchData} />
       ) : (
-        <Inventory />
+        <Inventory batchData={batchData} />
       )}
       {/* Scanner Component */}
       <div
