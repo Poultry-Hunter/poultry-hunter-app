@@ -49,25 +49,27 @@ const Home = () => {
     ],
   };
   useEffect(() => {
-    const test = TestMap("home-page-map").map;
-
-    AffectedPlaces(programId, connection).then((data) => {
-      data.map((loc: any) => {
-        const el = document.createElement("img");
-        el.className = "marker";
-        el.src = directContact;
-        el.style.width = "50px";
-        el.style.height = "50px";
-        console.log(loc);
-        new mapboxgl.Marker(el)
-          .setLngLat(loc)
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }) // add popups
-              .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
-          )
-          .addTo(test);
+    setMap(TestMap("home-page-map").map);
+    if (map) {
+      AffectedPlaces(programId, connection).then((data) => {
+        console.log(data);
+        data.map((latlong: any) => {
+          const el = document.createElement("img");
+          el.className = "marker";
+          el.src = directContact;
+          el.style.width = "50px";
+          el.style.height = "50px";
+          // Add markers to the map.
+          new mapboxgl.Marker(el)
+            .setLngLat(latlong)
+            .setPopup(
+              new mapboxgl.Popup({ offset: 25 }) // add popups
+                .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
+            )
+            .addTo(map);
+        });
       });
-    });
+    }
   }, [connection]);
 
   useEffect(() => {

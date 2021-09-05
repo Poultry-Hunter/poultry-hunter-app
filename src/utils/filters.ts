@@ -192,9 +192,9 @@ export async function AffectedPlaces(
         //@ts-ignore
         latlong.push([
           //@ts-ignore
-          farm_data.farm_address.split(" ")[1],
+          Number(farm_data.farm_address.split(" ")[1]),
           //@ts-ignore
-          farm_data.farm_address.split(" ")[0],
+          Number(farm_data.farm_address.split(" ")[0]),
         ]);
       }
       if (data.distributor_pubkey !== PublicKey.default.toString()) {
