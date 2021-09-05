@@ -146,6 +146,8 @@ const DistributorsDashboard = () => {
   const [distributorData, setDistributorData] = useState<
     DistributorAccount | undefined
   >(undefined);
+  const [distributorAccountPubkey, setdistributorAccountPubkey] =
+    useState<PublicKey>();
   const { publicKey, connected, sendTransaction } = useWallet();
   const [currentBatchData, setCurrentBatchData] = useState<any>({
     batchSize: undefined,
@@ -175,11 +177,11 @@ const DistributorsDashboard = () => {
   };
 
   const updateBatchData = () => {
-    if (publicKey) {
+    if (publicKey && distributorAccountPubkey) {
       UpdateBatchDistributor(
         new PublicKey(programId),
         new PublicKey(currentBatchData.key),
-        new PublicKey(publicKey),
+        distributorAccountPubkey,
         connection,
         sendTransaction
       )
@@ -197,14 +199,13 @@ const DistributorsDashboard = () => {
     if (data) {
       setQrData(data);
       setBatchDataAnimation("translateY(0px)");
-      console.log(data)
+      console.log(data);
       setCurrentBatchData({
         batchId: JSON.parse(data).batch_id,
         batchSize: JSON.parse(data).batch_size,
         key: JSON.parse(data).key,
       });
     }
-      console.log(data)
   };
 
   const handleError = (err: Error) => {
@@ -226,6 +227,7 @@ const DistributorsDashboard = () => {
           console.log(data);
           setDistributorData(data.data);
           setBatchData(data.distributor_batches);
+          setdistributorAccountPubkey(data.distributorAccountPubkey);
           console.log(data.distributor_batches);
         })
         .catch((err) => {
@@ -264,7 +266,7 @@ const DistributorsDashboard = () => {
     } else {
       console.log(connected, publicKey);
     }
-  },[])
+  }, []);
 
   return connected ? (
     <div className="distributorsDashboard--main-container">
