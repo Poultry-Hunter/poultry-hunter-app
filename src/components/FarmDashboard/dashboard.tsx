@@ -20,6 +20,7 @@ import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
 import {
   CreateAccountAndGenerateBatch,
   CreateAccountAndInitialiseFarm,
+  DeleteBatchAndRefund,
 } from "../../instructions";
 import { PublicKey } from "@solana/web3.js";
 import { checkFarmAcount } from "../../utils/checkAccount";
@@ -34,11 +35,14 @@ import {
 } from "../../redux/reducers/reducers";
 import { useHistory } from "react-router";
 import { FarmAccount } from "../../schema";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { DefaultStyle, ErrorStyle } from "../../utils/toastStyles";
 type FarmDataType = {
   farm_data: FarmAccount;
   farm_account_pubkey: string;
 };
-import BN from "bn.js";
 export function FarmDashboard() {
   const [newBatchPopup, setnewBatchPopup] = useState(false);
   const [navButton, setNavButton] = useState(true);
@@ -61,7 +65,7 @@ export function FarmDashboard() {
           console.log(farm_data);
           if (!farm_data) {
             history.push(`getting-started/farmer`);
-            window.location.assign("/getting-started/farmer");
+            // window.location.href = "/getting-started/farmer";
           } else {
             console.log(farm_data);
             setFarmAccountData({
@@ -123,13 +127,27 @@ export function FarmDashboard() {
               <span>
                 {FarmAccountData
                   ? FarmAccountData.farm_data.farm_name
-                  : "loading"}
+                  : "loading"}{" "}
+                👋
               </span>
             </h4>
           </div>
           <WalletDisconnectButton className="farm_dashboard_wallet_button" />
         </div>
         <div className="farm_dashbord_main">
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          <ToastContainer />
+
           {navButton ? (
             <Dashboard
               QRdata={QRdata}
@@ -139,7 +157,11 @@ export function FarmDashboard() {
               setBatchData={setBatchData}
             />
           ) : (
-            <Inventory batchData={batchData} />
+            <Inventory
+              batchData={batchData}
+              setBatchData={setBatchData}
+              FarmAccountData={FarmAccountData}
+            />
           )}
         </div>
       </div>
@@ -160,6 +182,8 @@ function Dashboard({
   const [TotalSale, setTotalSale] = useState<number>(0);
   const [GeneratedBatches, setGeneratedBatches] = useState<number>(0);
   const [totalChickens, settotalChickens] = useState<number>(0);
+  const { publicKey, connected, sendTransaction } = useWallet();
+  const { connection } = useConnection();
   useEffect(() => {
     let SoldBatches = 0;
     let GeneratedBatches = 0;
@@ -178,6 +202,42 @@ function Dashboard({
       }
     );
   }, [batchData]);
+  function checkDate(timestamp: number) {
+    var batch_date = new Date(timestamp);
+    batch_date.setMonth(batch_date.getMonth() + 1);
+    var b_date = batch_date.toLocaleDateString("en-US", { dateStyle: "short" });
+    var date = new Date();
+    var current_date = date.toLocaleDateString("en-US", { dateStyle: "short" });
+    if (b_date === current_date) {
+      return true;
+    }
+    return false;
+  }
+  function Delete_batch_refund(batch: any) {
+    if (publicKey && connected && batch) {
+      DeleteBatchAndRefund(
+        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        publicKey,
+        new PublicKey(batch.batch_pubkey),
+        new PublicKey(FarmAccountData.farm_account_pubkey),
+        connection,
+        sendTransaction
+      )
+        .then(() => {
+          if (batchData) {
+            let batches = batchData.filter(
+              (batchd: any) => batchd.batch_id !== batch.batch_id
+            );
+            setBatchData(batches);
+          }
+          toast("Batch Deleted And Rent Refunded!", DefaultStyle);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Transaction Failed!", ErrorStyle);
+        });
+    }
+  }
   return (
     <>
       <div className="farm_dashboard_anlaytics">
@@ -282,7 +342,11 @@ function Dashboard({
                         </button>
                       </th>
                       <th>
-                        <button>
+                        <button
+                          className="batch_delete_button"
+                          onClick={() => Delete_batch_refund(batch)}
+                          disabled={checkDate(batch.timestamp) === false}
+                        >
                           <Icon
                             icon="ant-design:delete-outlined"
                             style={{
@@ -342,7 +406,7 @@ function CreateBatch({
       batch_size: BatchSize,
       timestamp: Date.now(),
     };
-    if (publicKey && connected) {
+    if (publicKey && connected && FarmAccountData && BatchSize) {
       CreateAccountAndGenerateBatch(
         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
         publicKey,
@@ -366,12 +430,26 @@ function CreateBatch({
               batch_pubkey: Batch_pubkey,
               distributor_pubkey: PublicKey.default.toString(),
               batch_size: batch_input.batch_size,
-              generated_at: new BN(batch_input.timestamp),
+              date: new Date(batch_input.timestamp).toLocaleDateString(
+                "en-US",
+                { dateStyle: "medium" }
+              ),
+              time: new Date(batch_input.timestamp).toLocaleTimeString(
+                "en-US",
+                {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                }
+              ),
             },
           ]);
-          console.log(batch_input);
+          toast("Batch Generated!", DefaultStyle);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          toast.error("Transaction Failed!", ErrorStyle);
+        });
     }
   }
   return (
@@ -388,7 +466,11 @@ function CreateBatch({
           <input
             type="number"
             placeholder="No. of chickens"
-            onChange={(e) => setBatchSize(Number(e.target.value))}
+            onChange={(e) => {
+              if (Number(e.target.value) > 0) {
+                setBatchSize(Number(e.target.value));
+              }
+            }}
             value={BatchSize}
           />{" "}
           <button onClick={() => setBatchSize(BatchSize + 1)}>+</button>
@@ -455,10 +537,12 @@ function CreateBatch({
     </div>
   );
 }
-export function Inventory({ batchData }: any) {
+export function Inventory({ batchData, FarmAccountData, setBatchData }: any) {
   const [TotalSale, setTotalSale] = useState<number>(0);
   const [GeneratedBatches, setGeneratedBatches] = useState<number>(0);
   const [totalChickens, settotalChickens] = useState<number>(0);
+  const { publicKey, connected, sendTransaction } = useWallet();
+  const { connection } = useConnection();
   useEffect(() => {
     let SoldBatches = 0;
     let GeneratedBatches = 0;
@@ -477,6 +561,42 @@ export function Inventory({ batchData }: any) {
       }
     );
   }, [batchData]);
+  function checkDate(timestamp: number) {
+    var batch_date = new Date(timestamp);
+    batch_date.setMonth(batch_date.getMonth() + 1);
+    var b_date = batch_date.toLocaleDateString("en-US", { dateStyle: "short" });
+    var date = new Date();
+    var current_date = date.toLocaleDateString("en-US", { dateStyle: "short" });
+    if (b_date === current_date) {
+      return true;
+    }
+    return false;
+  }
+  function Delete_batch_refund(batch: any) {
+    if (publicKey && connected && batch) {
+      DeleteBatchAndRefund(
+        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        publicKey,
+        new PublicKey(batch.batch_pubkey),
+        new PublicKey(FarmAccountData.farm_account_pubkey),
+        connection,
+        sendTransaction
+      )
+        .then(() => {
+          if (batchData) {
+            let batches = batchData.filter(
+              (batchd: any) => batchd.batch_id !== batch.batch_id
+            );
+            setBatchData(batches);
+          }
+          toast("Batch Deleted And Rent Refunded!", DefaultStyle);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Transaction Failed!", ErrorStyle);
+        });
+    }
+  }
   return (
     <div className="inventory_main">
       <div className="farm_inventory_analysis_section">
@@ -547,7 +667,12 @@ export function Inventory({ batchData }: any) {
                         </button>
                       </th>
                       <th>
-                        <button>
+                        <button
+                          className="batch_delete_button"
+                          onClick={() => Delete_batch_refund(batch)}
+                          disabled={checkDate(batch.timestamp) === false}
+                        >
+                          {" "}
                           <Icon
                             icon="ant-design:delete-outlined"
                             style={{

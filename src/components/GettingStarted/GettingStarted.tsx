@@ -20,6 +20,7 @@ import {
   CreateAccountAndInitialiseSeller,
 } from "../../instructions/index";
 import { PublicKey } from "@solana/web3.js";
+import ConnectWallet from "../ConnectWallet/ConnectWallet";
 
 const GettingStartedMobile = () => {
   //@ts-ignore
@@ -56,7 +57,7 @@ const GettingStartedMobile = () => {
   useEffect(() => {
     console.log(publicKey, connected);
 
-    setProgramId(new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"));
+    setProgramId(new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"));
 
     const mapData = TestMap("getting-started-form-map");
     setMap(mapData.map);
@@ -163,7 +164,7 @@ const GettingStartedMobile = () => {
     }
   };
 
-  return (
+  return connected ? (
     <>
       <div className="GettingStarted container">
         <img src={starman} />
@@ -305,6 +306,8 @@ const GettingStartedMobile = () => {
         </div>
       </div>
     </>
+  ) : (
+    <ConnectWallet />
   );
 };
 
