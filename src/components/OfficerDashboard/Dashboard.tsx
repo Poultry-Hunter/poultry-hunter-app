@@ -19,6 +19,9 @@ import {
 import { HealthOfficerAccount } from "../../schema";
 import { useHistory } from "react-router";
 import { GetBatchData } from "../../utils/filters";
+import directContact from "../../assets/images/vector-art/directContact.svg";
+import mapboxgl, { Map } from "mapbox-gl";
+
 type officerDataType = {
   officer_data: HealthOfficerAccount;
   officer_account_pubkey: string;
@@ -31,35 +34,21 @@ export const OfficerDashboard = () => {
   const [OfficerAccountData, setOfficerAccountData] =
     useState<officerDataType>();
   const [markedAffectedBatches, setmarkedAffectedBatches] = useState([]);
-  const [uiLoading, setuiLoading] = useState(false);
+  const [uiLoading, setuiLoading] = useState(true);
   const { connection } = useConnection();
   const { publicKey, connected, sendTransaction } = useWallet();
   const history = useHistory();
   useEffect(() => {
-    // if (publicKey && connected) {
-    //   CreateAccountAndInitialiseOfficer(
-    //     new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-    //     publicKey,
-    //     {
-    //       office_id: "333",
-    //       office_address: "mapusa",
-    //       officer_name: "india",
-    //       officer_contact: "323232",
-    //     },
-    //     connection,
-    //     sendTransaction
-    //   ).then(() => console.log("dataSent"));
-    // }
     if (publicKey && connected) {
       checkOfficerAccount(
         new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-        new PublicKey("5tcdaxYsPy8XWAUy3HGbxFit2YWcLirkkyJy4KF1Gpwo"),
+        publicKey,
         connection
       )
         .then((officer_data) => {
           console.log(officer_data);
           if (!officer_data) {
-            history.push("getting-started");
+            history.push("getting-started/officer");
           } else {
             console.log(officer_data);
             setOfficerAccountData({
@@ -68,7 +57,7 @@ export const OfficerDashboard = () => {
             });
             //@ts-ignore
             setmarkedAffectedBatches(officer_data.marked_batches);
-            setuiLoading(true);
+            setuiLoading(false);
           }
         })
         .catch((err) => console.log(err));
@@ -107,7 +96,7 @@ export const OfficerDashboard = () => {
     }
   }
 
-  return connected && uiLoading ? (
+  return connected && !uiLoading ? (
     <>
       <div className="visit_on_mobile">
         <p>Visit on Mobile</p>
@@ -150,7 +139,10 @@ export const OfficerDashboard = () => {
           </div>
         ) : null}
         {navButton ? (
-          <Dashboard OfficerAccountData={OfficerAccountData} />
+          <Dashboard
+            OfficerAccountData={OfficerAccountData}
+            batchChain={markedAffectedBatches}
+          />
         ) : (
           <MarkedAffected
             markedAffectedBatches={markedAffectedBatches}
@@ -182,10 +174,34 @@ export const OfficerDashboard = () => {
     <ConnectWallet />
   );
 };
-function Dashboard({ OfficerAccountData }: any) {
+function Dashboard({ OfficerAccountData, batchChain }: any) {
   useEffect(() => {
-    const map = TestMap("officer_map");
-  }, []);
+    const map = TestMap("officer_map").map;
+    if (batchChain) {
+      batchChain.forEach((batch: any) => {
+        if (batch.farm_data) {
+          let location = batch.farm_data.farm_address.split(" ");
+          if (location.length === 2) {
+            const el = document.createElement("img");
+            el.className = "marker";
+            el.src = directContact;
+            el.style.width = "50px";
+            el.style.height = "50px";
+            // Add markers to the map.
+            new mapboxgl.Marker(el)
+              .setLngLat([location[1], location[0]])
+              .setPopup(
+                new mapboxgl.Popup({ offset: 25 }) // add popups
+                  .setHTML(
+                    `<h3>${batch.farm_data.farm_name}</h3><p>${batch.farm_data.contact_number}</p>`
+                  )
+              )
+              .addTo(map);
+          }
+        }
+      });
+    }
+  });
   return (
     <>
       {" "}

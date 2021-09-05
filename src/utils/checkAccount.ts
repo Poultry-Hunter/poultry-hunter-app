@@ -69,7 +69,7 @@ export async function checkOfficerAccount(
     if (wallet) {
       const batches = await GetBatchAccounts(
         programId,
-        wallet,
+        new PublicKey("277kTAsNq3C8dogWZzVugBH7B59NkGPwfg5hCjm1MFwB"),
         connection,
         "farm_pubkey"
       );
@@ -78,33 +78,36 @@ export async function checkOfficerAccount(
         HealthOfficerAccount,
         account_info.data
       );
-      // if (batches) {
-      //   if (batches.length != 0) {
-      //     const batch_withData = batches.forEach(async (batch) => {
-      //       if (batch.farm_pubkey != PublicKey.default.toString()) {
-      //         batch.farm_data = await GetFarmerData(
-      //           programId,
-      //           new PublicKey("DtkMzPzguJNAw8m5gTBjg2Nay9fs6SnxvYMQBxZVdZg2"),
-      //           connection
-      //         );
-      //       }
-            // if (batch.distributor_pubkey != PublicKey.default.toString()) {
-            //   batch.distributor_pubkey = await GetDistributorData(
-            //     programId,
-            //     batch.distributor_pubkey,
-            //     connection
-            //   );
-            // }
-            // if (batch.seller_pubkey != PublicKey.default.toString()) {
-            //   batch.seller_pubkey = await GetSellerData(
-            //     programId,
-            //     batch.seller_pubkey,
-            //     connection
-            //   );
-            // }
-      //     });
-      //   }
-      // }
+      if (batches) {
+        if (batches.length != 0) {
+          const batch_withData = batches.forEach(async (batch) => {
+            if (batch.farm_pubkey !== PublicKey.default.toString()) {
+              //@ts-ignore
+              batch.farm_data = await GetFarmerData(
+                programId,
+                new PublicKey("277kTAsNq3C8dogWZzVugBH7B59NkGPwfg5hCjm1MFwB"),
+                connection
+              );
+            }
+            if (batch.distributor_pubkey !== PublicKey.default.toString()) {
+              //@ts-ignore
+              batch.distributor_pubkey = await GetDistributorData(
+                programId,
+                new PublicKey(batch.distributor_pubkey),
+                connection
+              );
+            }
+            if (batch.seller_pubkey !== PublicKey.default.toString()) {
+              //@ts-ignore
+              batch.seller_pubkey = await GetSellerData(
+                programId,
+                new PublicKey(batch.seller_pubkey),
+                connection
+              );
+            }
+          });
+        }
+      }
 
       const data = {
         officer_data: officer_data,
@@ -128,7 +131,7 @@ export async function checkDistributorsAccount(
   );
 
   const accountInfo = await connection.getAccountInfo(PubKey);
-  console.log(accountInfo)
+  console.log(accountInfo);
 
   if (accountInfo) {
     if (PubKey) {

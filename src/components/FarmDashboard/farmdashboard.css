@@ -251,6 +251,10 @@
   border: none;
   cursor: pointer;
 }
+.batch_delete_button:disabled {
+  opacity: 0.5;
+  cursor:default;
+}
 .farm_dashboard_create_batch {
   width: 500px;
   height: fit-content;

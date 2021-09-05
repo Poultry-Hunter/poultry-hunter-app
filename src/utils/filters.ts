@@ -36,7 +36,6 @@ export async function GetBatchAccounts(
         },
       ],
     });
-    // const b_data = [];
     const accounts_data = BatchAccounts.map((account_info) => {
       let batch_data = borsh.deserialize(
         SCHEMA,
@@ -59,12 +58,19 @@ export async function GetBatchAccounts(
             hour12: true,
           }
         ),
-        farm_pubkey: new PublicKey(batch_data.farm_pubkey).toString(),
-        seller_pubkey: new PublicKey(batch_data.distributor_pubkey).toString(),
-        distributor_pubkey: new PublicKey(
-          batch_data.distributor_pubkey
+        timestamp: batch_data.generated_at.toNumber(),
+        farm_pubkey: new PublicKey(
+          BATCH_LAYOUT.decode(account_info.account.data).farm_pubkey
         ).toString(),
-        marked_by: new PublicKey(batch_data.marked_by).toString(),
+        seller_pubkey: new PublicKey(
+          BATCH_LAYOUT.decode(account_info.account.data).seller_pubkey
+        ).toString(),
+        distributor_pubkey: new PublicKey(
+          BATCH_LAYOUT.decode(account_info.account.data).distributor_pubkey
+        ).toString(),
+        marked_by: new PublicKey(
+          BATCH_LAYOUT.decode(account_info.account.data).marked_by
+        ).toString(),
         batch_pubkey: account_info.pubkey.toString(),
       };
     });
