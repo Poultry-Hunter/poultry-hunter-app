@@ -52,53 +52,49 @@ const Home = () => {
     ],
   };
   useEffect(() => {
-    setMap(TestMap("home-page-map").map);
-    if (map) {
-      AffectedPlaces(programId, connection).then((data) => {
-        console.log(data);
-        setlatlonglist(data);
-        // data.map((latlong: any) => {
-        //   const el = document.createElement("img");
-        //   el.className = "marker";
-        //   el.src = directContact;
-        //   el.style.width = "50px";
-        //   el.style.height = "50px";
-        //   // Add markers to the map.
-        //   new mapboxgl.Marker(el)
-        //     .setLngLat(latlong)
-        //     .setPopup(
-        //       new mapboxgl.Popup({ offset: 25 }) // add popups
-        //         .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
-        //     )
-        //     .addTo(map);
-        // });
-      });
-    }
+    AffectedPlaces(programId, connection).then((data) => {
+      console.log(data);
+      setlatlonglist(data);
+      setMap(TestMap("home-page-map").map);
+
+      // data.map((latlong: any) => {
+      //   const el = document.createElement("img");
+      //   el.className = "marker";
+      //   el.src = directContact;
+      //   el.style.width = "50px";
+      //   el.style.height = "50px";
+      //   // Add markers to the map.
+      //   new mapboxgl.Marker(el)
+      //     .setLngLat(latlong)
+      //     .setPopup(
+      //       new mapboxgl.Popup({ offset: 25 }) // add popups
+      //         .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
+      //     )
+      //     .addTo(map);
+      // });
+    });
   }, [connection]);
 
   useEffect(() => {
-    console.log(latlonglist);
-
-    //@ts-ignore
-    // if (latlonglist.length != 0) {
-    //   console.log(latlonglist);
-    // }
-    // latlonglist.map((latlong: any) => {
-    //   const el = document.createElement("img");
-    //   el.className = "marker";
-    //   el.src = directContact;
-    //   el.style.width = "50px";
-    //   el.style.height = "50px";
-    //   // Add markers to the map.
-    //   new mapboxgl.Marker(el)
-    //     .setLngLat(latlong)
-    //     .setPopup(
-    //       new mapboxgl.Popup({ offset: 25 }) // add popups
-    //         .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
-    //     )
-    //     //@ts-ignore
-    //     .addTo(map);
-    // });
+    if (latlonglist.length != 0) {
+      console.log(latlonglist);
+    }
+    latlonglist.map((latlong: any) => {
+      const el = document.createElement("img");
+      el.className = "marker";
+      el.src = directContact;
+      el.style.width = "50px";
+      el.style.height = "50px";
+      // Add markers to the map.
+      new mapboxgl.Marker(el)
+        .setLngLat(latlong)
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML(`<h3>testcdfsrss</h3><p>testfsdfdsfsd</p>`)
+        )
+        //@ts-ignore
+        .addTo(map);
+    });
   }, [latlonglist]);
 
   return (
