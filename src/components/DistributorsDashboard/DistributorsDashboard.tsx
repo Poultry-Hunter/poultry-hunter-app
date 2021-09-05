@@ -271,12 +271,11 @@ const DistributorsDashboard = () => {
           <div
             className="dd-navigation-item"
             id="orange"
-            onClick={() => console.log(distributorData)}
           >
-            <p>Weekly</p>
+            <p>Monthly</p>
           </div>
           <div className="dd-navigation-item" id="white">
-            <p>Monthly</p>
+            <p>Weekly</p>
           </div>
         </div>
       </header>
