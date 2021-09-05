@@ -173,11 +173,11 @@ function Dashboard({
         if (batch.distributor_pubkey != PublicKey.default.toString()) {
           SoldBatches++;
           setTotalSale(SoldBatches);
+          totalchicken += batch.batch_size;
+          settotalChickens(totalchicken);
         }
         GeneratedBatches++;
         setGeneratedBatches(GeneratedBatches);
-        totalchicken += batch.batch_size;
-        settotalChickens(totalchicken);
       }
     );
   }, [batchData]);

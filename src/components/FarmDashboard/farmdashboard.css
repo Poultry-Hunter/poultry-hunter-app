@@ -154,13 +154,12 @@
   outline: none;
   border: none;
   padding: 10px;
-  background-color: var(--primary-color);
+  background-color: white;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   font-family: "Poppins";
   font-size: 0.8em;
   font-weight: 400;
-  color: white;
   float: left;
   cursor: pointer;
 }
@@ -168,7 +167,7 @@
   outline: none;
   border: none;
   padding: 10px;
-  background-color: white;
+  background-color: var(--primary-color);
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   font-family: "Poppins";
@@ -176,6 +175,7 @@
   font-weight: 400;
   float: left;
   cursor: pointer;
+  color: white;
 }
 .analytics_total_batches {
   margin-top: 10px;
