@@ -166,22 +166,54 @@ export async function GetOfficerData(
   }
 }
 
-export async function GetAffectedFarms(
+export async function AffectedPlaces(
   programId: PublicKey,
-  farm_pubkey: PublicKey,
   connection: Connection
 ) {
-  const AffectedFarm = await connection.getProgramAccounts(programId, {
+  const data = await connection.getProgramAccounts(programId, {
     filters: [
-      {
-        memcmp: {
-          offset: BATCH_LAYOUT.offsetOf("infected"), //"farm_pubkey","distributor_pubkey"
-          bytes: "1",
-        },
-      },
       {
         dataSize: BATCH_LAYOUT.span,
       },
     ],
   });
+  const latlong: any = [];
+
+  data.forEach(async (batch) => {
+    const data = BATCH_LAYOUT.decode(batch.account.data);
+    if (data.infected === 1) {
+      if (data.farm_pubkey !== PublicKey.default.toString()) {
+        //@ts-ignore
+        let farm_data = await GetFarmerData(
+          programId,
+          new PublicKey(data.farm_pubkey),
+          connection
+        );
+        //@ts-ignore
+        latlong.push([
+          //@ts-ignore
+          Number(farm_data.farm_address.split(" ")[1]),
+          //@ts-ignore
+          Number(farm_data.farm_address.split(" ")[0]),
+        ]);
+      }
+      if (data.distributor_pubkey !== PublicKey.default.toString()) {
+        //@ts-ignore
+        batch.distributor_data = await GetDistributorData(
+          programId,
+          new PublicKey(data.distributor_pubkey),
+          connection
+        );
+      }
+      if (data.seller_pubkey !== PublicKey.default.toString()) {
+        //@ts-ignore
+        batch.seller_data = await GetSellerData(
+          programId,
+          new PublicKey(data.seller_pubkey),
+          connection
+        );
+      }
+    }
+  });
+  return latlong;
 }

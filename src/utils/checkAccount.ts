@@ -69,9 +69,9 @@ export async function checkOfficerAccount(
     if (wallet) {
       const batches = await GetBatchAccounts(
         programId,
-        new PublicKey("277kTAsNq3C8dogWZzVugBH7B59NkGPwfg5hCjm1MFwB"),
+        Pubkey,
         connection,
-        "farm_pubkey"
+        "marked_by"
       );
       const officer_data = borsh.deserialize(
         SCHEMA,
@@ -80,12 +80,12 @@ export async function checkOfficerAccount(
       );
       if (batches) {
         if (batches.length != 0) {
-          const batch_withData = batches.forEach(async (batch) => {
+          batches.forEach(async (batch) => {
             if (batch.farm_pubkey !== PublicKey.default.toString()) {
               //@ts-ignore
               batch.farm_data = await GetFarmerData(
                 programId,
-                new PublicKey("277kTAsNq3C8dogWZzVugBH7B59NkGPwfg5hCjm1MFwB"),
+                new PublicKey(batch.farm_pubkey),
                 connection
               );
             }
@@ -146,7 +146,7 @@ export async function checkDistributorsAccount(
         DistributorAccount,
         accountInfo.data
       );
-      console.log(distributor_data)
+      console.log(distributor_data);
       const data = {
         data: distributor_data,
         distributorAccountPubkey: PubKey,
