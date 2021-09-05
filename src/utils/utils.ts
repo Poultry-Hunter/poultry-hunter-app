@@ -1,6 +1,9 @@
+import { PublicKey } from "@solana/web3.js";
 import assert from "assert";
 import BN from "bn.js";
-
+export const programId: PublicKey = new PublicKey(
+  "H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"
+);
 export class Numberu32 extends BN {
   toBuffer(): Buffer {
     const a = super.toArray().reverse();

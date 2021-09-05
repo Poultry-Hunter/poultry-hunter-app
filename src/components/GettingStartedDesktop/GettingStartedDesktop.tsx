@@ -19,8 +19,8 @@ import {
   CreateAccountAndInitialiseSeller,
 } from "../../instructions/index";
 import { PublicKey } from "@solana/web3.js";
-import { WalletConnectButton } from "@solana/wallet-adapter-material-ui";
 import { toast } from "react-toastify";
+import { programId } from "../../utils/utils";
 
 export const GettingStartedDesktop = () => {
   const { userType } = useParams<{ userType: string }>();
@@ -31,8 +31,6 @@ export const GettingStartedDesktop = () => {
   const [geolocate, setGeolocate] = useState<any | undefined>();
   const [formToggle, setFormToggle] = useState<boolean>(false);
   const [formAnimation, setFormAnimation] = useState<string>("unset");
-  // const [userType, setUserType] = useState<string>("distributor");
-  const [programId, setProgramId] = useState<PublicKey>();
   const name = useRef<any>();
   const companyName = useRef<any>();
   const contactNumber = useRef<any>();
@@ -50,9 +48,6 @@ export const GettingStartedDesktop = () => {
 
   useEffect(() => {
     console.log(publicKey, connected);
-
-    setProgramId(new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"));
-
     const mapData = TestMap("getting-started-form-map--desktop");
     setMap(mapData.map);
     setGeolocate(mapData.geolocation);
@@ -140,7 +135,7 @@ export const GettingStartedDesktop = () => {
           .then(() => {
             console.log("transaction done");
             toast("Created new account!! 🚀️");
-            history.push("/sellers-dashboard")
+            history.push("/sellers-dashboard");
           })
           .catch(() => {
             console.log("Failed transaction");
@@ -163,7 +158,7 @@ export const GettingStartedDesktop = () => {
           .then(() => {
             console.log("transaction done");
             toast("Created new account!! 🚀️");
-            history.push("/officer-dashboard")
+            history.push("/officer-dashboard");
           })
           .catch(() => {
             console.log("Failed transaction");

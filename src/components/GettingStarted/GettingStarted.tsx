@@ -21,7 +21,7 @@ import {
 } from "../../instructions/index";
 import { PublicKey } from "@solana/web3.js";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
-
+import { programId } from "../../utils/utils";
 const GettingStartedMobile = () => {
   //@ts-ignore
   const { userType } = useParams<{ userType: string }>();
@@ -37,7 +37,6 @@ const GettingStartedMobile = () => {
   const { connection } = useConnection();
   const [geolocate, setGeolocate] = useState<any | undefined>();
   // const [userType, setUserType] = useState<string>("distributor");
-  const [programId, setProgramId] = useState<PublicKey>();
   const name = useRef<any>();
   const companyName = useRef<any>();
   const contactNumber = useRef<any>();
@@ -56,9 +55,6 @@ const GettingStartedMobile = () => {
 
   useEffect(() => {
     console.log(publicKey, connected);
-
-    setProgramId(new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"));
-
     const mapData = TestMap("getting-started-form-map");
     setMap(mapData.map);
     setGeolocate(mapData.geolocation);

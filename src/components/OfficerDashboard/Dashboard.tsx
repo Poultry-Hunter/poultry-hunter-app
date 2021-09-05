@@ -10,10 +10,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import { checkOfficerAccount } from "../../utils/checkAccount";
 import { PublicKey } from "@solana/web3.js";
-import GettingStarted from "../GettingStarted/GettingStarted";
 import {
-  CreateAccountAndInitialiseDistributor,
-  CreateAccountAndInitialiseOfficer,
   SetAffectedChain,
 } from "../../instructions";
 import { HealthOfficerAccount } from "../../schema";
@@ -21,6 +18,7 @@ import { useHistory } from "react-router";
 import { GetBatchData } from "../../utils/filters";
 import directContact from "../../assets/images/vector-art/directContact.svg";
 import mapboxgl, { Map } from "mapbox-gl";
+import { programId } from "../../utils/utils";
 
 type officerDataType = {
   officer_data: HealthOfficerAccount;
@@ -30,7 +28,6 @@ export const OfficerDashboard = () => {
   const [navButton, setNavButton] = useState(true);
   const [showQrScannerPopup, setshowQrScannerPopup] = useState(false);
   const [QrData, setQrData] = useState<any>();
-  const [OfficerPubkey, setOfficerPubkey] = useState<any>(false);
   const [OfficerAccountData, setOfficerAccountData] =
     useState<officerDataType>();
   const [markedAffectedBatches, setmarkedAffectedBatches] = useState([]);
@@ -40,11 +37,7 @@ export const OfficerDashboard = () => {
   const history = useHistory();
   useEffect(() => {
     if (publicKey && connected) {
-      checkOfficerAccount(
-        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-        publicKey,
-        connection
-      )
+      checkOfficerAccount(programId, publicKey, connection)
         .then((officer_data) => {
           console.log(officer_data);
           if (!officer_data) {
@@ -76,23 +69,21 @@ export const OfficerDashboard = () => {
   function markChain() {
     if (QrData && OfficerAccountData) {
       console.log(QrData);
-      GetBatchData(
-        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-        new PublicKey(QrData.key),
-        connection
-      ).then((data) => {
-        SetAffectedChain(
-          new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-          0,
-          new PublicKey(QrData.key),
-          new PublicKey(data.farm_pubkey),
-          new PublicKey(data.distributor_pubkey),
-          new PublicKey(data.seller_pubkey),
-          new PublicKey(OfficerAccountData.officer_account_pubkey),
-          connection,
-          sendTransaction
-        ).catch((err) => console.log(err));
-      });
+      GetBatchData(programId, new PublicKey(QrData.key), connection).then(
+        (data) => {
+          SetAffectedChain(
+            new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+            0,
+            new PublicKey(QrData.key),
+            new PublicKey(data.farm_pubkey),
+            new PublicKey(data.distributor_pubkey),
+            new PublicKey(data.seller_pubkey),
+            new PublicKey(OfficerAccountData.officer_account_pubkey),
+            connection,
+            sendTransaction
+          ).catch((err) => console.log(err));
+        }
+      );
     }
   }
 
@@ -265,7 +256,7 @@ function MarkedAffected({ markedAffectedBatches, officer_pubkey }: any) {
   const { connection } = useConnection();
   function unmarkChain(chain: any) {
     SetAffectedChain(
-      new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+      programId,
       1,
       new PublicKey(chain.batch_pubkey),
       new PublicKey(chain.farm_pubkey),

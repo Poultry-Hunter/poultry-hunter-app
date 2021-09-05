@@ -19,26 +19,18 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletDisconnectButton } from "@solana/wallet-adapter-material-ui";
 import {
   CreateAccountAndGenerateBatch,
-  CreateAccountAndInitialiseFarm,
   DeleteBatchAndRefund,
 } from "../../instructions";
 import { PublicKey } from "@solana/web3.js";
 import { checkFarmAcount } from "../../utils/checkAccount";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
-import GettingStarted from "../GettingStarted/GettingStarted";
-import { GetBatchAccounts, GetFarmerData } from "../../utils/filters";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  setAccountData,
-  setAccountPubkey,
-  setWallet,
-} from "../../redux/reducers/reducers";
 import { useHistory } from "react-router";
 import { FarmAccount } from "../../schema";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DefaultStyle, ErrorStyle } from "../../utils/toastStyles";
+import { programId } from "../../utils/utils";
 type FarmDataType = {
   farm_data: FarmAccount;
   farm_account_pubkey: string;
@@ -54,15 +46,9 @@ export function FarmDashboard() {
     FarmDataType | undefined
   >();
   const history = useHistory();
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setWallet({ connected: connected, pubKey: PublicKey }));
     if (publicKey && connected) {
-      checkFarmAcount(
-        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
-        publicKey,
-        connection
-      )
+      checkFarmAcount(programId, publicKey, connection)
         .then((farm_data) => {
           console.log(farm_data);
           if (!farm_data) {
@@ -209,7 +195,7 @@ function Dashboard({
   function Delete_batch_refund(batch: any) {
     if (publicKey && connected && batch) {
       DeleteBatchAndRefund(
-        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        programId,
         publicKey,
         new PublicKey(batch.batch_pubkey),
         new PublicKey(FarmAccountData.farm_account_pubkey),
@@ -403,15 +389,15 @@ function CreateBatch({
   useEffect(() => {}, [connected]);
 
   function GenerateNewBatch() {
-    setcreateButtonLoading(true);
     const batch_input = {
       batch_id: Math.floor(Math.random() * 4294967295 + 1),
       batch_size: BatchSize,
       timestamp: Date.now(),
     };
     if (publicKey && connected && FarmAccountData && BatchSize) {
+      setcreateButtonLoading(true);
       CreateAccountAndGenerateBatch(
-        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        programId,
         publicKey,
         new PublicKey(FarmAccountData.farm_account_pubkey),
         batch_input,
@@ -581,7 +567,7 @@ export function Inventory({ batchData, FarmAccountData, setBatchData }: any) {
   function Delete_batch_refund(batch: any) {
     if (publicKey && connected && batch) {
       DeleteBatchAndRefund(
-        new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"),
+        programId,
         publicKey,
         new PublicKey(batch.batch_pubkey),
         new PublicKey(FarmAccountData.farm_account_pubkey),
