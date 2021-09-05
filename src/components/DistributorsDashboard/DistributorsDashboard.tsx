@@ -201,7 +201,7 @@ const DistributorsDashboard = () => {
       setCurrentBatchData({
         batchId: JSON.parse(data).batch_id,
         batchSize: JSON.parse(data).batch_size,
-        key: JSON.parse(data).Key,
+        key: JSON.parse(data).key,
       });
     }
       console.log(data)

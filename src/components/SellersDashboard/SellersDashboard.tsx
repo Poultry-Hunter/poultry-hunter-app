@@ -87,7 +87,7 @@ const SellersDashboard = () => {
       setCurrentBatchData({
         batchId: JSON.parse(data).batch_id,
         batchSize: JSON.parse(data).batch_size,
-        key: JSON.parse(data).Key,
+        key: JSON.parse(data).key,
       });
 
       setBatchDataAnimation("translateY(0px)");
