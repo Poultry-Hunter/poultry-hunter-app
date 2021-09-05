@@ -36,6 +36,7 @@ export const GettingStartedDesktop = () => {
   const contactNumber = useRef<any>();
   const officeId = useRef<any>();
   const [coordinates, setCoordinates] = useState<string | undefined>(undefined);
+  const [disable, setDisable] = useState(false);
 
   const handleFormToggle = () => {
     setFormToggle(!formToggle);
@@ -66,6 +67,7 @@ export const GettingStartedDesktop = () => {
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
+    setDisable(true);
 
     console.log(process.env.PROGRAMID);
     if (connected && programId && publicKey && coordinates) {
@@ -86,6 +88,7 @@ export const GettingStartedDesktop = () => {
         )
           .then(() => {
             console.log("transaction done!!");
+            setDisable(false);
             toast("Created new account!! 🚀️");
             history.push("/farm-dashboard");
           })
@@ -110,6 +113,7 @@ export const GettingStartedDesktop = () => {
         )
           .then(() => {
             console.log("transaction done");
+            setDisable(false);
             toast("Created new account!! 🚀️");
             history.push("/distributors-dashboard");
           })
@@ -134,6 +138,7 @@ export const GettingStartedDesktop = () => {
         )
           .then(() => {
             console.log("transaction done");
+            setDisable(false);
             toast("Created new account!! 🚀️");
             history.push("/sellers-dashboard");
           })
@@ -157,6 +162,7 @@ export const GettingStartedDesktop = () => {
         )
           .then(() => {
             console.log("transaction done");
+            setDisable(false);
             toast("Created new account!! 🚀️");
             history.push("/officer-dashboard");
           })
@@ -305,6 +311,7 @@ export const GettingStartedDesktop = () => {
             <button
               className="getting-started-desktop-form-button--desktop"
               type="submit"
+              disabled={disable}
             >
               Create Account
             </button>

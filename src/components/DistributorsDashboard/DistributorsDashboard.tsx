@@ -76,10 +76,12 @@ const Dashboard = ({ tableBatchData }: any) => {
   const [soldBatches, setSoldBatches] = useState<any>(undefined);
 
   useEffect(() => {
-    setSoldBatches(getSoldBatches(PublicKey.default.toString(), tableBatchData));
+    setSoldBatches(
+      getSoldBatches(PublicKey.default.toString(), tableBatchData)
+    );
   }, [tableBatchData]);
 
-  console.log(tableBatchData)
+  console.log(tableBatchData);
 
   return (
     <main>
@@ -163,6 +165,8 @@ const DistributorsDashboard = () => {
   const [qrDisplay, setQrDisplay] = useState("none");
   const { connection } = useConnection();
   const history = useHistory();
+  const [disable, setDisable] = useState(false);
+
   const handleQRToggle = (close = "any") => {
     if (close == "close") {
       setQrAnimation("qr-dont-show 400ms ease-in-out");
@@ -193,6 +197,7 @@ const DistributorsDashboard = () => {
 
   const updateBatchData = () => {
     if (publicKey && distributorAccountPubkey) {
+      setDisable(true);
       UpdateBatchDistributor(
         new PublicKey(programId),
         new PublicKey(currentBatchData.key),
@@ -201,7 +206,9 @@ const DistributorsDashboard = () => {
         sendTransaction
       )
         .then(() => {
+          setDisable(false);
           console.log("Successfully added to inventory");
+          setBatchDataAnimation("translateY(400px)");
           toast("Added batch to inventory!! 🚀");
         })
         .catch((err) => {
@@ -364,7 +371,9 @@ const DistributorsDashboard = () => {
             Chickens in the batch.
           </p>
         </div>
-        <button onClick={updateBatchData}>Add to Inventory</button>
+        <button onClick={updateBatchData} disabled={disable}>
+          Add to Inventory
+        </button>
       </div>
       {/* Bottom Nav */}
       <div className="distributors-dash-bottom-panel-wrapper">

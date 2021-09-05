@@ -43,6 +43,7 @@ const GettingStartedMobile = () => {
   const contactNumber = useRef<any>();
   const officeId = useRef<any>();
   const [coordinates, setCoordinates] = useState<string | undefined>(undefined);
+  const [disable, setDisable] = useState(false);
 
   const handleFormToggle = () => {
     setFromToggle(!fromToggle);
@@ -72,6 +73,7 @@ const GettingStartedMobile = () => {
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
+    setDisable(true);
 
     console.log(process.env.PROGRAMID);
     if (connected && programId && publicKey && coordinates) {
@@ -92,6 +94,7 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done!!");
+            setDisable(false);
             toast("Created new account!! 🚀️");
             setTimeout(() => {
               history.push("/farm-dashboard");
@@ -117,6 +120,7 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done");
+            setDisable(false);
             toast("Created new account!! 🚀️");
             setTimeout(() => {
               history.push("/distributors-dashboard");
@@ -142,6 +146,7 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done");
+            setDisable(false);
             toast("Created new account!! 🚀️");
             setTimeout(() => {
               history.push("/sellers-dashboard");
@@ -166,6 +171,7 @@ const GettingStartedMobile = () => {
         ).then(() => {
           setTimeout(() => {
             toast("Created new account!! 🚀️");
+            setDisable(false);
             history.push("/officer-dashboard");
           }, 1000);
         });
@@ -308,7 +314,10 @@ const GettingStartedMobile = () => {
                     id="getting-started-form-map"
                   ></div>
                 </div>
-                <button className="getting-started-desktop-form-button">
+                <button
+                  className="getting-started-desktop-form-button"
+                  disabled={disable}
+                >
                   Create Account
                 </button>
               </form>
