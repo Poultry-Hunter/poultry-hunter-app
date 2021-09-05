@@ -20,6 +20,7 @@ import {
 } from "../../instructions/index";
 import { PublicKey } from "@solana/web3.js";
 import { WalletConnectButton } from "@solana/wallet-adapter-material-ui";
+import { toast } from "react-toastify";
 
 export const GettingStartedDesktop = () => {
   const { userType } = useParams<{ userType: string }>();
@@ -50,7 +51,7 @@ export const GettingStartedDesktop = () => {
   useEffect(() => {
     console.log(publicKey, connected);
 
-    setProgramId(new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"));
+    setProgramId(new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"));
 
     const mapData = TestMap("getting-started-form-map--desktop");
     setMap(mapData.map);
@@ -90,10 +91,12 @@ export const GettingStartedDesktop = () => {
         )
           .then(() => {
             console.log("transaction done!!");
+            toast("Created new account!! 🚀️");
             history.push("/farm-dashboard");
           })
           .catch(() => {
             console.log("Failed");
+            toast.error("Transaction failed, try again!");
             history.push("/error");
           });
       } else if (userType === "distributor") {
@@ -112,10 +115,12 @@ export const GettingStartedDesktop = () => {
         )
           .then(() => {
             console.log("transaction done");
-            window.location.assign("/distributors-dashboard")
+            toast("Created new account!! 🚀️");
+            history.push("/distributors-dashboard");
           })
           .catch(() => {
             console.log("Failed transaction");
+            toast.error("Transaction failed, try again!");
             history.push("/error");
           });
       } else if (userType === "seller") {
@@ -134,9 +139,12 @@ export const GettingStartedDesktop = () => {
         )
           .then(() => {
             console.log("transaction done");
+            toast("Created new account!! 🚀️");
+            history.push("/sellers-dashboard")
           })
           .catch(() => {
             console.log("Failed transaction");
+            toast.error("Transaction failed, try again!");
             history.push("/error");
           });
       } else if (userType === "officer") {
@@ -151,7 +159,17 @@ export const GettingStartedDesktop = () => {
           },
           connection,
           sendTransaction
-        );
+        )
+          .then(() => {
+            console.log("transaction done");
+            toast("Created new account!! 🚀️");
+            history.push("/officer-dashboard")
+          })
+          .catch(() => {
+            console.log("Failed transaction");
+            toast.error("Transaction failed, try again!");
+            history.push("/error");
+          });
       }
     } else {
       console.log("Termited since", connected, programId, publicKey);

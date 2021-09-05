@@ -57,7 +57,7 @@ const GettingStartedMobile = () => {
   useEffect(() => {
     console.log(publicKey, connected);
 
-    setProgramId(new PublicKey("H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"));
+    setProgramId(new PublicKey("DZRQuRb6c8aT9L22JU7R4uLPADJPT7682ejhV7jukaDT"));
 
     const mapData = TestMap("getting-started-form-map");
     setMap(mapData.map);
