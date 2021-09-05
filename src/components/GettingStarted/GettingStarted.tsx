@@ -20,6 +20,7 @@ import {
   CreateAccountAndInitialiseSeller,
 } from "../../instructions/index";
 import { PublicKey } from "@solana/web3.js";
+import ConnectWallet from "../ConnectWallet/ConnectWallet";
 
 const GettingStartedMobile = () => {
   //@ts-ignore
@@ -163,7 +164,7 @@ const GettingStartedMobile = () => {
     }
   };
 
-  return (
+  return connected ? (
     <>
       <div className="GettingStarted container">
         <img src={starman} />
@@ -305,6 +306,8 @@ const GettingStartedMobile = () => {
         </div>
       </div>
     </>
+  ) : (
+    <ConnectWallet />
   );
 };
 

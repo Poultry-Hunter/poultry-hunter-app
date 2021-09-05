@@ -65,7 +65,7 @@ export function FarmDashboard() {
           console.log(farm_data);
           if (!farm_data) {
             history.push(`getting-started/farmer`);
-            window.location.href = "/getting-started/farmer";
+            // window.location.href = "/getting-started/farmer";
           } else {
             console.log(farm_data);
             setFarmAccountData({
