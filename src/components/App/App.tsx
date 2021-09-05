@@ -27,6 +27,7 @@ import SellersDashboard from "../SellersDashboard/SellersDashboard";
 import { OfficerDashboard } from "../OfficerDashboard/Dashboard";
 import GettingStartedDesktop from "../GettingStartedDesktop/GettingStartedDesktop";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
+import { ToastContainer } from "react-toastify";
 export const App = (): JSX.Element => {
   const endpoint = useMemo(() => clusterApiUrl("devnet"), []);
 
@@ -41,9 +42,21 @@ export const App = (): JSX.Element => {
   );
   return (
     <>
-      <ConnectionProvider endpoint={endpoint}>
+      <ConnectionProvider endpoint="http://127.0.0.1:8899">
         <WalletProvider wallets={wallets} autoConnect>
           <WalletDialogProvider>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+            <ToastContainer />
             <Router>
               <Switch>
                 <Route path="/" exact component={Home} />

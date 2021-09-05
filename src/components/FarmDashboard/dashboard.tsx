@@ -135,19 +135,6 @@ export function FarmDashboard() {
           <WalletDisconnectButton className="farm_dashboard_wallet_button" />
         </div>
         <div className="farm_dashbord_main">
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-          <ToastContainer />
-
           {navButton ? (
             <Dashboard
               QRdata={QRdata}

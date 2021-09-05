@@ -19,6 +19,7 @@ import { UpdateBatchDistributor } from "../../instructions";
 import { useHistory } from "react-router";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import { getChickens, getSoldBatches } from "../../common/utils";
+import { toast } from "react-toastify";
 
 export const DDTable = ({ batchData }: any) => {
   return (
@@ -183,6 +184,7 @@ const DistributorsDashboard = () => {
       )
         .then(() => {
           console.log("Successfully added to inventory");
+          toast("Added batch to inventory!! 🚀");
         })
         .catch((err) => {
           console.log(err);
@@ -193,14 +195,6 @@ const DistributorsDashboard = () => {
   const handleScan = (data: any) => {
     if (data) {
       setQrData(data);
-
-      // {
-      //     Batch_id:27722,
-      //     Batch_size:626,
-      //     Key:heiaiajehwiaooqosjnsa
-      //     Timestamp:277288282
-      // }
-
       setBatchDataAnimation("translateY(0px)");
       setCurrentBatchData({
         batchId: JSON.parse(data).Batch_id,
@@ -227,7 +221,6 @@ const DistributorsDashboard = () => {
         .then((data: any) => {
           if (!data) {
             history.push("getting-started/distributor");
-            // window.location.assign("/getting-started/distributor")
           } else {
             console.log("got data");
           }
