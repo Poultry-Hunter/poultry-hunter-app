@@ -10,9 +10,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import { checkOfficerAccount } from "../../utils/checkAccount";
 import { PublicKey } from "@solana/web3.js";
-import {
-  SetAffectedChain,
-} from "../../instructions";
+import { SetAffectedChain } from "../../instructions";
 import { HealthOfficerAccount } from "../../schema";
 import { useHistory } from "react-router";
 import { GetBatchData } from "../../utils/filters";
@@ -58,6 +56,7 @@ export const OfficerDashboard = () => {
   }, [connected, publicKey]);
 
   const handleScan = (data: any) => {
+    console.log(data);
     if (data) {
       setQrData(JSON.parse(data));
     }
@@ -381,7 +380,9 @@ function MarkedAffected({ markedAffectedBatches, officer_pubkey }: any) {
                   ) : (
                     ""
                   )}
-                  <button>Mark As UnAffected</button>
+                  <button onClick={() => unmarkChain(chain)}>
+                    Mark As UnAffected
+                  </button>
                 </div>
               );
             })

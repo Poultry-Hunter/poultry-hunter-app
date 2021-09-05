@@ -419,6 +419,8 @@ function CreateBatch({
               batch_pubkey: Batch_pubkey,
               distributor_pubkey: PublicKey.default.toString(),
               batch_size: batch_input.batch_size,
+              timestamp: batch_input.timestamp,
+
               date: new Date(batch_input.timestamp).toLocaleDateString(
                 "en-US",
                 { dateStyle: "medium" }
@@ -487,7 +489,7 @@ function CreateBatch({
               logoImage={logo}
               logoWidth={45}
               logoHeight={50}
-              eyeRadius={7}
+              eyeRadius={10}
               qrStyle={"dots"}
             />
             <h3>{FarmAccountData.farm_data.farm_name}</h3>
