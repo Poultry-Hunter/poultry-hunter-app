@@ -11,6 +11,7 @@ import phLogoBrownBorder from "../../assets/images/logo/phLogoBrownBorder.svg";
 import farmer from "../../assets/images/icons/farmer.svg";
 import distributor from "../../assets/images/icons/distributor.svg";
 import seller from "../../assets/images/icons/seller.svg";
+import officer from "../../assets/images/icons/officer.png";
 import reportedSeller from "../../assets/images/vector-art/reportedSeller.svg";
 import directContact from "../../assets/images/vector-art/directContact.svg";
 import indirectContact from "../../assets/images/vector-art/indirectContact.svg";
@@ -152,6 +153,12 @@ const Home = () => {
                   Seller
                 </a>
                 <img src={seller} />
+              </div>
+              <div className="navbar-dropdown-navigation-button">
+                <a href="/sellers-dashboard" target="_blank">
+                  Officer
+                </a>
+                <img src={officer} />
               </div>
             </div>
           </div>

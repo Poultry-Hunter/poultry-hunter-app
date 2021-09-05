@@ -15,17 +15,17 @@ export const MyResponsiveBar = (data: any) => {
     },
     {
       Month: "July",
-      "hot dog": 2,
+      "hot dog": 50,
       "hot dogColor": "hsl(61, 70%, 50%)",
     },
     {
       Month: "August",
-      "hot dog": 2,
+      "hot dog": 20,
       "hot dogColor": "hsl(61, 70%, 50%)",
     },
     {
       Month: "September",
-      "hot dog": 2,
+      "hot dog": 30,
       "hot dogColor": "hsl(61, 70%, 50%)",
     },
   ];
