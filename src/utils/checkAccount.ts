@@ -146,6 +146,7 @@ export async function checkDistributorsAccount(
         DistributorAccount,
         accountInfo.data
       );
+      console.log(distributor_data)
       const data = {
         data: distributor_data,
         distributorAccountPubkey: PubKey,

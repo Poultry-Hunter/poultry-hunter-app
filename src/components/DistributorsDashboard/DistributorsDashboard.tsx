@@ -23,6 +23,10 @@ import { toast } from "react-toastify";
 import { programId } from "../../utils/utils";
 
 export const DDTable = ({ batchData }: any) => {
+  useEffect(() => {
+    console.log(batchData);
+  });
+
   return (
     <div className="dd-main-table">
       <div className="dd_analytics_history">
@@ -153,19 +157,29 @@ const DistributorsDashboard = () => {
     key: undefined,
   });
   const [batchData, setBatchData] = useState([]);
+  const [qrDisplay, setQrDisplay] = useState("none");
   const { connection } = useConnection();
   const history = useHistory();
   const handleQRToggle = (close = "any") => {
     if (close == "close") {
       setQrAnimation("qr-dont-show 400ms ease-in-out");
+      setTimeout(() => {
+        setQrDisplay("none");
+      }, 400);
       setQrToggle(false);
     } else {
       setQrToggle(!qrToggle);
       if (!qrToggle) {
         setQrAnimation("qr-show 400ms ease-in-out");
+        setTimeout(() => {
+          setQrDisplay("block");
+        }, 400);
         // setBatchDataAnimation("translateY(0px)");
       } else {
         setQrAnimation("qr-dont-show 400ms ease-in-out");
+        setTimeout(() => {
+          setQrDisplay("none");
+        }, 400);
       }
     }
   };
@@ -197,14 +211,14 @@ const DistributorsDashboard = () => {
     if (data) {
       setQrData(data);
       setBatchDataAnimation("translateY(0px)");
-      console.log(data)
+      console.log(data);
       setCurrentBatchData({
         batchId: JSON.parse(data).batch_id,
         batchSize: JSON.parse(data).batch_size,
         key: JSON.parse(data).key,
       });
     }
-      console.log(data)
+    console.log(data);
   };
 
   const handleError = (err: Error) => {
@@ -264,7 +278,7 @@ const DistributorsDashboard = () => {
     } else {
       console.log(connected, publicKey);
     }
-  },[])
+  }, []);
 
   return connected ? (
     <div className="distributorsDashboard--main-container">
@@ -311,7 +325,11 @@ const DistributorsDashboard = () => {
       {/* Scanner Component */}
       <div
         className="dd-qr-code-scanner-comp"
-        style={{ animation: qrAnimation, animationFillMode: "forwards" }}
+        style={{
+          animation: qrAnimation,
+          animationFillMode: "forwards",
+          display: qrDisplay,
+        }}
       >
         <div className="dd-qr-code-text">
           <h3>Place the QR code inside the area </h3>

@@ -43,22 +43,31 @@ const SellersDashboard = () => {
   const { connection } = useConnection();
   const history = useHistory();
   const [batchData, setBatchData] = useState([]);
+  const [qrDisplay, setQrDisplay] = useState("none");
 
   const handleQRToggle = (close = "any") => {
     if (close == "close") {
       setQrAnimation("qr-dont-show 400ms ease-in-out");
+      setTimeout(() => {
+        setQrDisplay("none");
+      }, 400);
       setQrToggle(false);
     } else {
       setQrToggle(!qrToggle);
       if (!qrToggle) {
         setQrAnimation("qr-show 400ms ease-in-out");
-        setBatchDataAnimation("translateY(0px)");
+        setTimeout(() => {
+          setQrDisplay("block");
+        }, 400);
+        // setBatchDataAnimation("translateY(0px)");
       } else {
         setQrAnimation("qr-dont-show 400ms ease-in-out");
+        setTimeout(() => {
+          setQrDisplay("none");
+        }, 400);
       }
     }
   };
-
   const updateBatchData = () => {
     if (publicKey) {
       UpdateBatchSeller(
@@ -154,7 +163,11 @@ const SellersDashboard = () => {
 
       <div
         className="dd-qr-code-scanner-comp"
-        style={{ animation: qrAnimation, animationFillMode: "forwards" }}
+        style={{
+          animation: qrAnimation,
+          animationFillMode: "forwards",
+          display: qrDisplay,
+        }}
       >
         <div className="dd-qr-code-text">
           <h3>Place the QR code inside the area </h3>
