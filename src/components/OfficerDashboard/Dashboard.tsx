@@ -14,8 +14,13 @@ import { SetAffectedChain } from "../../instructions";
 import { HealthOfficerAccount } from "../../schema";
 import { useHistory } from "react-router";
 import { GetBatchData } from "../../utils/filters";
+import reportedSeller from "../../assets/images/vector-art/reportedSeller.svg";
 import directContact from "../../assets/images/vector-art/directContact.svg";
+import indirectContact from "../../assets/images/vector-art/indirectContact.svg";
 import mapboxgl, { Map } from "mapbox-gl";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { DefaultStyle, ErrorStyle } from "../../utils/toastStyles";
 import { programId } from "../../utils/utils";
 
 type officerDataType = {
@@ -25,6 +30,8 @@ type officerDataType = {
 export const OfficerDashboard = () => {
   const [navButton, setNavButton] = useState(true);
   const [showQrScannerPopup, setshowQrScannerPopup] = useState(false);
+  const [buttonLoad, setbuttonLoad] = useState(false);
+
   const [QrData, setQrData] = useState<any>();
   const [OfficerAccountData, setOfficerAccountData] =
     useState<officerDataType>();
@@ -66,6 +73,7 @@ export const OfficerDashboard = () => {
   };
   function markChain() {
     if (QrData && OfficerAccountData) {
+      setbuttonLoad(true);
       GetBatchData(programId, new PublicKey(QrData.key), connection).then(
         (data) => {
           SetAffectedChain(
@@ -78,7 +86,20 @@ export const OfficerDashboard = () => {
             new PublicKey(OfficerAccountData.officer_account_pubkey),
             connection,
             sendTransaction
-          ).catch((err) => console.log(err));
+          )
+            .then(() => {
+              setshowQrScannerPopup(false);
+              setQrData(null);
+              toast("Chain Marked As Affected!", DefaultStyle);
+              setbuttonLoad(false);
+              location.reload();
+            })
+            .catch((err) => {
+              setbuttonLoad(false);
+
+              console.log(err);
+              toast.error("Transaction Failed!", ErrorStyle);
+            });
         }
       );
     }
@@ -120,7 +141,12 @@ export const OfficerDashboard = () => {
                     <h3>Farm: 1</h3>
                     <h3>Distributor: 1</h3>
                   </div>
-                  <button onClick={() => markChain()}>Mark Infected</button>
+                  <button
+                    onClick={() => markChain()}
+                    disabled={buttonLoad === true}
+                  >
+                    Mark Infected
+                  </button>
                 </div>
               ) : null}
             </div>
@@ -192,7 +218,7 @@ function Dashboard({ OfficerAccountData, batchChain }: any) {
           if (location.length === 2) {
             const el = document.createElement("img");
             el.className = "marker";
-            el.src = directContact;
+            el.src = indirectContact;
             el.style.width = "50px";
             el.style.height = "50px";
             // Add markers to the map.
@@ -212,7 +238,7 @@ function Dashboard({ OfficerAccountData, batchChain }: any) {
           if (location.length === 2) {
             const el = document.createElement("img");
             el.className = "marker";
-            el.src = directContact;
+            el.src = reportedSeller;
             el.style.width = "50px";
             el.style.height = "50px";
             // Add markers to the map.
@@ -251,7 +277,9 @@ function Dashboard({ OfficerAccountData, batchChain }: any) {
 function MarkedAffected({ markedAffectedBatches, officer_pubkey }: any) {
   const { publicKey, connected, sendTransaction } = useWallet();
   const { connection } = useConnection();
+  const [buttonLoad, setbuttonLoad] = useState(false);
   function unmarkChain(chain: any) {
+    setbuttonLoad(true);
     SetAffectedChain(
       programId,
       1,
@@ -262,7 +290,17 @@ function MarkedAffected({ markedAffectedBatches, officer_pubkey }: any) {
       new PublicKey(officer_pubkey),
       connection,
       sendTransaction
-    ).catch((err) => console.log(err));
+    )
+      .then(() => {
+        setbuttonLoad(false);
+        toast("Chain Marked As UnAffected!", DefaultStyle);
+        location.reload();
+      })
+      .catch((err) => {
+        setbuttonLoad(false);
+        console.log(err);
+        toast.error("Transaction Failed!", ErrorStyle);
+      });
   }
   return (
     <div className="officer_dashboard_marked_chain">
@@ -270,121 +308,125 @@ function MarkedAffected({ markedAffectedBatches, officer_pubkey }: any) {
         <h3>Marked Affected Chain</h3>
       </div>
       <div className="officer_marked_chain_list">
-        {markedAffectedBatches.length != 0
-          ? markedAffectedBatches.map((chain: any) => {
-              return (
-                <div className="marked_chain_card">
-                  <div className="marked_chain_card_head">
-                    <AffectedRedIcon />
-                    <h3>Batch ID: {chain.batch_id}</h3>
-                  </div>
-                  {chain.seller_data ? (
-                    <div className="marked_chain_data">
-                      <div className="marked_chain_info">
-                        <svg
-                          width="31"
-                          height="30"
-                          viewBox="0 0 31 30"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
-                            stroke="#FF9900"
-                            stroke-width="3"
-                          />
-                        </svg>
-
-                        <h3>
-                          <span>{chain.seller_data.shop_name}</span> - Seller
-                        </h3>
-                        <h4>
-                          Contact Number : {chain.seller_data.contact_number}
-                        </h4>
-                      </div>
-                      <Icon
-                        icon="carbon:location-filled"
-                        className="batch_location_icon"
-                      />
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  {chain.distributor_data ? (
-                    <div className="marked_chain_data">
-                      <div className="marked_chain_info">
-                        <svg
-                          width="31"
-                          height="30"
-                          viewBox="0 0 31 30"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
-                            stroke="#FF9900"
-                            stroke-width="3"
-                          />
-                        </svg>
-
-                        <h3>
-                          <span>
-                            {chain.distributor_data.distribution_center}
-                          </span>{" "}
-                          - Distributor
-                        </h3>
-                        <h4>
-                          Contact Number :{" "}
-                          {chain.distributor_data.contact_number}
-                        </h4>
-                      </div>
-                      <Icon
-                        icon="carbon:location-filled"
-                        className="batch_location_icon"
-                      />
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  {chain.farm_data ? (
-                    <div className="marked_chain_data">
-                      <div className="marked_chain_info">
-                        <svg
-                          width="31"
-                          height="30"
-                          viewBox="0 0 31 30"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
-                            stroke="#FF9900"
-                            stroke-width="3"
-                          />
-                        </svg>
-
-                        <h3>
-                          <span>{chain.farm_data.farm_name}</span> - Farmer
-                        </h3>
-                        <h4>
-                          Contact Number : {chain.farm_data.contact_number}
-                        </h4>
-                      </div>
-                      <Icon
-                        icon="carbon:location-filled"
-                        className="batch_location_icon"
-                      />
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  <button onClick={() => unmarkChain(chain)}>
-                    Mark As UnAffected
-                  </button>
+        {markedAffectedBatches.length != 0 ? (
+          markedAffectedBatches.map((chain: any) => {
+            return (
+              <div className="marked_chain_card">
+                <div className="marked_chain_card_head">
+                  <AffectedRedIcon />
+                  <h3>Batch ID: {chain.batch_id}</h3>
                 </div>
-              );
-            })
-          : "No batches"}
+                {chain.seller_data ? (
+                  <div className="marked_chain_data">
+                    <div className="marked_chain_info">
+                      <svg
+                        width="31"
+                        height="30"
+                        viewBox="0 0 31 30"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
+                          stroke="#FF9900"
+                          stroke-width="3"
+                        />
+                      </svg>
+
+                      <h3>
+                        <span>{chain.seller_data.shop_name}</span> - Seller
+                      </h3>
+                      <h4>
+                        Contact Number : {chain.seller_data.contact_number}
+                      </h4>
+                    </div>
+                    <Icon
+                      icon="carbon:location-filled"
+                      className="batch_location_icon"
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
+                {chain.distributor_data ? (
+                  <div className="marked_chain_data">
+                    <div className="marked_chain_info">
+                      <svg
+                        width="31"
+                        height="30"
+                        viewBox="0 0 31 30"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
+                          stroke="#FF9900"
+                          stroke-width="3"
+                        />
+                      </svg>
+
+                      <h3>
+                        <span>
+                          {chain.distributor_data.distribution_center}
+                        </span>{" "}
+                        - Distributor
+                      </h3>
+                      <h4>
+                        Contact Number : {chain.distributor_data.contact_number}
+                      </h4>
+                    </div>
+                    <Icon
+                      icon="carbon:location-filled"
+                      className="batch_location_icon"
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
+                {chain.farm_data ? (
+                  <div className="marked_chain_data">
+                    <div className="marked_chain_info">
+                      <svg
+                        width="31"
+                        height="30"
+                        viewBox="0 0 31 30"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.5 1C1.99122 21.9851 8.22362 28.2877 30.5 27.5"
+                          stroke="#FF9900"
+                          stroke-width="3"
+                        />
+                      </svg>
+
+                      <h3>
+                        <span>{chain.farm_data.farm_name}</span> - Farmer
+                      </h3>
+                      <h4>Contact Number : {chain.farm_data.contact_number}</h4>
+                    </div>
+                    <Icon
+                      icon="carbon:location-filled"
+                      className="batch_location_icon"
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
+                <button
+                  onClick={() => unmarkChain(chain)}
+                  disabled={buttonLoad === true}
+                >
+                  Mark As UnAffected
+                </button>
+              </div>
+            );
+          })
+        ) : (
+          <div className="officer_no_chain">
+            <h3>No Chain Marked</h3>
+          </div>
+        )}
       </div>
     </div>
   );
