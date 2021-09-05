@@ -42,7 +42,7 @@ Therefore, a decentralised system is required that tracks every point of Poultry
 
 #### Testing on a local server
 
-```shell
+```
 **Install rust**
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sh -c "$(curl -sSfL https://release.solana.com/v1.7.11/install)"
