@@ -199,19 +199,31 @@ export async function AffectedPlaces(
       }
       if (data.distributor_pubkey !== PublicKey.default.toString()) {
         //@ts-ignore
-        batch.distributor_data = await GetDistributorData(
+        let distributor_data = await GetDistributorData(
           programId,
           new PublicKey(data.distributor_pubkey),
           connection
         );
+        latlong.push([
+          //@ts-ignore
+          Number(distributor_data.center_address.split(" ")[1]),
+          //@ts-ignore
+          Number(distributor_data.center_address.split(" ")[0]),
+        ]);
       }
       if (data.seller_pubkey !== PublicKey.default.toString()) {
         //@ts-ignore
-        batch.seller_data = await GetSellerData(
+        let seller_data = await GetSellerData(
           programId,
           new PublicKey(data.seller_pubkey),
           connection
         );
+        latlong.push([
+          //@ts-ignore
+          Number(seller_data.shop_address.split(" ")[1]),
+          //@ts-ignore
+          Number(seller_data.shop_address.split(" ")[0]),
+        ]);
       }
     }
   });

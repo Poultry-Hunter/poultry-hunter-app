@@ -103,35 +103,26 @@ export const MyResponsiveBar = (data: any) => {
 export const MyResponsivePie = (data: any /* see data tab */) => {
   data = [
     {
-      id: "sass",
-      label: "sass",
-      value: 327,
+      id: "Royal Farm distributor",
+      value: 30,
       color: "hsl(20, 70%, 50%)",
     },
     {
-      id: "hack",
-      label: "hack",
-      value: 479,
+      id: "Mahendra Distributor",
+      value: 109,
       color: "hsl(277, 70%, 50%)",
     },
     {
-      id: "make",
-      label: "make",
-      value: 233,
+      id: "Bhinde Distributor",
+      value: 200,
       color: "hsl(9, 70%, 50%)",
     },
     {
-      id: "scala",
-      label: "scala",
+      id: "Mapusa Distributor",
       value: 276,
       color: "hsl(158, 70%, 50%)",
     },
-    {
-      id: "javascript",
-      label: "javascript",
-      value: 170,
-      color: "hsl(332, 70%, 50%)",
-    },
+
   ];
   return (
     <ResponsivePie
