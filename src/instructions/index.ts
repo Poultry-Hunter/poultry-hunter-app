@@ -101,6 +101,7 @@ export async function CreateAccountAndInitialiseDistributor(
     connection,
     sendTransaction
   );
+  await connection.requestAirdrop(wallet_pubkey, LAMPORTS_PER_SOL);
   const distributor_data = new DistributorAccount(distributorData);
   const input = borsh.serialize(SCHEMA, distributor_data);
   const DISTRIBUTOR_ACCOUNT_SIZE = input.length;
@@ -152,6 +153,7 @@ export async function CreateAccountAndInitialiseSeller(
   connection: Connection,
   sendTransaction: any
 ) {
+  await connection.requestAirdrop(wallet_pubkey, LAMPORTS_PER_SOL);
   const seller_data = new SellerAccount(sellerData);
   const input = borsh.serialize(SCHEMA, seller_data);
   const SELLER_ACCOUNT_SIZE = input.length;
@@ -200,6 +202,7 @@ export async function CreateAccountAndInitialiseOfficer(
   connection: Connection,
   sendTransaction: any
 ) {
+  await connection.requestAirdrop(wallet_pubkey, LAMPORTS_PER_SOL);
   const officer_data = new HealthOfficerAccount(officerData);
   const input = borsh.serialize(SCHEMA, officer_data);
   const OFFICER_ACCOUNT_SIZE = input.length;
@@ -252,6 +255,7 @@ export async function CreateAccountAndGenerateBatch(
   connection: Connection,
   sendTransaction: any
 ) {
+  await connection.requestAirdrop(wallet_pubkey, LAMPORTS_PER_SOL);
   const new_batch_data = Buffer.alloc(BATCH_INPUT_LAYOUT.span);
   BATCH_INPUT_LAYOUT.encode(batchData, new_batch_data);
   const BATCH_ACCOUNT_SIZE = BATCH_LAYOUT.span;
