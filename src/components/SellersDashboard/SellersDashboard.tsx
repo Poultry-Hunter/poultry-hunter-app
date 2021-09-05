@@ -373,8 +373,8 @@ export const DDTable = ({ batchData, navigation }: any) => {
                     className="recent_table_content"
                     id="dd-recent_table_content"
                   >
-                    <th>10/02/2021</th>
-                    <th>11:10</th>
+                    <th>{batch.date}</th>
+                    <th>{batch.time}</th>
                     <th>{batch.batch_id}</th>
                     <th>{batch.batch_size}</th>
                   </tr>
