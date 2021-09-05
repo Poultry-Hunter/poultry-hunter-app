@@ -22,6 +22,7 @@ import {
 import { PublicKey } from "@solana/web3.js";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import { programId } from "../../utils/utils";
+import { toast } from "react-toastify";
 const GettingStartedMobile = () => {
   //@ts-ignore
   const { userType } = useParams<{ userType: string }>();
@@ -91,7 +92,10 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done!!");
-            history.push("/farm-dashboard");
+            toast("Created new account!! 🚀️");
+            setTimeout(() => {
+              history.push("/farm-dashboard");
+            }, 1000);
           })
           .catch(() => {
             console.log("Failed");
@@ -113,7 +117,10 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done");
-            history.push("/distributors-dashboard");
+            toast("Created new account!! 🚀️");
+            setTimeout(() => {
+              history.push("/distributors-dashboard");
+            }, 1000);
           })
           .catch(() => {
             console.log("Failed transaction");
@@ -135,7 +142,10 @@ const GettingStartedMobile = () => {
         )
           .then(() => {
             console.log("transaction done");
-            history.push("/sellers-dashboard");
+            toast("Created new account!! 🚀️");
+            setTimeout(() => {
+              history.push("/sellers-dashboard");
+            }, 1000);
           })
           .catch(() => {
             console.log("Failed transaction");
@@ -153,7 +163,12 @@ const GettingStartedMobile = () => {
           },
           connection,
           sendTransaction
-        );
+        ).then(() => {
+          setTimeout(() => {
+            toast("Created new account!! 🚀️");
+            history.push("/officer-dashboard");
+          }, 1000);
+        });
       }
     } else {
       console.log("Termited since", connected, programId, publicKey);

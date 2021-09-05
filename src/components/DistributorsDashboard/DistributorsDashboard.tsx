@@ -214,11 +214,7 @@ const DistributorsDashboard = () => {
     if (connected && publicKey) {
       // alert("connected")
       console.log(connected, publicKey.toBase58());
-      checkDistributorsAccount(
-        new PublicKey(programId),
-        publicKey,
-        connection
-      )
+      checkDistributorsAccount(new PublicKey(programId), publicKey, connection)
         .then((data: any) => {
           if (!data) {
             history.push("getting-started/distributor");
@@ -240,6 +236,33 @@ const DistributorsDashboard = () => {
       // alert("not connected")
     }
   }, [publicKey, connected]);
+
+  useEffect(() => {
+    console.log(connection);
+    if (connected && publicKey) {
+      // alert("connected")
+      console.log(connected, publicKey.toBase58());
+      checkDistributorsAccount(new PublicKey(programId), publicKey, connection)
+        .then((data: any) => {
+          if (!data) {
+            history.push("getting-started/distributor");
+          } else {
+            console.log("got data");
+          }
+          console.log(data);
+          setDistributorData(data.data);
+          setBatchData(data.distributor_batches);
+          console.log(data.distributor_batches);
+        })
+        .catch((err) => {
+          console.log(err);
+          // history.push("/error")
+          // alert(err)
+        });
+    } else {
+      console.log(connected, publicKey);
+    }
+  },[])
 
   return connected ? (
     <div className="distributorsDashboard--main-container">
@@ -269,10 +292,7 @@ const DistributorsDashboard = () => {
           />
         </div>
         <div className="dd-header-navigation" style={{ display: topNav }}>
-          <div
-            className="dd-navigation-item"
-            id="orange"
-          >
+          <div className="dd-navigation-item" id="orange">
             <p>Monthly</p>
           </div>
           <div className="dd-navigation-item" id="white">
