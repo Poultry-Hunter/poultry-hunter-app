@@ -9,6 +9,7 @@
 - [Getting Started](#Getting-Started)
 - [Live Demo](#Live-Demo)
 - [Built With](#Built-With)
+- [Program Releases](#Program-Releases)
 - [Contributors](#Contributors)
 - [License](#License)
 
@@ -62,7 +63,18 @@ You can find a working demo at [PoultryHunter.netlify.app/](https://poultryhunte
 - [Solflare](https://solflare.com/) - SolFlare is a community-created web wallet built specifically for Solana. 
 - [Web3](https://solana-labs.github.io/solana-web3.js/) - web3. js is a collection of libraries which allow you to interact with a local or remote blockchain node.
 
+## Program Releases
 
+- [Solana Devnet](https://explorer.solana.com/?cluster=devnet)
+- [View On Solana Explorer](https://explorer.solana.com/address/H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB?cluster=devnet)
+
+```json
+{
+  "devnet": {
+    "ProgramId": "H2bq5hQFMpAPM7qD2gLMnLx6FN278MkAHKNHx1hcbaMB"
+  }
+}
+```
 
 ## Contributors
 
