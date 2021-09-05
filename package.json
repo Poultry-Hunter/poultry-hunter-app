@@ -3,11 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@iconify/react": "^3.0.1",
-    "@types/mapbox__mapbox-gl-geocoder": "^4.7.1",
-    "@types/mapbox-gl": "^2.4.0",
-    "@types/mz": "^2.7.4",
-    "@types/react-qr-reader": "^2.1.4",
     "@mapbox/mapbox-gl-geocoder": "^4.7.3",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
@@ -122,10 +117,7 @@
   "browserslist": {
     "production": [
       "defaults",
-      "not ie 11",
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "not ie 11"
     ],
     "development": [
       "last 1 chrome version",
