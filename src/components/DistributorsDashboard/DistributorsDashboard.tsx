@@ -60,7 +60,6 @@ export const DDTable = ({ batchData }: any) => {
                   </tr>
                 );
               })}
-              )
             </table>
           ) : (
             <p style={{ textAlign: "center" }}>No Batches</p>
@@ -73,12 +72,14 @@ export const DDTable = ({ batchData }: any) => {
   );
 };
 
-const Dashboard = ({ batchData }: any) => {
+const Dashboard = ({ tableBatchData }: any) => {
   const [soldBatches, setSoldBatches] = useState<any>(undefined);
 
   useEffect(() => {
-    setSoldBatches(getSoldBatches(PublicKey.default.toString(), batchData));
-  }, [batchData]);
+    setSoldBatches(getSoldBatches(PublicKey.default.toString(), tableBatchData));
+  }, [tableBatchData]);
+
+  console.log(tableBatchData)
 
   return (
     <main>
@@ -87,7 +88,7 @@ const Dashboard = ({ batchData }: any) => {
       </div>
       <div className="dd-main-counter">
         <div className="dd-main-counter-item">
-          <h1>{batchData !== undefined ? batchData.length : 0}</h1>
+          <h1>{tableBatchData !== undefined ? tableBatchData.length : 0}</h1>
           <p>Total Batches Purchased</p>
         </div>
         <div className="dd-main-counter-item">
@@ -95,7 +96,7 @@ const Dashboard = ({ batchData }: any) => {
           <p>Total Batches Sold</p>
         </div>
       </div>
-      <DDTable batchData={batchData} />
+      <DDTable batchData={tableBatchData} />
     </main>
   );
 };
@@ -131,7 +132,7 @@ export const Inventory = ({ batchData }: any) => {
             </div>
           </div>
         </div>
-        <DDTable />
+        <DDTable batchData={batchData} />
       </main>
     </div>
   );
