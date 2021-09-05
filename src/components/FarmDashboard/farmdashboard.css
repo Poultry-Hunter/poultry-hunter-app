@@ -176,7 +176,6 @@
   font-weight: 400;
   float: left;
   cursor: pointer;
-
 }
 .analytics_total_batches {
   margin-top: 10px;
@@ -256,7 +255,7 @@
 }
 .batch_delete_button:disabled {
   opacity: 0.5;
-  cursor:default;
+  cursor: default;
 }
 .farm_dashboard_create_batch {
   width: 500px;
@@ -334,6 +333,10 @@
 }
 .create_batch .create_batch_button:hover {
   box-shadow: 0px 5px 6px rgba(255, 153, 0, 0.5);
+}
+.create_batch_button:disabled {
+  opacity: 0.5;
+  position: default;
 }
 .generated_batch_qrcode {
   width: 100%;

@@ -50,7 +50,9 @@ export function FarmDashboard() {
   const [QRdata, setQRdata] = useState({});
   const { connection } = useConnection();
   const [batchData, setBatchData] = useState([]);
-  const [FarmAccountData, setFarmAccountData] = useState<FarmDataType>();
+  const [FarmAccountData, setFarmAccountData] = useState<
+    FarmDataType | undefined
+  >();
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -77,6 +79,10 @@ export function FarmDashboard() {
           }
         })
         .catch((err) => console.log(err));
+    }
+    if (!connected) {
+      setBatchData([]);
+      setFarmAccountData(undefined);
     }
   }, [connected, publicKey]);
 
@@ -135,19 +141,6 @@ export function FarmDashboard() {
           <WalletDisconnectButton className="farm_dashboard_wallet_button" />
         </div>
         <div className="farm_dashbord_main">
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-          <ToastContainer />
-
           {navButton ? (
             <Dashboard
               QRdata={QRdata}
@@ -310,57 +303,65 @@ function Dashboard({
               <th></th>
             </tr>
 
-            {batchData.length != 0
-              ? //@ts-ignore
-                batchData.map((batch) => {
-                  return (
-                    <tr className="recent_table_content">
-                      <th>{batch.date}</th>
-                      <th>{batch.time}</th>
-                      <th>{batch.batch_id}</th>
-                      <th>{batch.batch_size}</th>
-                      <th>
-                        <button
-                          onClick={() => {
-                            setQRdata({
-                              batch_id: batch.batch_id,
-                              batch_size: batch.batch_size,
-                              key: batch.batch_pubkey,
-                              timestamp: batch.timestamp,
-                            });
-                            setShowQrPreview(true);
+            {batchData.length != 0 ? (
+              //@ts-ignore
+              batchData.map((batch) => {
+                return (
+                  <tr className="recent_table_content">
+                    <th>{batch.date}</th>
+                    <th>{batch.time}</th>
+                    <th>{batch.batch_id}</th>
+                    <th>{batch.batch_size}</th>
+                    <th>
+                      <button
+                        onClick={() => {
+                          setQRdata({
+                            batch_id: batch.batch_id,
+                            batch_size: batch.batch_size,
+                            key: batch.batch_pubkey,
+                            timestamp: batch.timestamp,
+                          });
+                          setShowQrPreview(true);
+                        }}
+                      >
+                        <Icon
+                          icon="heroicons-outline:qrcode"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            color: "#FF9900",
                           }}
-                        >
-                          <Icon
-                            icon="heroicons-outline:qrcode"
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              color: "#FF9900",
-                            }}
-                          />
-                        </button>
-                      </th>
-                      <th>
-                        <button
-                          className="batch_delete_button"
-                          onClick={() => Delete_batch_refund(batch)}
-                          disabled={checkDate(batch.timestamp) === false}
-                        >
-                          <Icon
-                            icon="ant-design:delete-outlined"
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              color: "red",
-                            }}
-                          />
-                        </button>
-                      </th>
-                    </tr>
-                  );
-                })
-              : "No Data"}
+                        />
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        className="batch_delete_button"
+                        onClick={() => Delete_batch_refund(batch)}
+                        disabled={checkDate(batch.timestamp) === false}
+                      >
+                        <Icon
+                          icon="ant-design:delete-outlined"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            color: "red",
+                          }}
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr className="recent_table_content">
+                <th>-</th>
+                <th>-</th>
+                <th>-</th>
+                <th>-</th>
+                <th>-</th>
+              </tr>
+            )}
           </table>
         </div>
       </div>
@@ -388,6 +389,7 @@ function CreateBatch({
 }: any): JSX.Element {
   const [BatchSize, setBatchSize] = useState(0);
   const [CreateQr, setCreateQr] = useState(false);
+  const [createButtonLoading, setcreateButtonLoading] = useState(false);
   const printComponent = useRef(null);
   const { connected, publicKey, sendTransaction } = useWallet();
   const { connection } = useConnection();
@@ -401,6 +403,7 @@ function CreateBatch({
   useEffect(() => {}, [connected]);
 
   function GenerateNewBatch() {
+    setcreateButtonLoading(true);
     const batch_input = {
       batch_id: Math.floor(Math.random() * 4294967295 + 1),
       batch_size: BatchSize,
@@ -445,9 +448,11 @@ function CreateBatch({
             },
           ]);
           toast("Batch Generated!", DefaultStyle);
+          setcreateButtonLoading(false);
         })
         .catch((err) => {
           console.log(err);
+          setcreateButtonLoading(false);
           toast.error("Transaction Failed!", ErrorStyle);
         });
     }
@@ -476,6 +481,7 @@ function CreateBatch({
           <button onClick={() => setBatchSize(BatchSize + 1)}>+</button>
         </div>
         <button
+          disabled={createButtonLoading === true}
           className="create_batch_button"
           onClick={() => {
             GenerateNewBatch();
@@ -645,48 +651,56 @@ export function Inventory({ batchData, FarmAccountData, setBatchData }: any) {
               <th>Preview</th>
               <th></th>
             </tr>
-            {batchData.length != 0
-              ? //@ts-ignore
-                batchData.map((batch) => {
-                  return (
-                    <tr className="recent_table_content">
-                      <th>{batch.date}</th>
-                      <th>{batch.time}</th>
-                      <th>{batch.batch_id}</th>
-                      <th>{batch.batch_size}</th>
-                      <th>
-                        <button>
-                          <Icon
-                            icon="heroicons-outline:qrcode"
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              color: "#FF9900",
-                            }}
-                          />
-                        </button>
-                      </th>
-                      <th>
-                        <button
-                          className="batch_delete_button"
-                          onClick={() => Delete_batch_refund(batch)}
-                          disabled={checkDate(batch.timestamp) === false}
-                        >
-                          {" "}
-                          <Icon
-                            icon="ant-design:delete-outlined"
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              color: "red",
-                            }}
-                          />
-                        </button>
-                      </th>
-                    </tr>
-                  );
-                })
-              : "No Data"}
+            {batchData.length != 0 ? (
+              //@ts-ignore
+              batchData.map((batch) => {
+                return (
+                  <tr className="recent_table_content">
+                    <th>{batch.date}</th>
+                    <th>{batch.time}</th>
+                    <th>{batch.batch_id}</th>
+                    <th>{batch.batch_size}</th>
+                    <th>
+                      <button>
+                        <Icon
+                          icon="heroicons-outline:qrcode"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            color: "#FF9900",
+                          }}
+                        />
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        className="batch_delete_button"
+                        onClick={() => Delete_batch_refund(batch)}
+                        disabled={checkDate(batch.timestamp) === false}
+                      >
+                        {" "}
+                        <Icon
+                          icon="ant-design:delete-outlined"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            color: "red",
+                          }}
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr className="recent_table_content">
+                <th>-</th>
+                <th>-</th>
+                <th>-</th>
+                <th>-</th>
+                <th>-</th>
+              </tr>
+            )}
           </table>
         </div>
       </div>
