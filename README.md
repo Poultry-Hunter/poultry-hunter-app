@@ -45,7 +45,7 @@ Therefore, a decentralised system is required that tracks every point of Poultry
 
 ## Getting Started
 
-#### Testing on a local server
+### Testing on a local server
 
 ```shell
 git clone https://github.com/Poultry-Hunter/poultry-hunter-app.git
